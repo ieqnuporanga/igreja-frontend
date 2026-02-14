@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>História — IEQ Nuporanga</title>
+  <meta name="theme-color" content="#060A12" />
+  <link rel="icon" href="https://i.imgur.com/PlDV9NW.jpeg" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900;950&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --red:#FF0000; --yellow:#FFCC00; --blue:#00B2FF; --purple:#6600FF;
+      --bg:#060A12; --panel:rgba(255,255,255,.07); --line:rgba(255,255,255,.14);
+      --text:rgba(255,255,255,.92); --muted:rgba(255,255,255,.78);
+      --max: 980px; --headerH:74px;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;font-family:Inter,system-ui;background:var(--bg);color:#fff;line-height:1.85}
+    a{color:inherit;text-decoration:none}
+    .container{max-width:var(--max);margin:0 auto;padding:0 18px}
+    header{
+      position:fixed;top:0;left:0;right:0;z-index:300;
+      background: rgba(6,10,18,.98);
+      border-bottom:1px solid rgba(255,255,255,.12);
+      box-shadow: 0 18px 55px rgba(0,0,0,.35);
+    }
+    .head{height:var(--headerH);display:flex;align-items:center;justify-content:space-between;gap:12px}
+    .brand{display:flex;align-items:center;gap:12px;min-width:0}
+    .logo{width:46px;height:46px;border-radius:16px;overflow:hidden}
+    .brand h1{margin:0;font-size:15px;font-weight:950;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:60vw}
+    .brand p{margin:2px 0 0;font-size:12.5px;font-weight:900;color:rgba(255,255,255,.72);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:60vw}
+    .btn{
+      display:inline-flex;align-items:center;justify-content:center;
+      padding:10px 12px;border-radius:999px;
+      border:1px solid rgba(255,255,255,.18);
+      background: rgba(255,255,255,.08);
+      font-weight:950;color:rgba(255,255,255,.92);
+      cursor:pointer;
+    }
+    main{padding: calc(var(--headerH) + 26px) 0 60px;}
+    .kicker{height:6px;width:180px;border-radius:999px;background:linear-gradient(90deg,var(--red),var(--yellow),var(--blue),var(--purple));margin-bottom:14px}
+    h2{margin:0 0 10px;font-size:34px;font-weight:950;letter-spacing:-1px;line-height:1.1}
+    .sub{margin:0 0 18px;color:rgba(255,255,255,.82)}
+    .block{
+      border:1px solid var(--line);
+      background: var(--panel);
+      border-radius: 22px;
+      padding:16px;
+      margin: 14px 0;
+      box-shadow: 0 16px 40px rgba(0,0,0,.30);
+    }
+    .block p{margin:0 0 12px;color:rgba(255,255,255,.86)}
+    .imgRow{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}
+    .imgCard{
+      border:1px solid var(--line);border-radius:18px;overflow:hidden;
+      background: rgba(255,255,255,.06);
+    }
+    .imgCard img{width:100%;height:240px;object-fit:cover;display:block}
+    .cap{padding:10px 12px;color:rgba(255,255,255,.78);font-weight:900;font-size:13px}
+    @media (max-width:820px){
+      h2{font-size:30px}
+      .imgRow{grid-template-columns:1fr}
+      .imgCard img{height:220px}
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container head">
+      <a class="brand" href="index.html" aria-label="Voltar para a home">
+        <div class="logo"><img src="https://i.imgur.com/PlDV9NW.jpeg" alt="Logo IEQ" style="width:100%;height:100%;object-fit:cover"></div>
+        <div style="min-width:0">
+          <h1>IEQ Nuporanga | Templo A Resposta</h1>
+          <p>História da Igreja Quadrangular</p>
+        </div>
+      </a>
+      <a class="btn" href="index.html">Voltar</a>
+    </div>
+  </header>
+
+  <main>
+    <div class="container">
+      <div class="kicker"></div>
+      <h2>História da Igreja do Evangelho Quadrangular</h2>
+      <p class="sub">Texto completo com imagens e referências visuais.</p>
+
+      <div class="block">
+        <p><b>Fundada em 1° de janeiro de 1923</b>, com a inauguração de sua sede internacional Angelus Temple, em Los Angeles, Califórnia; a Igreja do Evangelho Quadrangular nasceu no coração de Deus e foi confiada às mãos da evangelista Aimée Semple McPherson, conhecida como "Irmã Aimee" que, em seu ministério, foi responsável por diversas ações que resultaram em grandes impactos evangelísticos.</p>
+
+        <div class="imgRow">
+          <div class="imgCard">
+            <img src="https://i.imgur.com/Pcoufd4.png" alt="Primeiro templo (referência histórica)">
+            <div class="cap">Primeiro templo (referência histórica).</div>
+          </div>
+          <div class="imgCard">
+            <img src="https://i.imgur.com/YyuUBTA.jpeg" alt="Aimee Semple McPherson - Fundadora da Igreja do Evangelho Quadrangular">
+            <div class="cap">Aimee Semple McPherson - Fundadora da Igreja do Evangelho Quadrangular.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="block">
+        <p>Nos primeiros meses de existência da sede internacional Angelus Temple, sete mil pessoas se converteram a Jesus e, trinta dias depois, foi inaugurado o Instituto de Treinamento Evangelístico e Missionário e uma sala de oração, tendo como base o versículo “orai sem cessar”.  Aimée dirigia 21 cultos por semana na sede Quadrangular com capacidade para cinco mil pessoas. Ela também participava de eventos públicos e parava completamente as ruas de Los Angeles, diretamente para o Angelus Temple.</p>
+      </div>
+
+      <div class="block">
+        <p>Em 1944, quando concluiu seu ministério, Aimée Semple McPherson passou a presidência do movimento Quadrangular e da Cruzada Internacional de Evangelização passou para seu filho Rolf K. McPherson, que serviu ao corpo diretivo por 44 anos. A mudança da liderança não desacelerou o progresso, pelo contrário, sob sua responsabilidade, o movimento passou de 400 igrejas para mais de 10 mil.</p>
+      </div>
+
+      <div class="block">
+        <p>Com o objetivo de expandir-se ainda mais, alcançar comunidades no mundo todo e ecoar as palavras escritas na pedra angular do Angelus Temple, que dedica seus membros ao evangelismo universal interdenominacional, a Igreja Quadrangular formou a Fraternidade Pentecostal da América do Norte, em 1948, em uma aliança com a Assembleia de Deus, a Igreja de Deus, a Open Bible Standard Churches, a Igreja Internacional Pentecostal de Santidade, entre outras. Hoje, já existem igrejas Quadrangulares em todos os Estados norte-americanos, além de outras tantas espalhadas por 146 países.</p>
+      </div>
+
+      <div class="block">
+        <p><b>Chegada ao Brasil</b></p>
+        <p>No Brasil, o Evangelho Quadrangular teve início com o pastor Harold Williams e sua esposa, Mary Williams, que vieram ao País inspirados a levar a Palavra de Deus e salvar almas para Cristo. No começo, não foi fácil. Passaram por diversas provações e desafios, mas sempre guiados pela luz divina. A primeira parada na América do Sul se deu na Bolívia, onde pregaram os ensinamentos do Senhor por um ano. Por alguma razão, eles sentiam que este não era o lugar onde Deus os desejava.</p>
+
+        <p>Seguiram, então, pela costa brasileira. Passaram por Belém (PA), Fortaleza (CE), Recife (PE), Salvador (BA) e Rio de Janeiro (RJ). No Rio, eles acharam que poderia ser o local, já que havia milhões de almas precisando de salvação. Contudo, à medida que percorriam a cidade, voltaram a sentir a mesma inquietude, percebendo que não tinham portas abertas à espiritualidade.</p>
+
+        <p>Ainda em busca de um local onde pudessem encontrar pessoas propensas a receber os ensinamentos de Cristo, embarcaram outra vez. Eles foram para Santos e, depois, para São Paulo, o centro do progresso econômico. Mais uma vez, eles se viram rodeados pelo crescimento da economia, da matéria. Era uma cidade muito agitada, sem tempo para a vida espiritual. Mais tarde, perceberam que estavam errados ao pensar assim. Não eram as grandes cidades que estavam despreparadas, eram eles.</p>
+
+        <p>Guiados pelo Senhor, esses missionários deixaram São Paulo e foram para Poços de Caldas (MG), onde grandes tarefas os esperavam. O primeiro desafio foi a Língua Portuguesa, que era estranha e difícil de aprender. Contudo, se as palavras divinas precisavam chegar ao povo brasileiro, tinha de fazê-lo em português.</p>
+      </div>
+
+      <div class="block">
+        <p>Alguns meses mais tarde, Harold Williams recebeu a visita de um pastor protestante de uma igreja local, convidando-o para fazer um sermão aos membros de sua congregação. Após orar e meditar, aceitou a oportunidade de testemunhar o amor divino na língua do povo. Seu ministério em português tinha, enfim, começado. Muitos convites eram feitos e ele se tornou cada vez mais requisitado entre as congregações.</p>
+
+        <p>Depois de algum tempo, ele se tornou pastor de sua própria igreja, em São João da Boa Vista, interior de São Paulo. Apesar desse progresso inicial, ele ainda não se sentia realizado. Por 30 dias ele meditou e esperou que Deus falasse com ele. E ele obteve a resposta, sentindo o Senhor dizer: “Segue, vai por estradas e chame-os para entrar em minha casa”.</p>
+      </div>
+
+      <div class="block">
+        <p>Ele percebeu, então, que as pessoas tinham medo de entrar nas igrejas. Talvez, se as pregações fossem diferentes, elas se interessariam mais. Foi assim que Harold Williams teve a idéia da Tenda. Tudo o que ele precisava era de uma tenda para ir até as pessoas. Finalmente, o plano do Senhor tinha se revelado.</p>
+
+        <p>Convencido de que essa visão era uma ordem do Senhor, o pastor decidiu expor seu plano aos seus superiores nos EUA, pedindo apoio. Reunido com eles, Williams contou que recebeu uma inspiração para os trabalhos no Brasil, que precisava de algo novo. Sua inspiração foi levar uma tenda para pregar o evangelho bem no centro industrial de São Paulo. No entanto, ele precisava de uma ajuda inicial para implementar o projeto. O Presidente gostou muito da ideia e foi apoiado pelos demais membros.</p>
+
+        <p>Assim, seguindo a orientação de Deus, Harold Williams foi conduzido à sua grande missão de salvar almas. Agora, aquela velha inquietude foi esquecida e a confusão era coisa do passado. Cheio de inspiração, este apóstolo ergueu seu tabernáculo de lona, pronto para lançar seu ministério na cidade de São Paulo, no bairro do Cambuci.</p>
+      </div>
+
+      <div class="block">
+        <p><b>Tendas e primeiras igrejas</b></p>
+        <p>A partir de então, a idéia da tenda tornou-se uma característica peculiar da IEQ no país. Então, Harold passou pelos bairros da Água Branca e Santa Cecília, sendo este último o local onde foi construído o templo em São Paulo. Ele passou a viajar pelo Estado com a mesma tenda, chamada “tenda número um”, dando ênfase à cura divina e difundindo o lema "Jesus Cristo é o mesmo ontem, hoje e será eternamente".</p>
+
+        <p>Quando tudo estava pronto, Harold e Mary Williams saíram pelas ruas convidando diretamente as pessoas. Cada contato pessoal era feito em seu nome. Cada convite era feito com uma oração interior.</p>
+
+        <p>Enquanto isso, no salão da Santa Cecília, as senhoras da igreja começaram a aprender confeccionar tendas com a ajuda de um irmão que tinha experiência com tendas de circo. Daí por diante, as tendas compradas ou fabricadas na própria igreja saíram peregrinando por lugares como o bairro da Casa Verde, as cidades de Americana, Limeira, Vitória (ES), Curitiba (PR) e vários outros lugares. Como uma onda contagiante, o movimento crescia e cada tenda dava origem a um novo núcleo que se transformava em uma nova igreja.</p>
+
+        <p>Na década de 1960, sob a liderança de George Russell, foi estabelecida a meta de levar a mensagem da Quadrangular a todas as capitais do País e, futuramente, aos municípios. Por onde as tendas passavam, constituíam uma nova comunidade. Assim, as décadas de 70 e 80 foram marcadas pelo evangelismo dinâmico e pela construção de grandes e belos templos.</p>
+      </div>
+
+      <div class="block">
+        <p><b>IEQ hoje</b></p>
+        <p>Em quase 70 anos de sua fundação, a Igreja do Evangelho Quadrangular possui mais de 17 mil templos e obras abertas e estruturadas em todo o País. Mais de 30 mil obreiros estão levando os ensinamentos de Jesus a mais de dois milhões de pessoas em 22 nações.</p>
+      </div>
+
+    </div>
+  </main>
+</body>
+</html>

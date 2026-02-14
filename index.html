@@ -1,0 +1,1152 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>IEQ Nuporanga | Templo A Resposta</title>
+  <meta name="description" content="Igreja do Evangelho Quadrangular em Nuporanga/SP. Horários, pastores, localização, eventos e informações." />
+  <meta name="theme-color" content="#060A12" />
+  <meta name="referrer" content="strict-origin-when-cross-origin" />
+
+  <link rel="icon" href="https://i.imgur.com/PlDV9NW.jpeg" />
+  <link rel="apple-touch-icon" href="https://i.imgur.com/PlDV9NW.jpeg" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900;950&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --red:#FF0000;
+      --yellow:#FFCC00;
+      --blue:#00B2FF;
+      --purple:#6600FF;
+
+      --bg:#060A12;
+      --panel: rgba(255,255,255,.07);
+      --panel2: rgba(255,255,255,.09);
+      --line: rgba(255,255,255,.14);
+      --text: rgba(255,255,255,.92);
+      --muted: rgba(255,255,255,.78);
+
+      --max: 1140px;
+
+      --headerTop: 96px;
+      --headerSmall: 72px;
+
+      --r24: 24px;
+
+      /* MOBILE SAFE PADDING (corrige títulos “colados no canto”) */
+      --padX: 18px;
+    }
+
+    *{box-sizing:border-box}
+    html{scroll-behavior:auto}
+    body{
+      margin:0;
+      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      background:var(--bg);
+      color:#fff;
+      line-height:1.6;
+      overflow-x:hidden;
+      text-rendering: optimizeLegibility;
+    }
+    a{color:inherit;text-decoration:none}
+    img{max-width:100%;display:block}
+    .container{max-width:var(--max);margin:0 auto;padding:0 var(--padX)}
+    section{position:relative}
+    .sectionInner{padding:58px 0}
+    .content{position:relative;z-index:2}
+
+    header{
+      position:fixed;top:0;left:0;right:0;
+      z-index:300;
+
+      background: rgba(6,10,18,.98);
+      border-bottom:1px solid rgba(255,255,255,.12);
+      box-shadow: 0 18px 55px rgba(0,0,0,.35);
+
+      height: var(--headerTop);
+      transition: height .18s ease, background .18s ease;
+      overflow:hidden;
+    }
+    body.scrolled header{
+      height: var(--headerSmall);
+      background: rgba(6,10,18,.985);
+    }
+
+    .headerSpacer{height: var(--headerTop);}
+    body.scrolled .headerSpacer{height: var(--headerSmall);}
+
+    .head{
+      height:100%;
+      display:flex;align-items:center;justify-content:space-between;
+      gap:14px;
+    }
+
+    .brand{
+      display:flex;align-items:center;gap:14px;
+      min-width:0;
+      padding-left: 6px;
+      background:transparent;border:0;cursor:pointer;
+    }
+
+    .logoBox{
+      width:56px;height:56px;border-radius:18px;
+      overflow:hidden;flex:0 0 auto;
+      background: transparent;
+      border:0;
+      box-shadow:none;
+      display:grid;place-items:center;
+      transition: width .18s ease, height .18s ease, border-radius .18s ease;
+    }
+    body.scrolled .logoBox{
+      width:46px;height:46px;border-radius:16px;
+    }
+
+    .logoBox img{
+      width:100%;height:100%;
+      object-fit:cover;
+      background: transparent;
+    }
+
+    .brandText{min-width:0}
+    .brandText h1{
+      margin:0;
+      font-size:18px;
+      font-weight:950;
+      letter-spacing:-.4px;
+      line-height:1.15;
+      white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+      max-width: 62vw;
+      color: rgba(255,255,255,.95);
+      padding-left: 10px;
+      transition: font-size .18s ease;
+    }
+    body.scrolled .brandText h1{font-size:15px}
+
+    .brandText p{
+      margin:4px 0 0;
+      font-size:13px;
+      font-weight:900;
+      line-height:1.1;
+      white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+      max-width: 62vw;
+      color: rgba(255,255,255,.70);
+      padding-left: 10px;
+      transition: opacity .18s ease, margin .18s ease;
+    }
+    body.scrolled .brandText p{opacity:.9;margin-top:2px}
+
+    .nav{display:none;gap:8px;align-items:center}
+    .nav button{
+      font-family:inherit;
+      font-size:13px;font-weight:900;
+      padding:10px 12px;border-radius:999px;
+      border:1px solid rgba(255,255,255,.16);
+      background: rgba(255,255,255,.06);
+      color: rgba(255,255,255,.92);
+      cursor:pointer;
+      transition: transform .12s ease, background .12s ease, border-color .12s ease;
+      white-space:nowrap;
+    }
+    .nav button:hover{transform:translateY(-1px);background:rgba(255,255,255,.10);border-color:rgba(255,255,255,.22)}
+
+    .btn{
+      display:inline-flex;align-items:center;justify-content:center;gap:10px;
+      font-size:14px;font-weight:950;
+      padding:10px 12px;border-radius:999px;
+      border:1px solid rgba(255,255,255,.18);
+      background: rgba(255,255,255,.10);
+      color: rgba(255,255,255,.95);
+      cursor:pointer;white-space:nowrap;user-select:none;
+      transition: transform .12s ease, box-shadow .12s ease, background .12s ease, border-color .12s ease;
+    }
+    .btn:hover{transform:translateY(-1px);background: rgba(255,255,255,.14);border-color: rgba(255,255,255,.22)}
+    .btn.ghost{background: rgba(255,255,255,.08)}
+    .iconBtn{width:44px;height:44px;border-radius:14px;padding:0}
+
+    .menuBars{width:18px;height:12px;position:relative}
+    .menuBars span{
+      position:absolute;left:0;right:0;height:2px;border-radius:999px;
+      background: rgba(255,255,255,.92);
+      transition: transform .18s ease, top .18s ease, opacity .18s ease;
+    }
+    .menuBars span:nth-child(1){top:0}
+    .menuBars span:nth-child(2){top:5px}
+    .menuBars span:nth-child(3){top:10px}
+    body.menuOpen .menuBars span:nth-child(1){top:5px;transform:rotate(45deg)}
+    body.menuOpen .menuBars span:nth-child(2){opacity:0}
+    body.menuOpen .menuBars span:nth-child(3){top:5px;transform:rotate(-45deg)}
+
+    .backdrop{position:fixed;inset:0;background: rgba(2,6,23,.62);display:none;z-index:290}
+    .drawer{
+      position:fixed;top:0;right:0;width:min(92vw, 360px);height:100vh;
+      background:#0B1220;color: rgba(255,255,255,.92);
+      border-left:1px solid rgba(255,255,255,.14);
+      box-shadow:-18px 0 45px rgba(0,0,0,.55);
+      transform: translateX(102%);transition: transform .22s ease;z-index:301;
+      display:flex;flex-direction:column;
+    }
+    .drawerHeader{padding:16px;border-bottom:1px solid rgba(255,255,255,.12);display:flex;align-items:center;justify-content:space-between;gap:10px}
+    .drawerHeader strong{font-weight:950;letter-spacing:-.2px}
+    .drawerBody{padding:14px;display:flex;flex-direction:column;gap:10px;overflow:auto}
+    .drawerBody button{
+      font-family:inherit;
+      display:flex;align-items:center;justify-content:space-between;gap:10px;
+      padding:12px 12px;border-radius:16px;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.06);
+      font-weight:950;font-size:14px;color:rgba(255,255,255,.92);
+      cursor:pointer;
+    }
+    .drawerBody button span{color:rgba(255,255,255,.70);font-weight:900}
+    .drawerFooter{margin-top:auto;padding:14px;border-top:1px solid rgba(255,255,255,.12);display:flex;gap:10px;flex-wrap:wrap}
+    body.menuOpen .backdrop{display:block}
+    body.menuOpen .drawer{transform: translateX(0)}
+    @media (min-width: 980px){ .nav{display:flex} .menuBtn{display:none} }
+
+    .theme-blackFade{ background: linear-gradient(180deg, #060A12, #050812); }
+    .theme-scheduleDark{
+      background:
+        radial-gradient(900px 420px at 12% 18%, rgba(255,0,0,.20), transparent 60%),
+        radial-gradient(900px 420px at 88% 22%, rgba(0,178,255,.18), transparent 60%),
+        radial-gradient(900px 420px at 55% 82%, rgba(102,0,255,.16), transparent 60%),
+        linear-gradient(180deg, #070B14, #050812);
+    }
+    .theme-red{ background: linear-gradient(180deg, #200608, #120407); }
+    .theme-blue{ background: linear-gradient(180deg, #051827, #04101a); }
+
+    .bgImage{
+      --bg-url:none;
+      position:relative;
+      overflow:hidden;
+    }
+
+    .bgImage::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      background-image: var(--bg-url);
+      background-position: var(--bg-pos, center);
+      background-size:cover;
+      background-repeat:no-repeat;
+
+      opacity:.62;
+      filter: blur(var(--bg-blur, 5px)) saturate(1.12) contrast(1.10);
+      transform: scale(1.08);
+      pointer-events:none;
+      z-index:0;
+    }
+
+    .bgImage::after{
+      content:"";
+      position:absolute;
+      inset:0;
+      pointer-events:none;
+      z-index:1;
+      background:
+        radial-gradient(900px 420px at 18% 18%, rgba(255,255,255,.10), transparent 60%),
+        linear-gradient(180deg, rgba(0,0,0,.16), rgba(0,0,0,.52));
+    }
+
+    .bgImage .content{position:relative;z-index:2}
+    .bgImage .sectionInner{padding-bottom:120px}
+
+    .kickerBar{
+      height:6px;border-radius:999px;
+      background: linear-gradient(90deg, var(--red), var(--yellow), var(--blue), var(--purple));
+      width: 160px;margin-bottom: 14px;
+    }
+    .title{
+      margin:0 0 10px;
+      font-size:34px;
+      font-weight:950;
+      letter-spacing:-1px;
+      line-height:1.1;
+      padding-left: 2px;
+    }
+    .subtitle{
+      margin:0;
+      font-size:16px;
+      color: rgba(255,255,255,.82);
+      max-width: 92ch;
+      padding-left: 2px;
+    }
+
+    .grid{display:grid;grid-template-columns: repeat(12, 1fr);gap:14px;margin-top:18px}
+    .card{
+      grid-column: span 4;
+      border-radius: var(--r24);
+      overflow:hidden;
+      border:1px solid var(--line);
+      background: var(--panel);
+      box-shadow: 0 16px 40px rgba(0,0,0,.30);
+    }
+    .card .bar{height:6px;background: linear-gradient(90deg, var(--red), var(--yellow), var(--blue), var(--purple))}
+    .card .pad{padding:16px}
+    .card h3{margin:0 0 8px;font-size:16px;font-weight:950;color:rgba(255,255,255,.92)}
+    .card p{margin:0;color: rgba(255,255,255,.86);font-size:14px}
+    .wide{grid-column: span 8}
+
+    .heroLogoWrap{
+      display:flex;
+      justify-content:center;
+      margin: 8px 0 18px;
+      padding:0;
+      background:transparent !important;
+      border:0 !important;
+      box-shadow:none !important;
+    }
+    .heroLogo{
+      width:min(260px, 72vw);
+      opacity:0;
+      transform: translateY(14px) scale(.98);
+      background:transparent !important;
+      border:0 !important;
+      box-shadow:none !important;
+      outline:0 !important;
+      padding:0 !important;
+      filter: drop-shadow(0 18px 45px rgba(0,0,0,.55));
+    }
+    .heroLogo.animate{animation: heroIn .9s ease forwards, heroFloat 6s ease-in-out infinite 1.0s;}
+    @keyframes heroIn{to{opacity:1; transform: translateY(0) scale(1);}}
+    @keyframes heroFloat{0%,100%{ transform: translateY(0) scale(1);}50%{transform: translateY(-8px) scale(1.01);}}
+
+    .person{
+      grid-column: span 6;
+      display:flex;gap:14px;align-items:center;
+      border-radius: var(--r24);
+      border:1px solid var(--line);
+      background: var(--panel);
+      box-shadow: 0 16px 40px rgba(0,0,0,.30);
+      padding:16px;
+      min-height: 128px;
+    }
+    .avatar{
+      width:96px;height:96px;border-radius:20px;
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.08);
+      overflow:hidden;flex:0 0 auto;
+      display:flex;align-items:center;justify-content:center;
+    }
+    .avatar img{width:100%;height:100%;object-fit:cover;object-position: center 60%;}
+    .role{
+      display:inline-flex;gap:8px;align-items:center;
+      padding:7px 10px;border-radius:999px;
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.08);
+      font-weight:950;font-size:13px;
+      margin-bottom:8px;color:rgba(255,255,255,.92)
+    }
+    .pmeta h4{margin:0 0 6px;font-size:18px;font-weight:950;letter-spacing:-.3px;color:rgba(255,255,255,.92)}
+    .pmeta p{margin:0;color: rgba(255,255,255,.86);font-size:14px}
+
+    .mapWrap{
+      grid-column: span 6;
+      border-radius: var(--r24);
+      overflow:hidden;
+      border:1px solid var(--line);
+      background: var(--panel);
+      box-shadow: 0 16px 40px rgba(0,0,0,.30);
+    }
+    iframe.map{width:100%;height:380px;border:0;display:block}
+    .pad16{padding:16px}
+
+    .eventHero{
+      grid-column: span 12;
+      border-radius: 26px;
+      border:1px solid var(--line);
+      overflow:hidden;
+      background:
+        radial-gradient(900px 420px at 12% 15%, rgba(255,0,0,.22), transparent 60%),
+        radial-gradient(900px 420px at 85% 25%, rgba(0,178,255,.22), transparent 60%),
+        radial-gradient(900px 420px at 60% 85%, rgba(102,0,255,.22), transparent 60%),
+        linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,.05));
+      box-shadow: 0 20px 70px rgba(0,0,0,.40);
+    }
+    .eventHero .top{
+      padding:16px;
+      display:flex;align-items:flex-start;justify-content:space-between;gap:12px;
+      border-bottom:1px solid rgba(255,255,255,.12);
+      background: rgba(0,0,0,.10);
+      flex-wrap:wrap;
+    }
+    .eventHero h3{margin:0;font-size:18px;font-weight:950;letter-spacing:-.3px;color:rgba(255,255,255,.92)}
+    .eventHero p{margin:6px 0 0;color:rgba(255,255,255,.84);font-size:14px}
+
+    .summary{
+      border:1px solid var(--line);
+      background: var(--panel);
+      border-radius: 24px;
+      box-shadow: 0 16px 40px rgba(0,0,0,.30);
+      padding:16px;
+      grid-column: span 12;
+    }
+    .summary p{margin:0;color:rgba(255,255,255,.86);font-size:14px;line-height:1.85}
+    .summary b{color:rgba(255,255,255,.92)}
+    .row{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
+
+    .inlineMedia{
+      margin-top:14px;
+      border:1px solid rgba(255,255,255,.14);
+      border-radius:22px;
+      overflow:hidden;
+      background:rgba(0,0,0,.18);
+    }
+    .inlineMedia img{
+      width:100%;
+      height:260px;
+      object-fit:cover;
+      object-position:center;
+      display:block;
+      filter: saturate(1.06) contrast(1.05);
+    }
+    .inlineMedia .cap{
+      padding:10px 12px;
+      color: rgba(255,255,255,.82);
+      font-size:13px;
+      font-weight:900;
+      border-top:1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.05);
+    }
+
+    .galleryWrap{
+      margin-top:16px;
+      border:1px solid rgba(255,255,255,.14);
+      border-radius:22px;
+      overflow:hidden;
+      background: rgba(0,0,0,.18);
+    }
+    .galleryHead{
+      padding:12px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      border-bottom:1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.05);
+      flex-wrap:wrap;
+    }
+    .galleryHead strong{
+      font-weight:950;
+      letter-spacing:-.2px;
+      color: rgba(255,255,255,.92);
+    }
+    .galleryTabs{
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+      align-items:center;
+    }
+    .tabBtn{
+      font-family:inherit;
+      padding:10px 12px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.16);
+      background: rgba(255,255,255,.06);
+      color: rgba(255,255,255,.92);
+      cursor:pointer;
+      font-weight:950;
+      font-size:13px;
+      transition: transform .12s ease, background .12s ease, border-color .12s ease;
+      white-space:nowrap;
+    }
+    .tabBtn:hover{
+      transform: translateY(-1px);
+      background: rgba(255,255,255,.10);
+      border-color: rgba(255,255,255,.22);
+    }
+    .tabBtn.active{
+      background: rgba(255,255,255,.14);
+      border-color: rgba(255,255,255,.26);
+    }
+    .galleryFrame{
+      width:100%;
+      height:520px;
+      border:0;
+      display:block;
+      background: rgba(0,0,0,.22);
+    }
+    .galleryFoot{
+      padding:10px 12px;
+      border-top:1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.05);
+      color: rgba(255,255,255,.82);
+      font-size:13px;
+      font-weight:900;
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      align-items:center;
+      justify-content:space-between;
+    }
+
+    .videoCard{
+      margin-top:14px;
+      border:1px solid rgba(255,255,255,.14);
+      border-radius:22px;
+      overflow:hidden;
+      background:rgba(0,0,0,.28);
+      box-shadow: 0 16px 40px rgba(0,0,0,.25);
+    }
+    .videoThumb{
+      position:relative;
+      width:100%;
+      aspect-ratio: 16/9;
+      background:#000;
+      overflow:hidden;
+    }
+    .videoThumb img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      opacity:.92;
+      transform: scale(1.02);
+      filter: contrast(1.05) saturate(1.08);
+    }
+    .playBtn{
+      position:absolute;inset:0;
+      display:grid;place-items:center;
+      cursor:pointer;
+      background: radial-gradient(450px 220px at 50% 50%, rgba(0,0,0,.15), rgba(0,0,0,.55));
+    }
+    .playBtn .pill{
+      display:inline-flex;align-items:center;gap:10px;
+      padding:12px 16px;border-radius:999px;
+      border:1px solid rgba(255,255,255,.22);
+      background: rgba(255,255,255,.10);
+      color: rgba(255,255,255,.94);
+      font-weight:950;
+      box-shadow: 0 16px 40px rgba(0,0,0,.35);
+      transition: transform .12s ease, background .12s ease, border-color .12s ease;
+    }
+    .playBtn:hover .pill{transform: translateY(-1px);background: rgba(255,255,255,.14);border-color: rgba(255,255,255,.28)}
+    .videoMeta{
+      padding:12px;
+      color: rgba(255,255,255,.86);
+      font-size:14px;
+      border-top:1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.05);
+    }
+
+    .toTop{
+      position:fixed;right:16px;bottom:16px;z-index:250;
+      display:none;
+    }
+    .toTop.show{display:block}
+    .arrowBtn{
+      width:46px;height:46px;border-radius:16px;
+      display:grid;place-items:center;
+      border:1px solid rgba(255,255,255,.18);
+      background: rgba(255,255,255,.08);
+      color: rgba(255,255,255,.92);
+      cursor:pointer;
+      box-shadow: 0 16px 40px rgba(0,0,0,.30);
+      transition: transform .12s ease, background .12s ease, border-color .12s ease;
+    }
+    .arrowBtn:hover{transform:translateY(-1px);background: rgba(255,255,255,.12);border-color: rgba(255,255,255,.22)}
+
+    footer{background:#060A12;border-top:1px solid rgba(255,255,255,.12)}
+    .footInner{padding:34px 0}
+    .footGrid{display:grid;grid-template-columns: 1.2fr .8fr;gap: 18px}
+    .fine{margin:10px 0 0;color: rgba(255,255,255,.78);font-size:13px}
+
+    @media (max-width: 980px){
+      .grid .card{grid-column: span 6}
+      .person{grid-column: span 12}
+      .mapWrap{grid-column: span 12}
+      .wide{grid-column: span 12}
+      .title{font-size:30px}
+      .footGrid{grid-template-columns: 1fr}
+    }
+
+    /* MOBILE: melhora os títulos, espaçamento e “respiro” */
+    @media (max-width: 560px){
+      :root{ --padX: 16px; }
+
+      .sectionInner{padding:42px 0}
+      .kickerBar{width:132px;margin-bottom:12px}
+
+      .title{
+        font-size:26px;
+        letter-spacing:-.8px;
+        line-height:1.12;
+        margin-bottom:8px;
+        padding-left: 0;
+      }
+      .subtitle{
+        font-size:15px;
+        line-height:1.55;
+        padding-left: 0;
+      }
+
+      .grid{gap:12px;margin-top:16px}
+      .grid .card{grid-column: span 12}
+      .card .pad{padding:14px}
+      .card h3{font-size:15px}
+
+      .summary{padding:14px}
+      .inlineMedia img{height:220px}
+
+      .galleryHead{padding:10px}
+      .galleryFrame{height:420px}
+      .tabBtn{padding:9px 11px;font-size:12.5px}
+      .btn{font-size:13px;padding:10px 11px}
+
+      .brandText h1{max-width: 58vw}
+      .brandText p{max-width: 58vw}
+    }
+  </style>
+</head>
+
+<body>
+  <div class="headerSpacer" aria-hidden="true"></div>
+
+  <header>
+    <div class="container head">
+      <button class="brand" data-target="inicio" aria-label="Início">
+        <div class="logoBox"><img src="https://i.imgur.com/PlDV9NW.jpeg" alt="Logo IEQ" /></div>
+        <div class="brandText">
+          <h1>IEQ Nuporanga</h1>
+          <p>Templo A Resposta</p>
+        </div>
+      </button>
+
+      <nav class="nav" aria-label="Menu">
+        <button data-target="horarios">Horários</button>
+        <button onclick="location.href='historia.html'">História</button>
+        <button onclick="location.href='cremos.html'">No que cremos</button>
+        <button data-target="pastores">Pastores</button>
+        <button data-target="local">Localização</button>
+        <button data-target="eventos">Eventos</button>
+        <button data-target="nossaIgreja">Nossa igreja</button>
+        <button data-target="contato">Contato</button>
+      </nav>
+
+      <div>
+        <button class="btn ghost iconBtn menuBtn" id="menuBtn" aria-label="Abrir menu">
+          <div class="menuBars"><span></span><span></span><span></span></div>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <div class="backdrop" id="backdrop" aria-hidden="true"></div>
+  <aside class="drawer" id="drawer" aria-label="Menu">
+    <div class="drawerHeader">
+      <strong>Menu</strong>
+      <button class="btn ghost iconBtn" id="closeBtn" aria-label="Fechar menu">✕</button>
+    </div>
+    <div class="drawerBody">
+      <button data-target="horarios" data-close>Horários <span>›</span></button>
+      <button onclick="location.href='historia.html'">História <span>›</span></button>
+      <button onclick="location.href='cremos.html'">No que cremos <span>›</span></button>
+      <button data-target="pastores" data-close>Pastores <span>›</span></button>
+      <button data-target="local" data-close>Localização <span>›</span></button>
+      <button data-target="eventos" data-close>Eventos <span>›</span></button>
+      <button data-target="nossaIgreja" data-close>Nossa igreja <span>›</span></button>
+      <button data-target="contato" data-close>Contato <span>›</span></button>
+    </div>
+    <div class="drawerFooter">
+      <a class="btn ghost" href="https://www.youtube.com/@ieqnuporangasp" target="_blank" rel="noopener">YouTube</a>
+      <a class="btn ghost" href="https://www.instagram.com/ieqnuporangasp" target="_blank" rel="noopener">Instagram</a>
+      <a class="btn ghost" href="https://www.tiktok.com/@ieqnuporangasp" target="_blank" rel="noopener">TikTok</a>
+      <a class="btn ghost" href="https://www.facebook.com/profile.php?id=61584372636777" target="_blank" rel="noopener">Facebook</a>
+    </div>
+  </aside>
+
+  <section id="inicio" class="theme-blackFade bgImage" style="--bg-url:url('https://i.imgur.com/vgH0ako.jpeg')">
+    <div class="sectionInner content container">
+      <div class="heroLogoWrap">
+        <img id="heroChurchLogo" class="heroLogo" src="https://i.imgur.com/gdJy8hB.jpg" alt="Logo da igreja" />
+      </div>
+
+      <div class="kickerBar"></div>
+      <h2 class="title">Seja bem-vindo(a)!</h2>
+      <p class="subtitle">
+        QUADRANGULAR NUPORANGA | TEMPLO A RESPOSTA — Uma igreja que ama você!.
+      </p>
+
+      <div class="grid" style="margin-top:16px">
+        <article class="card wide">
+          <div class="bar"></div>
+          <div class="pad">
+            <h3>📍 Endereço</h3>
+            <p>R. Joao Sabaini Neto, 135 - Jardim Brasilia | Nuporanga - SP</p>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="bar"></div>
+          <div class="pad">
+            <h3>📲 Redes oficiais</h3>
+            <p class="muted">Acompanhe nossos conteúdos e avisos.</p>
+            <div class="row">
+              <a class="btn ghost" href="https://www.instagram.com/ieqnuporangasp" target="_blank" rel="noopener">Instagram</a>
+              <a class="btn ghost" href="https://www.youtube.com/@ieqnuporangasp" target="_blank" rel="noopener">YouTube</a>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="horarios" class="theme-scheduleDark">
+    <div class="sectionInner content container">
+      <div class="kickerBar"></div>
+      <h2 class="title">Horários de Culto</h2>
+      <p class="subtitle">Programação semanal da IEQ Nuporanga.</p>
+
+      <div class="grid">
+        <article class="card"><div class="bar"></div><div class="pad"><h3>Domingo</h3><p><b>18h</b> — Culto de Celebração</p></div></article>
+        <article class="card"><div class="bar"></div><div class="pad"><h3>Segunda</h3><p><b>19h</b> — Culto de Mulheres</p></div></article>
+        <article class="card"><div class="bar"></div><div class="pad"><h3>Quarta</h3><p><b>Consultar local</b> — Culto de Jovens</p></div></article>
+        <article class="card"><div class="bar"></div><div class="pad"><h3>Quinta-feira</h3><p><b>19h</b> — Culto da Família</p></div></article>
+      </div>
+    </div>
+  </section>
+
+  <section id="historiaResumo" class="theme-blue bgImage" style="--bg-url:url('https://i.imgur.com/Pcoufd4.png')">
+    <div class="sectionInner content container">
+      <div class="kickerBar"></div>
+      <h2 class="title">História da Igreja Quadrangular</h2>
+      <p class="subtitle">Conheça um pouco mais sobre nossa igreja.</p>
+
+      <div class="grid">
+        <div class="summary">
+          <p>
+            <b>Fundada em 1° de janeiro de 1923</b>, com a inauguração de sua sede internacional Angelus Temple em Los Angeles,
+            a Igreja do Evangelho Quadrangular cresceu marcada pelo evangelismo, oração e expansão.
+            No Brasil, a história começa com <b>Harold e Mary Williams</b> e a visão das <b>tendas</b>, que impulsionou igrejas
+            por várias cidades e estados.
+          </p>
+
+          <div class="inlineMedia">
+            <img
+              src="https://i.imgur.com/YyuUBTA.jpeg"
+              alt="Aimee Semple McPherson - Fundadora da Igreja do Evangelho Quadrangular"
+              loading="lazy"
+            />
+            <div class="cap">Aimee Semple McPherson - Fundadora da Igreja do Evangelho Quadrangular</div>
+          </div>
+
+          <div class="row">
+            <a class="btn ghost" href="historia.html">Ler mais</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="cremosResumo" class="theme-red">
+    <div class="sectionInner content container">
+      <div class="kickerBar"></div>
+      <h2 class="title">No que cremos</h2>
+      <p class="subtitle">Entenda a nossa doutrina.</p>
+
+      <div class="grid">
+        <div class="summary">
+          <p>
+            Cremos na <b>Bíblia</b> como Palavra de Deus, no Deus <b>trino</b> (Pai, Filho e Espírito Santo),
+            no plano de redenção em Cristo, na salvação pela graça, no novo nascimento e na vida cristã diária.
+            Cremos no batismo, santa ceia, batismo no Espírito Santo, dons e frutos, cura divina e na segunda vinda de Cristo.
+          </p>
+
+          <div class="inlineMedia">
+            <img
+              src="https://i.imgur.com/50YK4Pp.jpeg"
+              alt="Jesus Salva - Jesus Batiza no Espirito Santo - Jesus Cura - Jesus Voltará"
+              loading="lazy"
+              style="object-position: var(--img-pos, center); --img-pos:center 72%; transform: scale(1);"
+            />
+            <div class="cap">Jesus Salva • Jesus Batiza no Espírito Santo • Jesus Cura • Jesus Voltará</div>
+          </div>
+
+          <div class="row">
+            <a class="btn ghost" href="cremos.html">Ler mais</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="pastores" class="theme-blackFade bgImage"
+    style="--bg-url:url('https://i.imgur.com/JCA7Xgo.jpeg'); --bg-pos:center 45%; --bg-blur:3px;">
+    <div class="sectionInner content container">
+      <div class="kickerBar"></div>
+      <h2 class="title">Nossos Pastores</h2>
+      <p class="subtitle">Servindo com amor, cuidado e dedicação.</p>
+
+      <div class="grid">
+        <article class="person">
+          <div class="avatar">
+            <img src="https://i.imgur.com/tjTtXz5.jpeg" alt="Pastor Laercio" style="object-position:center 58%;" />
+          </div>
+          <div class="pmeta">
+            <div class="role">Pastor</div>
+            <h4>Pr. Laercio Lopes</h4>
+            <p>Instagram:
+              <a class="btn ghost" style="padding:6px 10px;font-size:13px" href="https://www.instagram.com/laercio764/" target="_blank" rel="noopener">@laercio764</a>
+            </p>
+          </div>
+        </article>
+
+        <article class="person">
+          <div class="avatar">
+            <img src="https://i.imgur.com/mOHp85U.jpeg" alt="Pastora Lenilda" style="object-position:center 66%;" />
+          </div>
+          <div class="pmeta">
+            <div class="role">Pastora</div>
+            <h4>Pra. Lenilda Cristine</h4>
+            <p>Instagram:
+              <a class="btn ghost" style="padding:6px 10px;font-size:13px" href="https://www.instagram.com/lenildacristine/" target="_blank" rel="noopener">@lenildacristine</a>
+            </p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="local" class="theme-blue">
+    <div class="sectionInner content container">
+      <div class="kickerBar"></div>
+      <h2 class="title">Localização</h2>
+      <p class="subtitle">Venha nos visitar — será um prazer te receber.</p>
+
+      <div class="grid">
+        <div class="mapWrap">
+          <iframe class="map" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+            src="https://www.google.com/maps?q=R.%20Joao%20Sabaini%20Neto,%20135%20-%20Jardim%20Brasilia%20Nuporanga%20SP&output=embed"></iframe>
+          <div class="pad16">
+            <h3 style="margin:0 0 6px;font-weight:950">Endereço</h3>
+            <p style="margin:0;color:rgba(255,255,255,.86)">R. Joao Sabaini Neto, 135 - Jardim Brasilia | Nuporanga - SP</p>
+          </div>
+        </div>
+
+        <div class="card" style="grid-column: span 6;">
+          <div class="bar"></div>
+          <div class="pad">
+            <h3>Informações</h3>
+            <p class="muted">Principais Informações.</p>
+
+            <div style="margin-top:12px;border-top:1px solid rgba(255,255,255,.12);padding-top:12px">
+              <h3 style="margin:0 0 6px">Endereço</h3>
+              <p style="margin:0;color:rgba(255,255,255,.86)">R. Joao Sabaini Neto, 135 - Jardim Brasilia | Nuporanga - SP</p>
+            </div>
+
+            <div style="margin-top:12px;border-top:1px solid rgba(255,255,255,.12);padding-top:12px">
+              <h3 style="margin:0 0 6px">Horário principal</h3>
+              <p style="margin:0;color:rgba(255,255,255,.86)"><b>Domingo</b> — 18h</p>
+            </div>
+
+            <div style="margin-top:12px;border-top:1px solid rgba(255,255,255,.12);padding-top:12px">
+              <h3 style="margin:0 0 6px">Fotos</h3>
+              <p style="margin:0;color:rgba(255,255,255,.86)">Organizadas no Google Drive para facilitar o acesso.</p>
+              <div class="row">
+                <a class="btn ghost" href="https://drive.google.com/drive/folders/1LG5aJrqR8th5IkgLpDCRSFci9OvYjNt3?usp=drive_link" target="_blank" rel="noopener">Abrir Drive</a>
+              </div>
+            </div>
+
+            <div class="row" style="margin-top:14px">
+              <a class="btn ghost" href="https://www.instagram.com/ieqnuporangasp" target="_blank" rel="noopener">Instagram</a>
+              <a class="btn ghost" href="https://www.facebook.com/profile.php?id=61584372636777" target="_blank" rel="noopener">Facebook</a>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="eventos" class="theme-red bgImage" style="--bg-url:url('https://i.imgur.com/pk2f5kO.jpeg'); --bg-pos:center 40%; --bg-blur:3px;">
+    <div class="sectionInner content container">
+      <div class="kickerBar"></div>
+      <h2 class="title">Eventos & Fotos</h2>
+      <p class="subtitle">Acompanhe nossos registros e momentos especiais.</p>
+
+      <div class="grid">
+        <div class="eventHero">
+          <div class="top">
+            <div>
+              <h3>📸 Galeria oficial (Google Drive)</h3>
+              <p>Escolha uma pasta e navegue as fotos direto aqui no site.</p>
+            </div>
+            <div class="row" style="margin-top:0">
+              <a class="btn" id="openDriveBtn" href="https://drive.google.com/drive/folders/1G3-fLudBhqaOmxhQd8bjy31oYrPiqZWM?usp=drive_link" target="_blank" rel="noopener">
+                Abrir no Drive
+              </a>
+            </div>
+          </div>
+
+          <div style="padding:16px">
+            <div class="galleryWrap">
+              <div class="galleryHead">
+                <strong>Galeria</strong>
+                <div class="galleryTabs">
+                  <button class="tabBtn active" type="button" data-gallery="cultos">Cultos</button>
+                  <button class="tabBtn" type="button" data-gallery="eventos">Eventos</button>
+                </div>
+              </div>
+
+              <iframe
+                id="galleryFrame"
+                class="galleryFrame"
+                loading="lazy"
+                referrerpolicy="no-referrer-when-cross-origin"
+                title="Galeria de fotos (Google Drive)"
+                src="https://drive.google.com/embeddedfolderview?id=1G3-fLudBhqaOmxhQd8bjy31oYrPiqZWM#grid"
+              ></iframe>
+
+              <div class="galleryFoot">
+                <div class="row" style="margin-top:0">
+                  <a class="btn ghost" id="openFolderCultos" href="https://drive.google.com/drive/folders/1G3-fLudBhqaOmxhQd8bjy31oYrPiqZWM?usp=drive_link" target="_blank" rel="noopener">Cultos</a>
+                  <a class="btn ghost" id="openFolderEventos" href="https://drive.google.com/drive/folders/1RcqD7vLWzPcRUVX5fq9pzuD9f1kzLY9v?usp=drive_link" target="_blank" rel="noopener">Eventos</a>
+                </div>
+              </div>
+            </div>
+
+            <div class="card" style="margin:16px 0 0;border-radius:22px;background:rgba(255,255,255,.06)">
+              <div class="bar"></div>
+              <div class="pad">
+                <h3>Como atualizar</h3>
+                <p class="muted">Basta adicionar/remover fotos nas pastas do Drive. O site atualiza automaticamente.</p>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <section id="nossaIgreja" class="theme-blackFade bgImage" style="--bg-url:url('https://i.imgur.com/F3XC6NZ.jpeg')">
+    <div class="sectionInner content container">
+      <div class="kickerBar"></div>
+      <h2 class="title">Nossa Igreja</h2>
+      <p class="subtitle">IEQ Nuporanga — Templo A Resposta</p>
+
+      <div class="grid">
+        <div class="summary">
+          <p>
+            Estamos em <b>Nuporanga há 13 anos</b>, vivendo um propósito simples e poderoso: <b>amar a Deus e cuidar de vidas</b>.
+            Ao longo dessa trajetória, vimos famílias sendo restauradas, pessoas reencontrando esperança, jovens sendo fortalecidos
+            e muitos testemunhos de transformação. Nossa missão é anunciar o evangelho de Jesus de forma prática, com acolhimento,
+            comunhão e serviço — porque acreditamos que cada pessoa é valiosa e tem um chamado.
+          </p>
+          <p style="margin-top:12px">
+            Aqui você vai encontrar um lugar para crescer, aprender, se aproximar de Deus e caminhar junto com a igreja.
+            Seja você novo na fé ou já caminhando com Cristo há anos, a casa está aberta — venha como está.
+          </p>
+
+          <div class="videoCard">
+            <div class="videoThumb" id="videoOpen">
+              <img src="https://i.ytimg.com/vi/jK03Yof78RQ/hqdefault.jpg" alt="Vídeo: trajetória IEQ Nuporanga" loading="lazy">
+              <div class="playBtn" role="button" aria-label="Assistir no YouTube">
+                <div class="pill">▶ Assistir no YouTube</div>
+              </div>
+            </div>
+            <div class="videoMeta">
+              Assista ao vídeo no YouTube.
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contato" class="theme-blue">
+    <div class="sectionInner content container">
+      <div class="kickerBar"></div>
+      <h2 class="title">Contato</h2>
+      <p class="subtitle">Fale com a gente pelas redes sociais oficiais.</p>
+
+      <div class="grid">
+        <article class="card wide">
+          <div class="bar"></div>
+          <div class="pad">
+            <h3>Redes</h3>
+            <p class="muted">Escolha uma opção abaixo.</p>
+            <div class="row">
+              <a class="btn ghost" href="https://www.instagram.com/ieqnuporangasp" target="_blank" rel="noopener">Instagram</a>
+              <a class="btn ghost" href="https://www.youtube.com/@ieqnuporangasp" target="_blank" rel="noopener">YouTube</a>
+              <a class="btn ghost" href="https://www.tiktok.com/@ieqnuporangasp" target="_blank" rel="noopener">TikTok</a>
+              <a class="btn ghost" href="https://www.facebook.com/profile.php?id=61584372636777" target="_blank" rel="noopener">Facebook</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="bar"></div>
+          <div class="pad">
+            <h3>Endereço</h3>
+            <p>R. Joao Sabaini Neto, 135 - Jardim Brasilia | Nuporanga - SP</p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container footInner">
+      <div class="footGrid">
+        <div>
+          <div style="font-weight:950;font-size:16px">IEQ Nuporanga | Templo A Resposta</div>
+          <div class="fine">© <span id="year"></span> — Igreja do Evangelho Quadrangular</div>
+        </div>
+        <div class="fine">
+          Domingo 18h • Segunda 19h • Quarta (consultar local) • Quinta 19h
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <div class="toTop" id="toTop">
+    <button class="arrowBtn" id="topBtn" aria-label="Voltar ao topo">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+        <path d="M12 5l-7 7m7-7l7 7M12 5v14" stroke="rgba(255,255,255,.92)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+  </div>
+
+  <script>
+    const heroLogo = document.getElementById("heroChurchLogo");
+    if (heroLogo) requestAnimationFrame(()=>heroLogo.classList.add("animate"));
+
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    function syncHeader(){
+      if (window.scrollY > 18) document.body.classList.add("scrolled");
+      else document.body.classList.remove("scrolled");
+    }
+    window.addEventListener("scroll", syncHeader, {passive:true});
+    syncHeader();
+
+    const menuBtn = document.getElementById("menuBtn");
+    const closeBtn = document.getElementById("closeBtn");
+    const backdrop = document.getElementById("backdrop");
+
+    function openMenu(){ document.body.classList.add("menuOpen"); }
+    function closeMenu(){ document.body.classList.remove("menuOpen"); }
+
+    if(menuBtn) menuBtn.addEventListener("click", openMenu);
+    if(closeBtn) closeBtn.addEventListener("click", closeMenu);
+    if(backdrop) backdrop.addEventListener("click", closeMenu);
+
+    function easeInOutCubic(t){
+      return t < 0.5 ? 4*t*t*t : 1 - Math.pow(-2*t + 2, 3)/2;
+    }
+    function smoothScrollTo(targetY, duration=780){
+      const startY = window.scrollY;
+      const diff = targetY - startY;
+      const start = performance.now();
+      function step(now){
+        const t = Math.min(1, (now - start)/duration);
+        const eased = easeInOutCubic(t);
+        window.scrollTo(0, startY + diff * eased);
+        if(t < 1) requestAnimationFrame(step);
+      }
+      requestAnimationFrame(step);
+    }
+    function scrollToSection(id){
+      const el = document.getElementById(id);
+      if(!el) return;
+
+      const rect = el.getBoundingClientRect();
+      const elCenter = rect.top + window.scrollY + rect.height/2;
+      const viewportCenter = window.scrollY + window.innerHeight/2;
+
+      const headerH = document.body.classList.contains("scrolled")
+        ? parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--headerSmall'))
+        : parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--headerTop'));
+
+      let targetY = window.scrollY + (elCenter - viewportCenter);
+      const minY = 0;
+      const maxY = document.documentElement.scrollHeight - window.innerHeight;
+      targetY = Math.max(minY, Math.min(maxY, targetY - (headerH/2)));
+
+      smoothScrollTo(targetY, 820);
+    }
+    function handleNavClick(e){
+      const btn = e.target.closest("[data-target]");
+      if(!btn) return;
+      e.preventDefault();
+      const id = btn.getAttribute("data-target");
+      closeMenu();
+      scrollToSection(id);
+    }
+    document.addEventListener("click", handleNavClick, true);
+
+    const toTop = document.getElementById("toTop");
+    const topBtn = document.getElementById("topBtn");
+    function updateToTop(){
+      if(window.scrollY > 700) toTop.classList.add("show");
+      else toTop.classList.remove("show");
+    }
+    window.addEventListener("scroll", updateToTop, {passive:true});
+    updateToTop();
+    topBtn.addEventListener("click", (e)=>{
+      e.preventDefault();
+      smoothScrollTo(0, 860);
+    });
+
+    const videoOpen = document.getElementById("videoOpen");
+    if(videoOpen){
+      const open = ()=>window.open("https://www.youtube.com/watch?v=jK03Yof78RQ", "_blank", "noopener");
+      videoOpen.addEventListener("click", open);
+      videoOpen.addEventListener("keydown", (e)=>{
+        if(e.key === "Enter" || e.key === " "){ e.preventDefault(); open(); }
+      });
+      videoOpen.tabIndex = 0;
+      videoOpen.setAttribute("role","button");
+      videoOpen.setAttribute("aria-label","Abrir vídeo no YouTube");
+    }
+
+    const DRIVE_FOLDERS = {
+      cultos: {
+        id: "1G3-fLudBhqaOmxhQd8bjy31oYrPiqZWM",
+        url: "https://drive.google.com/drive/folders/1G3-fLudBhqaOmxhQd8bjy31oYrPiqZWM?usp=drive_link",
+        title: "Cultos"
+      },
+      eventos: {
+        id: "1RcqD7vLWzPcRUVX5fq9pzuD9f1kzLY9v",
+        url: "https://drive.google.com/drive/folders/1RcqD7vLWzPcRUVX5fq9pzuD9f1kzLY9v?usp=drive_link",
+        title: "Eventos"
+      }
+    };
+
+    const galleryFrame = document.getElementById("galleryFrame");
+    const openDriveBtn = document.getElementById("openDriveBtn");
+    const tabBtns = Array.from(document.querySelectorAll(".tabBtn[data-gallery]"));
+
+    function setActiveTab(key){
+      tabBtns.forEach(b => b.classList.toggle("active", b.getAttribute("data-gallery") === key));
+    }
+
+    function setGallery(key){
+      const folder = DRIVE_FOLDERS[key];
+      if(!folder) return;
+
+      if(galleryFrame){
+        galleryFrame.src = `https://drive.google.com/embeddedfolderview?id=${folder.id}#grid`;
+      }
+      if(openDriveBtn){
+        openDriveBtn.href = folder.url;
+        openDriveBtn.textContent = `Abrir ${folder.title} no Drive`;
+      }
+      setActiveTab(key);
+    }
+
+    tabBtns.forEach(btn=>{
+      btn.addEventListener("click", ()=>{
+        const key = btn.getAttribute("data-gallery");
+        setGallery(key);
+      });
+    });
+
+    setGallery("cultos");
+  </script>
+</body>
+</html>
