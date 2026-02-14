@@ -676,6 +676,71 @@
       body{opacity:1 !important;transform:none !important}
       .reveal{opacity:1 !important;transform:none !important}
     }
+
+	/* ===========================
+	   MOBILE: mais respiro lateral
+	   =========================== */
+	
+	/* garante um gutter mínimo real no celular */
+	:root{
+	  --gutterMin: 18px;
+	}
+	
+	/* reforça o padding lateral no mobile e cria "safe padding" */
+	@media (max-width: 560px){
+	  :root{
+	    /* padX mais consistente (não precisa ser maior, precisa ser estável) */
+	    --padX: clamp(18px, 5vw, 22px);
+	  }
+	
+	  .container{
+	    padding-left: max(calc(var(--padX) + env(safe-area-inset-left)), var(--gutterMin));
+	    padding-right: max(calc(var(--padX) + env(safe-area-inset-right)), var(--gutterMin));
+	  }
+	
+	  /* header: evita tudo ficar colado e melhora o alinhamento */
+	  .head{
+	    gap: 10px;
+	  }
+	  .brand{
+	    padding-left: 0; /* tira o empurrão extra */
+	    gap: 10px;
+	  }
+	  .brandText h1,
+	  .brandText p{
+	    padding-left: 0; /* remove padding extra que "come" espaço */
+	  }
+	
+	  /* texto do header não pode ocupar "vw" demais e esmagar o botão */
+	  .brandText h1{ max-width: 52vw; }
+	  .brandText p{ max-width: 52vw; }
+	
+	  /* botão do menu um pouco menor no mobile */
+	  .iconBtn{
+	    width: 40px;
+	    height: 40px;
+	    border-radius: 14px;
+	  }
+	
+	  /* grid e cards: respiro interno e externo mais agradável */
+	  .grid{ gap: 14px; }
+	  .card, .summary, .person, .mapWrap, .eventHero{
+	    border-radius: 22px;
+	  }
+	
+	  /* imagens e iframes não grudarem no container visualmente */
+	  .inlineMedia,
+	  .videoCard,
+	  .galleryWrap{
+	    border-radius: 20px;
+	  }
+	
+	  /* seção hero: dá um ar a mais sem “colar” */
+	  .bgImage .sectionInner{
+	    padding-bottom: 96px;
+	  }
+	}
+
   </style>
 </head>
 
@@ -1382,4 +1447,5 @@
   </script>
 </body>
 </html>
+
 
