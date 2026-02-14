@@ -8,8 +8,24 @@
   <meta name="theme-color" content="#060A12" />
   <meta name="referrer" content="strict-origin-when-cross-origin" />
 
+  <!-- SEO / Compartilhamento -->
+  <link rel="canonical" href="https://SEU-DOMINIO-AQUI/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="IEQ Nuporanga | Templo A Resposta" />
+  <meta property="og:description" content="Horários, pastores, localização, eventos e informações." />
+  <meta property="og:image" content="https://i.imgur.com/PlDV9NW.jpeg" />
+  <meta property="og:locale" content="pt_BR" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="IEQ Nuporanga | Templo A Resposta" />
+  <meta name="twitter:description" content="Horários, pastores, localização e eventos." />
+  <meta name="twitter:image" content="https://i.imgur.com/PlDV9NW.jpeg" />
+
   <link rel="icon" href="https://i.imgur.com/PlDV9NW.jpeg" />
   <link rel="apple-touch-icon" href="https://i.imgur.com/PlDV9NW.jpeg" />
+
+  <!-- Performance -->
+  <link rel="preload" as="image" href="https://i.imgur.com/PlDV9NW.jpeg" fetchpriority="high">
+  <link rel="preload" as="image" href="https://i.imgur.com/vgH0ako.jpeg" fetchpriority="high">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -36,8 +52,8 @@
 
       --r24: 24px;
 
-      /* MOBILE SAFE PADDING (corrige títulos “colados no canto”) */
-      --padX: 18px;
+      /* MOBILE SAFE PADDING */
+      --padX: clamp(18px, 4vw, 28px);
     }
 
     *{box-sizing:border-box}
@@ -51,9 +67,29 @@
       overflow-x:hidden;
       text-rendering: optimizeLegibility;
     }
+
+    /* ====== ANIMAÇÃO AO ABRIR O SITE ====== */
+    body{
+      opacity:0;
+      transform: translateY(8px);
+      transition: opacity .55s ease, transform .55s ease;
+    }
+    body.pageReady{
+      opacity:1;
+      transform: translateY(0);
+    }
+
     a{color:inherit;text-decoration:none}
     img{max-width:100%;display:block}
-    .container{max-width:var(--max);margin:0 auto;padding:0 var(--padX)}
+
+    /* ✅ SAFE AREA (Android/iPhone) + padding normal */
+    .container{
+      max-width:var(--max);
+      margin:0 auto;
+      padding-left: calc(var(--padX) + env(safe-area-inset-left));
+      padding-right: calc(var(--padX) + env(safe-area-inset-right));
+    }
+
     section{position:relative}
     .sectionInner{padding:58px 0}
     .content{position:relative;z-index:2}
@@ -150,7 +186,17 @@
       transition: transform .12s ease, background .12s ease, border-color .12s ease;
       white-space:nowrap;
     }
-    .nav button:hover{transform:translateY(-1px);background:rgba(255,255,255,.10);border-color:rgba(255,255,255,.22)}
+    .nav button:hover{
+      transform:translateY(-1px);
+      background:rgba(255,255,255,.10);
+      border-color:rgba(255,255,255,.22)
+    }
+
+    .nav button.active,
+    .drawerBody button.active{
+      background: rgba(255,255,255,.14);
+      border-color: rgba(255,255,255,.26);
+    }
 
     .btn{
       display:inline-flex;align-items:center;justify-content:center;gap:10px;
@@ -199,6 +245,10 @@
       background: rgba(255,255,255,.06);
       font-weight:950;font-size:14px;color:rgba(255,255,255,.92);
       cursor:pointer;
+    }
+    .drawerBody button:hover{
+      background: rgba(255,255,255,.10);
+      border-color: rgba(255,255,255,.22);
     }
     .drawerBody button span{color:rgba(255,255,255,.70);font-weight:900}
     .drawerFooter{margin-top:auto;padding:14px;border-top:1px solid rgba(255,255,255,.12);display:flex;gap:10px;flex-wrap:wrap}
@@ -288,6 +338,9 @@
     .card h3{margin:0 0 8px;font-size:16px;font-weight:950;color:rgba(255,255,255,.92)}
     .card p{margin:0;color: rgba(255,255,255,.86);font-size:14px}
     .wide{grid-column: span 8}
+
+    /* ✅ Localização “Informações” sem inline style */
+    .locInfo{grid-column: span 6;}
 
     .heroLogoWrap{
       display:flex;
@@ -552,50 +605,76 @@
     .footGrid{display:grid;grid-template-columns: 1.2fr .8fr;gap: 18px}
     .fine{margin:10px 0 0;color: rgba(255,255,255,.78);font-size:13px}
 
+    /* ====== ANIMAÇÕES AO DESCER A TELA (reveal) ====== */
+    .reveal{
+      opacity:0;
+      transform: translateY(14px);
+      filter: saturate(1.02);
+      transition: opacity .7s ease, transform .7s ease;
+      will-change: opacity, transform;
+    }
+    .reveal.in{
+      opacity:1;
+      transform: translateY(0);
+    }
+    .reveal.pop{transform: translateY(18px) scale(.985)}
+    .reveal.pop.in{transform: translateY(0) scale(1)}
+
+    section{ scroll-margin-top: calc(var(--headerTop) + 18px); }
+    body.scrolled section{ scroll-margin-top: calc(var(--headerSmall) + 18px); }
+
     @media (max-width: 980px){
       .grid .card{grid-column: span 6}
       .person{grid-column: span 12}
       .mapWrap{grid-column: span 12}
       .wide{grid-column: span 12}
+      .locInfo{grid-column: span 12;}
       .title{font-size:30px}
       .footGrid{grid-template-columns: 1fr}
     }
 
-    /* MOBILE: melhora os títulos, espaçamento e “respiro” */
-    @media (max-width: 560px){
-      :root{ --padX: 16px; }
+	@media (max-width: 560px){
+	  /* ✅ no celular aumenta o “respiro” lateral */
+	  :root{ --padX: clamp(20px, 5vw, 30px); }
 
-      .sectionInner{padding:42px 0}
-      .kickerBar{width:132px;margin-bottom:12px}
+	  .sectionInner{padding:42px 0}
+	  .kickerBar{width:132px;margin-bottom:12px}
 
-      .title{
-        font-size:26px;
-        letter-spacing:-.8px;
-        line-height:1.12;
-        margin-bottom:8px;
-        padding-left: 0;
-      }
-      .subtitle{
-        font-size:15px;
-        line-height:1.55;
-        padding-left: 0;
-      }
+	  .title{
+		font-size:26px;
+		letter-spacing:-.8px;
+		line-height:1.12;
+		margin-bottom:8px;
+		padding-left: 0;
+	  }
+	  .subtitle{
+		font-size:15px;
+		line-height:1.55;
+		padding-left: 0;
+	  }
 
-      .grid{gap:12px;margin-top:16px}
-      .grid .card{grid-column: span 12}
-      .card .pad{padding:14px}
-      .card h3{font-size:15px}
+	  .grid{gap:12px;margin-top:16px}
+	  .grid .card{grid-column: span 12}
+	  .card .pad{padding:14px}
+	  .card h3{font-size:15px}
 
-      .summary{padding:14px}
-      .inlineMedia img{height:220px}
+	  .summary{padding:14px}
+	  .inlineMedia img{height:220px}
 
-      .galleryHead{padding:10px}
-      .galleryFrame{height:420px}
-      .tabBtn{padding:9px 11px;font-size:12.5px}
-      .btn{font-size:13px;padding:10px 11px}
+	  .galleryHead{padding:10px}
+	  .galleryFrame{height:420px}
+	  .tabBtn{padding:9px 11px;font-size:12.5px}
+	  .btn{font-size:13px;padding:10px 11px}
 
-      .brandText h1{max-width: 58vw}
-      .brandText p{max-width: 58vw}
+	  .brandText h1{max-width: 58vw}
+	  .brandText p{max-width: 58vw}
+	}
+
+
+    @media (prefers-reduced-motion: reduce){
+      *{transition:none !important;animation:none !important}
+      body{opacity:1 !important;transform:none !important}
+      .reveal{opacity:1 !important;transform:none !important}
     }
   </style>
 </head>
@@ -615,8 +694,12 @@
 
       <nav class="nav" aria-label="Menu">
         <button data-target="horarios">Horários</button>
-        <button onclick="location.href='historia.html'">História</button>
-        <button onclick="location.href='cremos.html'">No que cremos</button>
+
+        <!-- ✅ agora também participa do "ativo" no header (seção resumo)
+             Dica: segure Ctrl/Alt/Shift/⌘ e clique para abrir a página completa -->
+        <button data-target="historiaResumo" data-href="historia.html">História</button>
+        <button data-target="cremosResumo" data-href="cremos.html">No que cremos</button>
+
         <button data-target="pastores">Pastores</button>
         <button data-target="local">Localização</button>
         <button data-target="eventos">Eventos</button>
@@ -640,8 +723,11 @@
     </div>
     <div class="drawerBody">
       <button data-target="horarios" data-close>Horários <span>›</span></button>
-      <button onclick="location.href='historia.html'">História <span>›</span></button>
-      <button onclick="location.href='cremos.html'">No que cremos <span>›</span></button>
+
+      <!-- ✅ idem no menu mobile -->
+      <button data-target="historiaResumo" data-href="historia.html" data-close>História <span>›</span></button>
+      <button data-target="cremosResumo" data-href="cremos.html" data-close>No que cremos <span>›</span></button>
+
       <button data-target="pastores" data-close>Pastores <span>›</span></button>
       <button data-target="local" data-close>Localização <span>›</span></button>
       <button data-target="eventos" data-close>Eventos <span>›</span></button>
@@ -658,18 +744,18 @@
 
   <section id="inicio" class="theme-blackFade bgImage" style="--bg-url:url('https://i.imgur.com/vgH0ako.jpeg')">
     <div class="sectionInner content container">
-      <div class="heroLogoWrap">
+      <div class="heroLogoWrap reveal pop">
         <img id="heroChurchLogo" class="heroLogo" src="https://i.imgur.com/gdJy8hB.jpg" alt="Logo da igreja" />
       </div>
 
-      <div class="kickerBar"></div>
-      <h2 class="title">Seja bem-vindo(a)!</h2>
-      <p class="subtitle">
+      <div class="kickerBar reveal"></div>
+      <h2 class="title reveal">Seja bem-vindo(a)!</h2>
+      <p class="subtitle reveal">
         QUADRANGULAR NUPORANGA | TEMPLO A RESPOSTA — Uma igreja que ama você!.
       </p>
 
       <div class="grid" style="margin-top:16px">
-        <article class="card wide">
+        <article class="card wide reveal pop">
           <div class="bar"></div>
           <div class="pad">
             <h3>📍 Endereço</h3>
@@ -677,7 +763,7 @@
           </div>
         </article>
 
-        <article class="card">
+        <article class="card reveal pop">
           <div class="bar"></div>
           <div class="pad">
             <h3>📲 Redes oficiais</h3>
@@ -694,27 +780,27 @@
 
   <section id="horarios" class="theme-scheduleDark">
     <div class="sectionInner content container">
-      <div class="kickerBar"></div>
-      <h2 class="title">Horários de Culto</h2>
-      <p class="subtitle">Programação semanal da IEQ Nuporanga.</p>
+      <div class="kickerBar reveal"></div>
+      <h2 class="title reveal">Horários de Culto</h2>
+      <p class="subtitle reveal">Programação semanal da IEQ Nuporanga.</p>
 
       <div class="grid">
-        <article class="card"><div class="bar"></div><div class="pad"><h3>Domingo</h3><p><b>18h</b> — Culto de Celebração</p></div></article>
-        <article class="card"><div class="bar"></div><div class="pad"><h3>Segunda</h3><p><b>19h</b> — Culto de Mulheres</p></div></article>
-        <article class="card"><div class="bar"></div><div class="pad"><h3>Quarta</h3><p><b>Consultar local</b> — Culto de Jovens</p></div></article>
-        <article class="card"><div class="bar"></div><div class="pad"><h3>Quinta-feira</h3><p><b>19h</b> — Culto da Família</p></div></article>
+        <article class="card reveal pop"><div class="bar"></div><div class="pad"><h3>Domingo</h3><p><b>18h</b> — Culto de Celebração</p></div></article>
+        <article class="card reveal pop"><div class="bar"></div><div class="pad"><h3>Segunda</h3><p><b>19h</b> — Culto de Mulheres</p></div></article>
+        <article class="card reveal pop"><div class="bar"></div><div class="pad"><h3>Quarta</h3><p><b>Consultar local</b> — Culto de Jovens</p></div></article>
+        <article class="card reveal pop"><div class="bar"></div><div class="pad"><h3>Quinta-feira</h3><p><b>19h</b> — Culto da Família</p></div></article>
       </div>
     </div>
   </section>
 
   <section id="historiaResumo" class="theme-blue bgImage" style="--bg-url:url('https://i.imgur.com/Pcoufd4.png')">
     <div class="sectionInner content container">
-      <div class="kickerBar"></div>
-      <h2 class="title">História da Igreja Quadrangular</h2>
-      <p class="subtitle">Conheça um pouco mais sobre nossa igreja.</p>
+      <div class="kickerBar reveal"></div>
+      <h2 class="title reveal">História da Igreja Quadrangular</h2>
+      <p class="subtitle reveal">Conheça um pouco mais sobre nossa igreja.</p>
 
       <div class="grid">
-        <div class="summary">
+        <div class="summary reveal pop">
           <p>
             <b>Fundada em 1° de janeiro de 1923</b>, com a inauguração de sua sede internacional Angelus Temple em Los Angeles,
             a Igreja do Evangelho Quadrangular cresceu marcada pelo evangelismo, oração e expansão.
@@ -722,7 +808,7 @@
             por várias cidades e estados.
           </p>
 
-          <div class="inlineMedia">
+          <div class="inlineMedia reveal pop">
             <img
               src="https://i.imgur.com/YyuUBTA.jpeg"
               alt="Aimee Semple McPherson - Fundadora da Igreja do Evangelho Quadrangular"
@@ -741,19 +827,19 @@
 
   <section id="cremosResumo" class="theme-red">
     <div class="sectionInner content container">
-      <div class="kickerBar"></div>
-      <h2 class="title">No que cremos</h2>
-      <p class="subtitle">Entenda a nossa doutrina.</p>
+      <div class="kickerBar reveal"></div>
+      <h2 class="title reveal">No que cremos</h2>
+      <p class="subtitle reveal">Entenda a nossa doutrina.</p>
 
       <div class="grid">
-        <div class="summary">
+        <div class="summary reveal pop">
           <p>
             Cremos na <b>Bíblia</b> como Palavra de Deus, no Deus <b>trino</b> (Pai, Filho e Espírito Santo),
             no plano de redenção em Cristo, na salvação pela graça, no novo nascimento e na vida cristã diária.
             Cremos no batismo, santa ceia, batismo no Espírito Santo, dons e frutos, cura divina e na segunda vinda de Cristo.
           </p>
 
-          <div class="inlineMedia">
+          <div class="inlineMedia reveal pop">
             <img
               src="https://i.imgur.com/50YK4Pp.jpeg"
               alt="Jesus Salva - Jesus Batiza no Espirito Santo - Jesus Cura - Jesus Voltará"
@@ -774,14 +860,14 @@
   <section id="pastores" class="theme-blackFade bgImage"
     style="--bg-url:url('https://i.imgur.com/JCA7Xgo.jpeg'); --bg-pos:center 45%; --bg-blur:3px;">
     <div class="sectionInner content container">
-      <div class="kickerBar"></div>
-      <h2 class="title">Nossos Pastores</h2>
-      <p class="subtitle">Servindo com amor, cuidado e dedicação.</p>
+      <div class="kickerBar reveal"></div>
+      <h2 class="title reveal">Nossos Pastores</h2>
+      <p class="subtitle reveal">Servindo com amor, cuidado e dedicação.</p>
 
       <div class="grid">
-        <article class="person">
+        <article class="person reveal pop">
           <div class="avatar">
-            <img src="https://i.imgur.com/tjTtXz5.jpeg" alt="Pastor Laercio" style="object-position:center 58%;" />
+            <img src="https://i.imgur.com/tjTtXz5.jpeg" alt="Pastor Laercio" style="object-position:center 58%;" loading="lazy" />
           </div>
           <div class="pmeta">
             <div class="role">Pastor</div>
@@ -792,9 +878,9 @@
           </div>
         </article>
 
-        <article class="person">
+        <article class="person reveal pop">
           <div class="avatar">
-            <img src="https://i.imgur.com/mOHp85U.jpeg" alt="Pastora Lenilda" style="object-position:center 66%;" />
+            <img src="https://i.imgur.com/mOHp85U.jpeg" alt="Pastora Lenilda" style="object-position:center 66%;" loading="lazy" />
           </div>
           <div class="pmeta">
             <div class="role">Pastora</div>
@@ -810,21 +896,28 @@
 
   <section id="local" class="theme-blue">
     <div class="sectionInner content container">
-      <div class="kickerBar"></div>
-      <h2 class="title">Localização</h2>
-      <p class="subtitle">Venha nos visitar — será um prazer te receber.</p>
+      <div class="kickerBar reveal"></div>
+      <h2 class="title reveal">Localização</h2>
+      <p class="subtitle reveal">Venha nos visitar — será um prazer te receber.</p>
 
       <div class="grid">
-        <div class="mapWrap">
+        <div class="mapWrap reveal pop">
           <iframe class="map" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+            title="Mapa - IEQ Nuporanga"
             src="https://www.google.com/maps?q=R.%20Joao%20Sabaini%20Neto,%20135%20-%20Jardim%20Brasilia%20Nuporanga%20SP&output=embed"></iframe>
           <div class="pad16">
             <h3 style="margin:0 0 6px;font-weight:950">Endereço</h3>
             <p style="margin:0;color:rgba(255,255,255,.86)">R. Joao Sabaini Neto, 135 - Jardim Brasilia | Nuporanga - SP</p>
+            <div class="row" style="margin-top:12px">
+              <a class="btn ghost" target="_blank" rel="noopener"
+                href="https://www.google.com/maps/dir/?api=1&destination=R.%20Joao%20Sabaini%20Neto,%20135%20-%20Jardim%20Brasilia%20Nuporanga%20SP">
+                🧭 Como chegar
+              </a>
+            </div>
           </div>
         </div>
 
-        <div class="card" style="grid-column: span 6;">
+        <div class="card locInfo reveal pop">
           <div class="bar"></div>
           <div class="pad">
             <h3>Informações</h3>
@@ -861,12 +954,12 @@
 
   <section id="eventos" class="theme-red bgImage" style="--bg-url:url('https://i.imgur.com/pk2f5kO.jpeg'); --bg-pos:center 40%; --bg-blur:3px;">
     <div class="sectionInner content container">
-      <div class="kickerBar"></div>
-      <h2 class="title">Eventos & Fotos</h2>
-      <p class="subtitle">Acompanhe nossos registros e momentos especiais.</p>
+      <div class="kickerBar reveal"></div>
+      <h2 class="title reveal">Eventos & Fotos</h2>
+      <p class="subtitle reveal">Acompanhe nossos registros e momentos especiais.</p>
 
       <div class="grid">
-        <div class="eventHero">
+        <div class="eventHero reveal pop">
           <div class="top">
             <div>
               <h3>📸 Galeria oficial (Google Drive)</h3>
@@ -880,7 +973,7 @@
           </div>
 
           <div style="padding:16px">
-            <div class="galleryWrap">
+            <div class="galleryWrap reveal pop">
               <div class="galleryHead">
                 <strong>Galeria</strong>
                 <div class="galleryTabs">
@@ -906,14 +999,6 @@
               </div>
             </div>
 
-            <div class="card" style="margin:16px 0 0;border-radius:22px;background:rgba(255,255,255,.06)">
-              <div class="bar"></div>
-              <div class="pad">
-                <h3>Como atualizar</h3>
-                <p class="muted">Basta adicionar/remover fotos nas pastas do Drive. O site atualiza automaticamente.</p>
-              </div>
-            </div>
-
           </div>
         </div>
       </div>
@@ -923,12 +1008,12 @@
 
   <section id="nossaIgreja" class="theme-blackFade bgImage" style="--bg-url:url('https://i.imgur.com/F3XC6NZ.jpeg')">
     <div class="sectionInner content container">
-      <div class="kickerBar"></div>
-      <h2 class="title">Nossa Igreja</h2>
-      <p class="subtitle">IEQ Nuporanga — Templo A Resposta</p>
+      <div class="kickerBar reveal"></div>
+      <h2 class="title reveal">Nossa Igreja</h2>
+      <p class="subtitle reveal">IEQ Nuporanga — Templo A Resposta</p>
 
       <div class="grid">
-        <div class="summary">
+        <div class="summary reveal pop">
           <p>
             Estamos em <b>Nuporanga há 13 anos</b>, vivendo um propósito simples e poderoso: <b>amar a Deus e cuidar de vidas</b>.
             Ao longo dessa trajetória, vimos famílias sendo restauradas, pessoas reencontrando esperança, jovens sendo fortalecidos
@@ -940,7 +1025,7 @@
             Seja você novo na fé ou já caminhando com Cristo há anos, a casa está aberta — venha como está.
           </p>
 
-          <div class="videoCard">
+          <div class="videoCard reveal pop">
             <div class="videoThumb" id="videoOpen">
               <img src="https://i.ytimg.com/vi/jK03Yof78RQ/hqdefault.jpg" alt="Vídeo: trajetória IEQ Nuporanga" loading="lazy">
               <div class="playBtn" role="button" aria-label="Assistir no YouTube">
@@ -959,12 +1044,12 @@
 
   <section id="contato" class="theme-blue">
     <div class="sectionInner content container">
-      <div class="kickerBar"></div>
-      <h2 class="title">Contato</h2>
-      <p class="subtitle">Fale com a gente pelas redes sociais oficiais.</p>
+      <div class="kickerBar reveal"></div>
+      <h2 class="title reveal">Contato</h2>
+      <p class="subtitle reveal">Fale com a gente pelas redes sociais oficiais.</p>
 
       <div class="grid">
-        <article class="card wide">
+        <article class="card wide reveal pop">
           <div class="bar"></div>
           <div class="pad">
             <h3>Redes</h3>
@@ -978,7 +1063,7 @@
           </div>
         </article>
 
-        <article class="card">
+        <article class="card reveal pop">
           <div class="bar"></div>
           <div class="pad">
             <h3>Endereço</h3>
@@ -989,7 +1074,7 @@
     </div>
   </section>
 
-  <footer>
+  <footer class="reveal">
     <div class="container footInner">
       <div class="footGrid">
         <div>
@@ -1012,6 +1097,10 @@
   </div>
 
   <script>
+    window.addEventListener("DOMContentLoaded", ()=>{
+      document.body.classList.add("pageReady");
+    });
+
     const heroLogo = document.getElementById("heroChurchLogo");
     if (heroLogo) requestAnimationFrame(()=>heroLogo.classList.add("animate"));
 
@@ -1028,12 +1117,24 @@
     const closeBtn = document.getElementById("closeBtn");
     const backdrop = document.getElementById("backdrop");
 
-    function openMenu(){ document.body.classList.add("menuOpen"); }
-    function closeMenu(){ document.body.classList.remove("menuOpen"); }
+    function lockScroll(on){
+      document.body.style.overflow = on ? "hidden" : "";
+    }
+    function openMenu(){
+      document.body.classList.add("menuOpen");
+      lockScroll(true);
+    }
+    function closeMenu(){
+      document.body.classList.remove("menuOpen");
+      lockScroll(false);
+    }
 
     if(menuBtn) menuBtn.addEventListener("click", openMenu);
     if(closeBtn) closeBtn.addEventListener("click", closeMenu);
     if(backdrop) backdrop.addEventListener("click", closeMenu);
+    document.addEventListener("keydown", (e)=>{
+      if(e.key === "Escape") closeMenu();
+    });
 
     function easeInOutCubic(t){
       return t < 0.5 ? 4*t*t*t : 1 - Math.pow(-2*t + 2, 3)/2;
@@ -1054,25 +1155,29 @@
       const el = document.getElementById(id);
       if(!el) return;
 
-      const rect = el.getBoundingClientRect();
-      const elCenter = rect.top + window.scrollY + rect.height/2;
-      const viewportCenter = window.scrollY + window.innerHeight/2;
-
       const headerH = document.body.classList.contains("scrolled")
         ? parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--headerSmall'))
         : parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--headerTop'));
 
-      let targetY = window.scrollY + (elCenter - viewportCenter);
-      const minY = 0;
-      const maxY = document.documentElement.scrollHeight - window.innerHeight;
-      targetY = Math.max(minY, Math.min(maxY, targetY - (headerH/2)));
-
-      smoothScrollTo(targetY, 820);
+      const y = el.getBoundingClientRect().top + window.scrollY - (headerH + 18);
+      smoothScrollTo(Math.max(0, y), 780);
     }
+
+    // ✅ atualizado: se o botão tiver data-href, com Ctrl/Alt/Shift/⌘ ele abre a página
     function handleNavClick(e){
       const btn = e.target.closest("[data-target]");
       if(!btn) return;
+
       e.preventDefault();
+
+      const href = btn.getAttribute("data-href");
+      const wantsPage = !!href && (e.ctrlKey || e.metaKey || e.shiftKey || e.altKey);
+
+      if (wantsPage){
+        location.href = href;
+        return;
+      }
+
       const id = btn.getAttribute("data-target");
       closeMenu();
       scrollToSection(id);
@@ -1147,6 +1252,133 @@
     });
 
     setGallery("cultos");
+
+    function attachIframeFallback(iframeEl, getOpenUrl){
+      if(!iframeEl) return;
+      let done = false;
+
+      const timer = setTimeout(()=>{
+        if(done) return;
+        done = true;
+
+        const openUrl = (typeof getOpenUrl === "function" ? getOpenUrl() : "https://drive.google.com/");
+        const wrap = document.createElement("div");
+        wrap.className = "summary reveal pop";
+        wrap.style.marginTop = "14px";
+        wrap.innerHTML = `
+          <p><b>Não foi possível carregar a galeria aqui no site.</b><br>
+          Isso pode acontecer por bloqueio do navegador/Drive. Use o botão abaixo:</p>
+          <div class="row" style="margin-top:12px">
+            <a class="btn" href="${openUrl}" target="_blank" rel="noopener">Abrir galeria no Drive</a>
+          </div>
+        `;
+        iframeEl.insertAdjacentElement("afterend", wrap);
+        requestAnimationFrame(()=>wrap.classList.add("in"));
+      }, 4500);
+
+      iframeEl.addEventListener("load", ()=>{
+        clearTimeout(timer);
+        done = true;
+      });
+    }
+    attachIframeFallback(galleryFrame, ()=>openDriveBtn ? openDriveBtn.href : "https://drive.google.com/");
+
+    function setupReveal(){
+      const items = Array.from(document.querySelectorAll(".reveal"));
+      if(!items.length) return;
+
+      const reduced = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      if(reduced){
+        items.forEach(el=>el.classList.add("in"));
+        return;
+      }
+
+      const io = new IntersectionObserver((entries)=>{
+        entries.forEach((entry)=>{
+          if(entry.isIntersecting){
+            entry.target.classList.add("in");
+            io.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.14, rootMargin: "0px 0px -10% 0px" });
+
+      items.forEach(el=>io.observe(el));
+    }
+    setupReveal();
+
+    // ✅ MENU ATIVO POR SEÇÃO (scroll-spy preciso p/ header fixo)
+    const sectionIds = ["inicio","horarios","historiaResumo","cremosResumo","pastores","local","eventos","nossaIgreja","contato"];
+    const sections = sectionIds.map(id => document.getElementById(id)).filter(Boolean);
+
+    const navBtns = Array.from(document.querySelectorAll(".nav button[data-target]"));
+    const drawerBtns = Array.from(document.querySelectorAll(".drawerBody button[data-target]"));
+
+    function getHeaderHeight(){
+      const root = document.documentElement;
+      const scrolled = document.body.classList.contains("scrolled");
+      const varName = scrolled ? "--headerSmall" : "--headerTop";
+      const v = getComputedStyle(root).getPropertyValue(varName).trim();
+      const n = parseFloat(v);
+      return Number.isFinite(n) ? n : 96;
+    }
+
+    let lastActive = null;
+    let ticking = false;
+
+    function setActiveNav(id){
+      if(!id || id === lastActive) return;
+      lastActive = id;
+
+      navBtns.forEach(b=>{
+        const active = b.getAttribute("data-target") === id;
+        b.classList.toggle("active", active);
+        if(active) b.setAttribute("aria-current", "page");
+        else b.removeAttribute("aria-current");
+      });
+
+      drawerBtns.forEach(b=>{
+        const active = b.getAttribute("data-target") === id;
+        b.classList.toggle("active", active);
+      });
+    }
+
+    function findActiveSection(){
+      const line = getHeaderHeight() + 24;
+
+      for(let i = sections.length - 1; i >= 0; i--){
+        const rect = sections[i].getBoundingClientRect();
+        if(rect.top <= line) return sections[i].id;
+      }
+      return sections[0]?.id || null;
+    }
+
+    function updateActiveSection(){
+      setActiveNav(findActiveSection());
+    }
+
+    function requestUpdate(){
+      if(ticking) return;
+      ticking = true;
+      requestAnimationFrame(()=>{
+        ticking = false;
+        updateActiveSection();
+      });
+    }
+
+    window.addEventListener("scroll", requestUpdate, {passive:true});
+    window.addEventListener("resize", requestUpdate);
+
+    const mo = new MutationObserver((muts)=>{
+      for(const m of muts){
+        if(m.type === "attributes" && m.attributeName === "class"){
+          requestUpdate();
+          break;
+        }
+      }
+    });
+    mo.observe(document.body, {attributes:true});
+
+    requestUpdate();
   </script>
 </body>
 </html>
