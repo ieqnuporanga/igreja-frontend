@@ -1025,15 +1025,18 @@
             e muitos testemunhos de transformação.
           </p>
 
-          <div class="videoCard">
-            <div class="videoThumb" id="videoOpen">
+          <!-- ✅ VÍDEO (thumb -> player embutido) -->
+          <div class="videoCard" data-video-card>
+            <div class="videoThumb" id="videoOpen"
+                 data-video-id="jK03Yof78RQ"
+                 data-video-title="Trajetória IEQ Nuporanga">
               <img src="https://i.ytimg.com/vi/jK03Yof78RQ/hqdefault.jpg" alt="Vídeo: trajetória IEQ Nuporanga" loading="lazy">
-              <div class="playBtn" role="button" aria-label="Assistir no YouTube">
-                <div class="pill">▶ Assistir no YouTube</div>
+              <div class="playBtn" role="button" aria-label="Assistir aqui" tabindex="0">
+                <div class="pill">▶ Assistir aqui</div>
               </div>
             </div>
             <div class="videoMeta">
-              Assista ao vídeo no YouTube.
+              Toque em <b>Assistir aqui</b> para abrir o player no site.
             </div>
           </div>
 
@@ -1178,16 +1181,63 @@
       });
     }
 
+    // ✅ PLAYER EMBUTIDO (thumb -> iframe) com youtube-nocookie (menos erro 153)
+    function buildEmbedUrl(id){
+      const qs = new URLSearchParams({
+        autoplay: "0",
+        rel: "0",
+        modestbranding: "1",
+        playsinline: "1"
+      });
+      return `https://www.youtube-nocookie.com/embed/${id}?${qs.toString()}`;
+    }
+
+    function mountInlinePlayer(container){
+      if(!container) return;
+      const id = container.getAttribute("data-video-id");
+      const title = container.getAttribute("data-video-title") || "YouTube video";
+      if(!id) return;
+
+      const iframe = document.createElement("iframe");
+      iframe.width = "560";
+      iframe.height = "315";
+      iframe.src = buildEmbedUrl(id);
+      iframe.title = title;
+      iframe.frameBorder = "0";
+      iframe.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
+      iframe.referrerPolicy = "strict-origin-when-cross-origin";
+      iframe.allowFullscreen = true;
+
+      // mantém o mesmo "aspect-ratio" do thumb
+      iframe.style.width = "100%";
+      iframe.style.height = "100%";
+      iframe.style.display = "block";
+      iframe.style.border = "0";
+
+      container.innerHTML = "";
+      container.appendChild(iframe);
+    }
+
     const videoOpen = document.getElementById("videoOpen");
     if(videoOpen){
-      const open = ()=>window.open("https://www.youtube.com/watch?v=jK03Yof78RQ", "_blank", "noopener");
-      videoOpen.addEventListener("click", open);
-      videoOpen.addEventListener("keydown", (e)=>{
-        if(e.key === "Enter" || e.key === " "){ e.preventDefault(); open(); }
-      });
-      videoOpen.tabIndex = 0;
-      videoOpen.setAttribute("role","button");
-      videoOpen.setAttribute("aria-label","Abrir vídeo no YouTube");
+      const playBtn = videoOpen.querySelector(".playBtn");
+      const clickPlay = (e)=>{
+        if(e) e.preventDefault();
+        mountInlinePlayer(videoOpen);
+      };
+
+      if(playBtn){
+        playBtn.addEventListener("click", clickPlay);
+        playBtn.addEventListener("keydown", (e)=>{
+          if(e.key === "Enter" || e.key === " "){
+            e.preventDefault();
+            clickPlay(e);
+          }
+        });
+      }else{
+        // fallback: clique no bloco todo
+        videoOpen.addEventListener("click", clickPlay);
+      }
     }
 
     // galeria
@@ -1297,12 +1347,10 @@
       const hours = Math.floor((totalMin % (60*24)) / 60);
       const mins = totalMin % 60;
 
-      // < 60min: direto
       if(totalMin < 60){
         return `em ${totalMin} min`;
       }
 
-      // caso geral
       const parts = [];
       if(days > 0) parts.push(days + (days === 1 ? " dia" : " dias"));
       if(hours > 0) parts.push(hours + (hours === 1 ? " hora" : " horas"));
@@ -1324,22 +1372,12 @@
 
       const today = isSameDay(next.now, next.when);
 
-      // badge
       nextBadge.textContent = today ? "Hoje" : "Próximo culto";
-
-      // linha principal
       nextIn.textContent = humanizeDiff(next.diff);
-
-      // meta
       nextMeta.textContent = `${next.item.label} • ${formatDateBR(next.when)}`;
 
-      // hint (opcional)
       if(nextHint){
-        if(today){
-          nextHint.textContent = "Prepare-se — esperamos você hoje!";
-        }else{
-          nextHint.textContent = "Baseado na programação semanal fixa.";
-        }
+        nextHint.textContent = today ? "Prepare-se — esperamos você hoje!" : "Baseado na programação semanal fixa.";
       }
     }
 
