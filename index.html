@@ -268,7 +268,16 @@
 
     .kickerBar{
       height:6px;border-radius:999px;
-      background: linear-gradient(90deg, var(--red), var(--yellow), var(--blue), var(--purple));
+		background: linear-gradient(
+		  90deg,
+		  var(--red) 0%,
+		  var(--red) 20%,
+		  var(--yellow) 35%,
+		  var(--yellow) 50%,
+		  var(--blue) 65%,
+		  var(--blue) 80%,
+		  var(--purple) 100%
+		);
       width: 160px;margin-bottom: 14px;
     }
     .title{
@@ -818,6 +827,86 @@
 		padding-right: 0;
 	  }
 	}
+	
+	/* X para fechar o card "Primeira vez por aqui?" */
+	.firstTimeCard{
+	  position: relative;
+	}
+
+	
+/* Ajuste: reservar espaço pro X não ficar em cima do texto */
+.firstTimeCard{
+  position: relative;
+}
+
+/* cria “área livre” pro botão no topo */
+.firstTimeCard p{
+  margin-top: 0;
+  padding-right: 56px;   /* espaço lateral pro X */
+  padding-top: 2px;      /* leve respiro */
+}
+
+/* se quiser, o mesmo no bloco de botões */
+.firstTimeCard .row{
+  padding-right: 56px;   /* opcional: evita encostar no X */
+}
+
+.firstTimeClose{
+  position:absolute;
+  top:12px;
+  right:12px;
+  width:40px;
+  height:40px;
+  border-radius:14px;
+  display:grid;
+  place-items:center;
+  cursor:pointer;
+  z-index:5;
+  color:#fff;
+  font-size:18px;
+  font-weight:900;
+  background: rgba(0,0,0,.45);
+  border: 1px solid rgba(255,255,255,.35);
+}
+.firstTimeClose:hover{ background: rgba(0,0,0,.65); }
+
+/* posiciona o X do card primeira vez */
+#firstTimeClose{
+  position:absolute;
+  top:12px;
+  right:12px;
+}
+
+
+/* imagem no topo do card endereço */
+.cardImg{
+  height:140px;
+  background-size:cover;
+  background-position:center 55%;
+  filter: saturate(1.05) contrast(1.05);
+  border-bottom:1px solid rgba(255,255,255,.12);
+}
+
+/* overlay suave pra não ficar estourado */
+.cardImg::after{
+  content:"";
+  display:block;
+  width:100%;
+  height:100%;
+  background:linear-gradient(
+    180deg,
+    rgba(0,0,0,.15),
+    rgba(0,0,0,.55)
+  );
+}
+
+/* mobile: imagem menor */
+@media (max-width:560px){
+  .cardImg{
+    height:110px;
+  }
+}
+
 
   </style>
 </head>
@@ -907,9 +996,14 @@
           </div>
         </div>
 
-        <article class="card wide">
-          <div class="bar"></div>
-          <div class="pad">
+		<article class="card wide">
+		  <div class="bar"></div>
+
+		  <!-- imagem topo do card -->
+		  <div class="cardImg" style="background-image:url('https://i.imgur.com/F3XC6NZ.jpeg')"></div>
+
+		  <div class="pad">
+
             <h3>📍 Endereço</h3>
             <p>R. Joao Sabaini Neto, 135 - Jardim Brasilia | Nuporanga - SP</p>
           </div>
@@ -945,19 +1039,22 @@
           </div>
         </article>
 
-        <!-- ✅ PRIMEIRA VEZ AQUI -->
-        <div class="summary" style="grid-column: span 12;">
-		<p>
-		  <b>Primeira vez por aqui?</b> Você é muito bem-vindo(a)! Vai ser um prazer te receber.
-		  O culto dura em média <b>1h30</b>, temos <b>salinha para as crianças</b> e uma equipe preparada para te acolher.
-		  Chegue alguns minutinhos antes e, se precisar, <b>fale com a gente no WhatsApp</b>.
-		</p>
+		<!-- ✅ PRIMEIRA VEZ AQUI (com X) -->
+		<div class="summary firstTimeCard" id="firstTimeCard" style="grid-column: span 12;">
+		  <button class="noticeClose" id="firstTimeClose">✕</button>
 
-          <div class="row">
-            <a class="btn ghost" href="#local">🧭 Ver localização</a>
-            <button class="btn ghost" type="button" id="firstTimeWhatsBtn">💬 Falar no WhatsApp</button>
-          </div>
-        </div>
+		  <p>
+			<b>Primeira vez por aqui?</b> Você é muito bem-vindo(a)! Vai ser um prazer te receber.
+			O culto dura em média <b>1h30</b>, temos <b>salinha para as crianças</b> e uma equipe preparada para te acolher.
+			Chegue alguns minutinhos antes e, se precisar, <b>fale com a gente no WhatsApp</b>.
+		  </p>
+
+		  <div class="row">
+			<a class="btn ghost" href="#local">🧭 Ver localização</a>
+			<button class="btn ghost" type="button" id="firstTimeWhatsBtn">💬 Falar no WhatsApp</button>
+		  </div>
+		</div>
+
 
       </div>
     </div>
@@ -1338,7 +1435,6 @@
         <article class="card wide">
           <div class="bar"></div>
           <div class="pad">
-            <h3>Redes</h3>
             <p class="muted">Escolha uma opção abaixo.</p>
             <div class="row">
               <a class="btn ghost" href="https://www.instagram.com/ieqnuporangasp" target="_blank" rel="noopener">Instagram</a>
@@ -1350,13 +1446,7 @@
           </div>
         </article>
 
-        <article class="card">
-          <div class="bar"></div>
-          <div class="pad">
-            <h3>Endereço</h3>
-            <p>R. Joao Sabaini Neto, 135 - Jardim Brasilia | Nuporanga - SP</p>
-          </div>
-        </article>
+
       </div>
     </div>
   </section>
@@ -1740,9 +1830,7 @@
     const noticeBody = document.getElementById("noticeBody");
 
     // Edite o texto do banner aqui (quando precisar)
-	const NOTICE_TEXT = `📌 Primeira vez por aqui? Você é muito bem-vindo(a)! Vai ser um prazer te receber.
-	O culto dura em média 1h30, temos salinha para as crianças e uma equipe preparada para te acolher.
-	Chegue alguns minutinhos antes e, se precisar, fale com a gente no WhatsApp.`;
+	const NOTICE_TEXT = `📌 Nenhum aviso a ser exibido!`
 
 
     function showNoticeIfNeeded(){
@@ -1896,6 +1984,33 @@ END:VCALENDAR`;
         };
       }
     }
+	
+	
+		/* ==========================
+		   Fechar card "Primeira vez por aqui?" (com localStorage)
+		   ========================== */
+		(function(){
+		  const card = document.getElementById("firstTimeCard");
+		  const close = document.getElementById("firstTimeClose");
+		  const key = "ieq_first_time_dismissed_v1";
+
+		  if(!card || !close) return;
+
+		  try{
+			if(localStorage.getItem(key) === "1"){
+			  card.style.display = "none";
+			  return;
+			}
+			close.addEventListener("click", ()=>{
+			  localStorage.setItem(key, "1");
+			  card.style.display = "none";
+			});
+		  }catch(e){
+			// se localStorage falhar, fecha só na hora
+			close.addEventListener("click", ()=>{ card.style.display = "none"; });
+		  }
+})();
+
   </script>
 </body>
 </html>
