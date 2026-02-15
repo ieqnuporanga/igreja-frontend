@@ -13,6 +13,7 @@
 
   <link rel="preload" as="image" href="https://i.imgur.com/PlDV9NW.jpeg" fetchpriority="high">
   <link rel="preload" as="image" href="https://i.imgur.com/vgH0ako.jpeg" fetchpriority="high">
+  <link rel="preload" as="image" href="https://i.imgur.com/gdJy8hB.jpg" fetchpriority="high">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -41,6 +42,9 @@
 
       /* padding seguro + responsivo */
       --padX: clamp(18px, 4vw, 28px);
+
+      /* garante um gutter mínimo real no celular */
+      --gutterMin: 18px;
     }
 
     *{box-sizing:border-box}
@@ -587,6 +591,121 @@
     section{ scroll-margin-top: calc(var(--headerTop) + 18px); }
     body.scrolled section{ scroll-margin-top: calc(var(--headerSmall) + 18px); }
 
+    /* ===========================
+       BANNER DISCRETO (avisos)
+       =========================== */
+    .noticeWrap{
+      margin: 14px 0 0;
+      grid-column: span 12;
+      border-radius: 22px;
+      overflow:hidden;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.06);
+      box-shadow: 0 14px 38px rgba(0,0,0,.24);
+    }
+    .noticeBar{
+      display:flex;align-items:flex-start;justify-content:space-between;gap:12px;
+      padding: 12px 12px;
+      border-bottom:1px solid rgba(255,255,255,.10);
+      background: rgba(0,0,0,.10);
+    }
+    .noticeBar strong{font-weight:950;letter-spacing:-.2px}
+    .noticeBody{
+      padding: 12px 12px 14px;
+      color: rgba(255,255,255,.86);
+      font-size:14px;
+      line-height:1.75;
+    }
+    .noticeClose{
+      width:40px;height:40px;border-radius:14px;
+      display:grid;place-items:center;
+      border:1px solid rgba(255,255,255,.16);
+      background: rgba(255,255,255,.06);
+      color: rgba(255,255,255,.92);
+      cursor:pointer;
+      flex:0 0 auto;
+    }
+    .noticeClose:hover{background: rgba(255,255,255,.10);border-color: rgba(255,255,255,.22)}
+
+    /* ===========================
+       MODAL "Adicionar ao calendário"
+       =========================== */
+    .modalBack{
+      position:fixed; inset:0;
+      background: rgba(2,6,23,.62);
+      display:none; z-index:400;
+      padding: 18px;
+    }
+    .modalBack.show{display:grid; place-items:center;}
+    .modal{
+      width: min(92vw, 520px);
+      border-radius: 24px;
+      border:1px solid rgba(255,255,255,.16);
+      background: rgba(10,16,28,.98);
+      box-shadow: 0 22px 70px rgba(0,0,0,.55);
+      overflow:hidden;
+    }
+    .modalTop{
+      padding: 14px 14px;
+      display:flex;align-items:center;justify-content:space-between;gap:10px;
+      border-bottom:1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.04);
+    }
+    .modalTop strong{font-weight:950;letter-spacing:-.2px}
+    .modalBody{padding: 14px}
+    .modalBody p{margin:0;color: rgba(255,255,255,.84);font-size:14px;line-height:1.75}
+    .modalActions{margin-top:12px;display:flex;gap:10px;flex-wrap:wrap}
+    .muted{color: var(--muted)}
+
+    /* ===========================
+       BOTÃO FLUTUANTE WHATSAPP
+       =========================== */
+    .waFloat{
+      position:fixed;
+      left:16px;
+      bottom:16px;
+      z-index:260;
+      display:flex;
+      align-items:center;
+      gap:10px;
+    }
+    .waBtn{
+      display:inline-flex;align-items:center;justify-content:center;gap:10px;
+      padding: 12px 14px;
+      border-radius: 18px;
+      border:1px solid rgba(255,255,255,.18);
+      background: rgba(255,255,255,.10);
+      color: rgba(255,255,255,.96);
+      font-weight:950;
+      box-shadow: 0 18px 45px rgba(0,0,0,.35);
+      transition: transform .12s ease, background .12s ease, border-color .12s ease;
+      cursor:pointer;
+    }
+    .waBtn:hover{transform: translateY(-1px); background: rgba(255,255,255,.14); border-color: rgba(255,255,255,.24);}
+    .waIcon{
+      width:18px;height:18px;display:block;
+    }
+    .waMini{
+      display:none;
+	  max-width: 200px;
+	  word-wrap: break-word;
+      font-size:12.5px;
+      font-weight:900;
+      color: rgba(255,255,255,.80);
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(0,0,0,.20);
+      padding: 10px 12px;
+      border-radius: 16px;
+      max-width: 220px;
+      line-height:1.35;
+    }
+	.waFloat{
+	  max-width: calc(100vw - 32px);
+	}
+    @media (min-width: 700px){
+      .waMini{display:block}
+    }
+
     @media (max-width: 980px){
       .grid .card{grid-column: span 6}
       .person{grid-column: span 12}
@@ -599,6 +718,12 @@
 
     @media (max-width: 560px){
       :root{ --padX: clamp(20px, 5vw, 30px); }
+
+      .container{
+        padding-left: max(calc(var(--padX) + env(safe-area-inset-left)), var(--gutterMin));
+        padding-right: max(calc(var(--padX) + env(safe-area-inset-right)), var(--gutterMin));
+      }
+
       .sectionInner{padding:42px 0}
       .kickerBar{width:132px;margin-bottom:12px}
       .title{font-size:26px;letter-spacing:-.8px;line-height:1.12;margin-bottom:8px;padding-left: 0;}
@@ -615,73 +740,82 @@
       .btn{font-size:13px;padding:10px 11px}
       .brandText h1{max-width: 58vw}
       .brandText p{max-width: 58vw}
+
+      /* botão do menu um pouco menor no mobile */
+      .iconBtn{
+        width: 40px;
+        height: 40px;
+        border-radius: 14px;
+      }
+
+      /* seção hero: dá um ar a mais sem “colar” */
+      .bgImage .sectionInner{
+        padding-bottom: 96px;
+      }
+
+      /* WhatsApp: ocupa menos no mobile */
+      .waBtn{padding: 12px 12px; border-radius: 18px;}
     }
 
     @media (prefers-reduced-motion: reduce){
       *{transition:none !important;animation:none !important}
     }
-	
+	@media (max-width: 420px){
+	  .waMini{
+		display:none;
+	  }
+}
+
 	/* ===========================
-	   MOBILE: mais respiro lateral
+	   FIX DEFINITIVO: GUTTER MOBILE
 	   =========================== */
 
-	/* garante um gutter mínimo real no celular */
+	/* 1) aumenta o gutter base (geral) */
 	:root{
-	  --gutterMin: 18px;
+	  --padX: clamp(20px, 5vw, 34px);
+	  --gutterMin: 22px; /* antes 18px */
 	}
 
-	/* reforça o padding lateral no mobile e cria "safe padding" */
+	/* 2) container com padding “de verdade” + safe-area */
+	.container{
+	  max-width: var(--max);
+	  margin: 0 auto;
+	  padding-left: max(calc(var(--padX) + env(safe-area-inset-left)), var(--gutterMin));
+	  padding-right: max(calc(var(--padX) + env(safe-area-inset-right)), var(--gutterMin));
+	}
+
+	/* 3) evita qualquer filho “vazar” e colar na borda */
+	.content, .sectionInner, section{
+	  overflow-x: clip;
+	}
+
+	/* 4) garante que grid e cards não encostem (mesmo com sombra/borda) */
+	.grid{
+	  width: 100%;
+	  margin-left: 0;
+	  margin-right: 0;
+	}
+
+	.card, .person, .mapWrap, .eventHero, .summary, .noticeWrap, .galleryWrap, .videoCard{
+	  max-width: 100%;
+	}
+
+	/* 5) se algum iframe/imagem estiver estourando, força ele caber */
+	iframe, img{
+	  max-width: 100%;
+	}
+
+	/* 6) mobile: dá ainda mais respiro */
 	@media (max-width: 560px){
 	  :root{
-		/* padX mais consistente (não precisa ser maior, precisa ser estável) */
-		--padX: clamp(18px, 5vw, 22px);
+		--padX: 24px;
+		--gutterMin: 24px;
 	  }
 
-	  .container{
-		padding-left: max(calc(var(--padX) + env(safe-area-inset-left)), var(--gutterMin));
-		padding-right: max(calc(var(--padX) + env(safe-area-inset-right)), var(--gutterMin));
-	  }
-
-	  /* header: evita tudo ficar colado e melhora o alinhamento */
-	  .head{
-		gap: 10px;
-	  }
-	  .brand{
-		padding-left: 0; /* tira o empurrão extra */
-		gap: 10px;
-	  }
-	  .brandText h1,
-	  .brandText p{
-		padding-left: 0; /* remove padding extra que "come" espaço */
-	  }
-
-	  /* texto do header não pode ocupar "vw" demais e esmagar o botão */
-	  .brandText h1{ max-width: 52vw; }
-	  .brandText p{ max-width: 52vw; }
-
-	  /* botão do menu um pouco menor no mobile */
-	  .iconBtn{
-		width: 40px;
-		height: 40px;
-		border-radius: 14px;
-	  }
-
-	  /* grid e cards: respiro interno e externo mais agradável */
-	  .grid{ gap: 14px; }
-	  .card, .summary, .person, .mapWrap, .eventHero{
-		border-radius: 22px;
-	  }
-
-	  /* imagens e iframes não grudarem no container visualmente */
-	  .inlineMedia,
-	  .videoCard,
-	  .galleryWrap{
-		border-radius: 20px;
-	  }
-
-	  /* seção hero: dá um ar a mais sem “colar” */
-	  .bgImage .sectionInner{
-		padding-bottom: 96px;
+	  /* pequeno “respiro” extra nos títulos */
+	  .title, .subtitle{
+		padding-left: 0;
+		padding-right: 0;
 	  }
 	}
 
@@ -708,6 +842,7 @@
         <button data-target="pastores">Pastores</button>
         <button data-target="local">Localização</button>
         <button data-target="eventos">Eventos</button>
+        <button data-target="ministerios">Ministérios</button>
         <button data-target="nossaIgreja">Nossa igreja</button>
         <button data-target="contato">Contato</button>
       </nav>
@@ -733,6 +868,7 @@
       <button data-target="pastores" data-close>Pastores <span>›</span></button>
       <button data-target="local" data-close>Localização <span>›</span></button>
       <button data-target="eventos" data-close>Eventos <span>›</span></button>
+      <button data-target="ministerios" data-close>Ministérios <span>›</span></button>
       <button data-target="nossaIgreja" data-close>Nossa igreja <span>›</span></button>
       <button data-target="contato" data-close>Contato <span>›</span></button>
     </div>
@@ -747,7 +883,7 @@
   <section id="inicio" class="theme-blackFade bgImage" style="--bg-url:url('https://i.imgur.com/vgH0ako.jpeg')">
     <div class="sectionInner content container">
       <div class="heroLogoWrap">
-        <img class="heroLogo" src="https://i.imgur.com/gdJy8hB.jpg" alt="Logo da igreja" />
+        <img class="heroLogo" src="https://i.imgur.com/gdJy8hB.jpg" alt="Logo da igreja" decoding="async" />
       </div>
 
       <div class="kickerBar"></div>
@@ -757,6 +893,20 @@
       </p>
 
       <div class="grid" style="margin-top:16px">
+        <!-- ✅ BANNER DISCRETO (avisos) -->
+        <div class="noticeWrap" id="noticeWrap" style="display:none">
+          <div class="noticeBar">
+            <div>
+              <strong>📣 Avisos</strong>
+              <div class="muted" style="font-size:13px;font-weight:900;margin-top:2px">Atualizações e comunicados</div>
+            </div>
+            <button class="noticeClose" id="noticeClose" aria-label="Fechar avisos">✕</button>
+          </div>
+          <div class="noticeBody" id="noticeBody">
+            Fique ligado(a) nos avisos desta semana. Se precisar falar com a igreja, toque no botão do WhatsApp.
+          </div>
+        </div>
+
         <article class="card wide">
           <div class="bar"></div>
           <div class="pad">
@@ -772,6 +922,11 @@
             <div class="nextBadge" id="nextCultoBadge">Carregando…</div>
             <div class="nextBig" id="nextCultoIn">—</div>
             <div class="nextSmall" id="nextCultoMeta">—</div>
+
+            <div class="row" style="margin-top:12px">
+              <button class="btn ghost" type="button" id="addCalBtn">📅 Adicionar ao calendário</button>
+            </div>
+
             <div class="nextCardLine" id="nextCultoHint">
               Baseado na programação semanal fixa.
             </div>
@@ -789,6 +944,21 @@
             </div>
           </div>
         </article>
+
+        <!-- ✅ PRIMEIRA VEZ AQUI -->
+        <div class="summary" style="grid-column: span 12;">
+		<p>
+		  <b>Primeira vez por aqui?</b> Você é muito bem-vindo(a)! Vai ser um prazer te receber.
+		  O culto dura em média <b>1h30</b>, temos <b>salinha para as crianças</b> e uma equipe preparada para te acolher.
+		  Chegue alguns minutinhos antes e, se precisar, <b>fale com a gente no WhatsApp</b>.
+		</p>
+
+          <div class="row">
+            <a class="btn ghost" href="#local">🧭 Ver localização</a>
+            <button class="btn ghost" type="button" id="firstTimeWhatsBtn">💬 Falar no WhatsApp</button>
+          </div>
+        </div>
+
       </div>
     </div>
   </section>
@@ -828,6 +998,7 @@
               src="https://i.imgur.com/YyuUBTA.jpeg"
               alt="Aimee Semple McPherson - Fundadora da Igreja do Evangelho Quadrangular"
               loading="lazy"
+              decoding="async"
             />
             <div class="cap">Aimee Semple McPherson - Fundadora da Igreja do Evangelho Quadrangular</div>
           </div>
@@ -859,6 +1030,7 @@
               src="https://i.imgur.com/50YK4Pp.jpeg"
               alt="Jesus Salva - Jesus Batiza no Espirito Santo - Jesus Cura - Jesus Voltará"
               loading="lazy"
+              decoding="async"
               style="object-position:center 72%;"
             />
             <div class="cap">Jesus Salva • Jesus Batiza no Espírito Santo • Jesus Cura • Jesus Voltará</div>
@@ -882,7 +1054,7 @@
       <div class="grid">
         <article class="person">
           <div class="avatar">
-            <img src="https://i.imgur.com/tjTtXz5.jpeg" alt="Pastor Laercio" style="object-position:center 58%;" loading="lazy" />
+            <img src="https://i.imgur.com/tjTtXz5.jpeg" alt="Pastor Laercio" style="object-position:center 58%;" loading="lazy" decoding="async" />
           </div>
           <div class="pmeta">
             <div class="role">Pastor</div>
@@ -895,7 +1067,7 @@
 
         <article class="person">
           <div class="avatar">
-            <img src="https://i.imgur.com/mOHp85U.jpeg" alt="Pastora Lenilda" style="object-position:center 66%;" loading="lazy" />
+            <img src="https://i.imgur.com/mOHp85U.jpeg" alt="Pastora Lenilda" style="object-position:center 66%;" loading="lazy" decoding="async" />
           </div>
           <div class="pmeta">
             <div class="role">Pastora</div>
@@ -1011,6 +1183,117 @@
     </div>
   </section>
 
+  <!-- ✅ MINISTÉRIOS -->
+	<section id="ministerios" class="theme-scheduleDark">
+	  <div class="sectionInner content container">
+		<div class="kickerBar"></div>
+		<h2 class="title">Ministérios </h2>
+		<p class="subtitle">Servindo a Deus e cuidando de vidas em cada área.</p>
+
+		<div class="grid">
+
+		  <article class="card">
+			<div class="bar"></div>
+			<div class="pad">
+			  <h3>🎶 Louvor</h3>
+			  <p>Adoração com excelência e coração rendido a Cristo.</p>
+			</div>
+		  </article>
+
+		  <article class="card">
+			<div class="bar"></div>
+			<div class="pad">
+			  <h3>🎥 Mídia</h3>
+			  <p>Transmissão, projeção e apoio audiovisual para servir melhor.</p>
+			</div>
+		  </article>
+
+		  <article class="card">
+			<div class="bar"></div>
+			<div class="pad">
+			  <h3>🧒 Crianças</h3>
+			  <p>Ensino da Palavra com cuidado, amor e atenção especial.</p>
+			</div>
+		  </article>
+
+		  <article class="card">
+			<div class="bar"></div>
+			<div class="pad">
+			  <h3>🔥 Jovens</h3>
+			  <p>Comunhão, discipulado e crescimento espiritual.</p>
+			</div>
+		  </article>
+
+		  <article class="card">
+			<div class="bar"></div>
+			<div class="pad">
+			  <h3>🤝 Diaconato</h3>
+			  <p>Serviço e apoio à igreja com dedicação e cuidado.</p>
+			</div>
+		  </article>
+
+		  <article class="card">
+			<div class="bar"></div>
+			<div class="pad">
+			  <h3>🙏 Intercessão</h3>
+			  <p>Um ministério comprometido com oração constante.</p>
+			</div>
+		  </article>
+
+		  <article class="card">
+			<div class="bar"></div>
+			<div class="pad">
+			  <h3>🌍 Missões</h3>
+			  <p>Levando o Evangelho além das quatro paredes.</p>
+			</div>
+		  </article>
+
+		  <article class="card">
+			<div class="bar"></div>
+			<div class="pad">
+			  <h3>💍 Casais</h3>
+			  <p>Fortalecendo famílias e relacionamentos à luz da Palavra.</p>
+			</div>
+		  </article>
+
+		  <article class="card">
+			<div class="bar"></div>
+			<div class="pad">
+			  <h3>👨 Homens</h3>
+			  <p>Homens firmes na fé, liderança e caráter cristão.</p>
+			</div>
+		  </article>
+
+		  <article class="card">
+			<div class="bar"></div>
+			<div class="pad">
+			  <h3>👩 Mulheres</h3>
+			  <p>Mulheres edificadas, fortalecidas e chamadas por Deus.</p>
+			</div>
+		  </article>
+
+		  <article class="card">
+			<div class="bar"></div>
+			<div class="pad">
+			  <h3>❤️ Ação Social</h3>
+			  <p>Cuidando de vidas e servindo a comunidade com amor.</p>
+			</div>
+		  </article>
+
+		  <div class="summary">
+			<p>
+			  Quer servir com a gente? <b>Nos chame no WhatsApp</b> e vamos te orientar.
+			</p>
+			<div class="row">
+			  <button class="btn" type="button" id="ministeriosWhatsBtn">💬 Falar no WhatsApp</button>
+			</div>
+		  </div>
+
+		</div>
+	  </div>
+	</section>
+
+
   <section id="nossaIgreja" class="theme-blackFade bgImage" style="--bg-url:url('https://i.imgur.com/F3XC6NZ.jpeg')">
     <div class="sectionInner content container">
       <div class="kickerBar"></div>
@@ -1030,7 +1313,7 @@
             <div class="videoThumb" id="videoOpen"
                  data-video-id="jK03Yof78RQ"
                  data-video-title="Trajetória IEQ Nuporanga">
-              <img src="https://i.ytimg.com/vi/jK03Yof78RQ/hqdefault.jpg" alt="Vídeo: trajetória IEQ Nuporanga" loading="lazy">
+              <img src="https://i.ytimg.com/vi/jK03Yof78RQ/hqdefault.jpg" alt="Vídeo: trajetória IEQ Nuporanga" loading="lazy" decoding="async">
               <div class="playBtn" role="button" aria-label="Assistir aqui" tabindex="0">
                 <div class="pill">▶ Assistir aqui</div>
               </div>
@@ -1062,6 +1345,7 @@
               <a class="btn ghost" href="https://www.youtube.com/@ieqnuporangasp" target="_blank" rel="noopener">YouTube</a>
               <a class="btn ghost" href="https://www.tiktok.com/@ieqnuporangasp" target="_blank" rel="noopener">TikTok</a>
               <a class="btn ghost" href="https://www.facebook.com/profile.php?id=61584372636777" target="_blank" rel="noopener">Facebook</a>
+              <button class="btn" type="button" id="contatoWhatsBtn">💬 WhatsApp</button>
             </div>
           </div>
         </article>
@@ -1097,6 +1381,40 @@
         <path d="M12 5l-7 7m7-7l7 7M12 5v14" stroke="rgba(255,255,255,.92)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
       </svg>
     </button>
+  </div>
+
+  <!-- ✅ WHATSAPP FLUTUANTE -->
+  <div class="waFloat" aria-label="Contato WhatsApp">
+    <a class="waBtn" id="waFloatBtn" href="#" rel="noopener" aria-label="Falar no WhatsApp">
+      <svg class="waIcon" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+        <path d="M16 2.5C8.6 2.5 2.6 8.4 2.6 15.7c0 2.5.7 4.9 2 7L3 29.5l7-1.8c2 .9 4.2 1.4 6.5 1.4 7.4 0 13.4-5.9 13.4-13.3C29.9 8.4 23.4 2.5 16 2.5Z" stroke="rgba(255,255,255,.92)" stroke-width="1.6"/>
+        <path d="M12.8 10.3c-.3-.7-.7-.7-1.1-.7h-.9c-.3 0-.8.1-1.2.6-.4.5-1.6 1.6-1.6 3.8s1.6 4.3 1.8 4.6c.2.3 3.1 5 7.7 6.8 3.8 1.5 4.6 1.2 5.4 1.1.8-.1 2.6-1 3-2 .4-1 .4-1.9.3-2.1-.1-.2-.4-.3-.9-.5-.5-.2-2.6-1.3-3-1.4-.4-.1-.7-.2-1 .2-.3.4-1.2 1.4-1.4 1.7-.3.3-.5.4-1 .2-.5-.2-2-.7-3.8-2.3-1.4-1.2-2.3-2.7-2.6-3.1-.3-.5 0-.8.2-1 .2-.2.5-.5.7-.7.2-.2.3-.4.5-.7.2-.3.1-.5 0-.7-.1-.2-.9-2.3-1.2-3Z" fill="rgba(255,255,255,.92)"/>
+      </svg>
+      WhatsApp
+    </a>
+    <div class="waMini">
+      Dúvidas, pedidos de oração<br/>ou informações? Fale com a gente.
+    </div>
+  </div>
+
+  <!-- ✅ MODAL CALENDÁRIO -->
+  <div class="modalBack" id="calModalBack" aria-hidden="true">
+    <div class="modal" role="dialog" aria-modal="true" aria-label="Adicionar ao calendário">
+      <div class="modalTop">
+        <strong>📅 Adicionar ao calendário</strong>
+        <button class="btn ghost iconBtn" id="calModalClose" aria-label="Fechar">✕</button>
+      </div>
+      <div class="modalBody">
+        <p id="calModalText">Escolha como deseja adicionar o próximo culto ao seu calendário.</p>
+        <div class="modalActions">
+          <a class="btn" id="googleCalLink" href="#" target="_blank" rel="noopener">Abrir no Google Agenda</a>
+          <button class="btn ghost" type="button" id="downloadIcsBtn">Baixar .ics</button>
+        </div>
+        <div class="muted" style="margin-top:10px;font-size:13px;font-weight:900">
+          Dica: o .ics funciona em iPhone (Calendário) e também no Android.
+        </div>
+      </div>
+    </div>
   </div>
 
   <script>
@@ -1208,7 +1526,6 @@
       iframe.referrerPolicy = "strict-origin-when-cross-origin";
       iframe.allowFullscreen = true;
 
-      // mantém o mesmo "aspect-ratio" do thumb
       iframe.style.width = "100%";
       iframe.style.height = "100%";
       iframe.style.display = "block";
@@ -1235,7 +1552,6 @@
           }
         });
       }else{
-        // fallback: clique no bloco todo
         videoOpen.addEventListener("click", clickPlay);
       }
     }
@@ -1284,9 +1600,6 @@
 
     /* ==========================
        Próximo culto (contador)
-       - "Hoje" quando for hoje
-       - "em 47 min" quando < 60 min
-       - inclui Quarta 19h
        ========================== */
 
     // 0=Dom, 1=Seg, 2=Ter, 3=Qua, 4=Qui, 5=Sex, 6=Sáb
@@ -1301,6 +1614,8 @@
     const nextIn = document.getElementById("nextCultoIn");
     const nextMeta = document.getElementById("nextCultoMeta");
     const nextHint = document.getElementById("nextCultoHint");
+
+    let NEXT_CULTO_CACHE = null;
 
     function pad2(n){ return String(n).padStart(2,"0"); }
 
@@ -1363,6 +1678,8 @@
       if(!nextBadge || !nextIn || !nextMeta) return;
 
       const next = getNextCulto();
+      NEXT_CULTO_CACHE = next;
+
       if(!next){
         nextBadge.textContent = "Sem dados";
         nextIn.textContent = "—";
@@ -1383,6 +1700,202 @@
 
     updateNextCulto();
     setInterval(updateNextCulto, 30000);
+
+    /* ==========================
+       WhatsApp (flutuante + botões)
+       ========================== */
+    const WHATS_NUMBER = "5516991044148"; // com DDI 55
+    function buildWhatsLink(text){
+      const base = "https://wa.me/" + WHATS_NUMBER;
+      const qs = new URLSearchParams({ text });
+      return base + "?" + qs.toString();
+    }
+
+    function getNextCultoText(){
+      const next = NEXT_CULTO_CACHE || getNextCulto();
+      if(!next) return "Olá! Gostaria de conhecer a igreja de vocês.";
+      const whenStr = formatDateBR(next.when);
+      return `Olá! Gostaria de mais informações sobre o próximo culto.`;
+    }
+
+    const waFloatBtn = document.getElementById("waFloatBtn");
+    function wireWhatsBtn(btn){
+      if(!btn) return;
+      btn.addEventListener("click", (e)=>{
+        e.preventDefault();
+        const msg = getNextCultoText();
+        window.open(buildWhatsLink(msg), "_blank", "noopener");
+      });
+    }
+    wireWhatsBtn(waFloatBtn);
+    wireWhatsBtn(document.getElementById("firstTimeWhatsBtn"));
+    wireWhatsBtn(document.getElementById("ministeriosWhatsBtn"));
+    wireWhatsBtn(document.getElementById("contatoWhatsBtn"));
+
+    /* ==========================
+       Banner discreto (avisos) + dismiss
+       ========================== */
+    const noticeWrap = document.getElementById("noticeWrap");
+    const noticeClose = document.getElementById("noticeClose");
+    const noticeBody = document.getElementById("noticeBody");
+
+    // Edite o texto do banner aqui (quando precisar)
+	const NOTICE_TEXT = `📌 Primeira vez por aqui? Você é muito bem-vindo(a)! Vai ser um prazer te receber.
+	O culto dura em média 1h30, temos salinha para as crianças e uma equipe preparada para te acolher.
+	Chegue alguns minutinhos antes e, se precisar, fale com a gente no WhatsApp.`;
+
+
+    function showNoticeIfNeeded(){
+      try{
+        const key = "ieq_notice_dismissed_v1";
+        const dismissed = localStorage.getItem(key) === "1";
+        if(dismissed) return;
+
+        if(noticeBody) noticeBody.textContent = NOTICE_TEXT;
+        if(noticeWrap) noticeWrap.style.display = "block";
+
+        if(noticeClose){
+          noticeClose.addEventListener("click", ()=>{
+            localStorage.setItem(key, "1");
+            noticeWrap.style.display = "none";
+          });
+        }
+      }catch(err){
+        // se localStorage falhar, só mostra normal
+        if(noticeBody) noticeBody.textContent = NOTICE_TEXT;
+        if(noticeWrap) noticeWrap.style.display = "block";
+        if(noticeClose) noticeClose.addEventListener("click", ()=>{ noticeWrap.style.display = "none"; });
+      }
+    }
+    showNoticeIfNeeded();
+
+    /* ==========================
+       Adicionar ao calendário (Google + .ics)
+       ========================== */
+    const addCalBtn = document.getElementById("addCalBtn");
+    const calModalBack = document.getElementById("calModalBack");
+    const calModalClose = document.getElementById("calModalClose");
+    const googleCalLink = document.getElementById("googleCalLink");
+    const downloadIcsBtn = document.getElementById("downloadIcsBtn");
+    const calModalText = document.getElementById("calModalText");
+
+    function openCalModal(){
+      if(!calModalBack) return;
+      calModalBack.classList.add("show");
+      calModalBack.setAttribute("aria-hidden","false");
+      lockScroll(true);
+      updateCalendarLinks();
+    }
+    function closeCalModal(){
+      if(!calModalBack) return;
+      calModalBack.classList.remove("show");
+      calModalBack.setAttribute("aria-hidden","true");
+      lockScroll(false);
+    }
+
+    if(addCalBtn) addCalBtn.addEventListener("click", (e)=>{ e.preventDefault(); openCalModal(); });
+    if(calModalClose) calModalClose.addEventListener("click", closeCalModal);
+    if(calModalBack){
+      calModalBack.addEventListener("click", (e)=>{
+        if(e.target === calModalBack) closeCalModal();
+      });
+    }
+    document.addEventListener("keydown", (e)=>{
+      if(e.key === "Escape" && calModalBack && calModalBack.classList.contains("show")) closeCalModal();
+    });
+
+    function toICSDateLocal(d){
+      // formato local "YYYYMMDDTHHMMSS"
+      const y = d.getFullYear();
+      const m = pad2(d.getMonth()+1);
+      const day = pad2(d.getDate());
+      const hh = pad2(d.getHours());
+      const mm = pad2(d.getMinutes());
+      const ss = "00";
+      return `${y}${m}${day}T${hh}${mm}${ss}`;
+    }
+
+    function buildGoogleCalendarUrl({title, details, location, start, end}){
+      // Google aceita datas "YYYYMMDDTHHMMSS/YYYYMMDDTHHMMSS" (interpreta na timezone do usuário)
+      const dates = `${toICSDateLocal(start)}/${toICSDateLocal(end)}`;
+      const qs = new URLSearchParams({
+        action: "TEMPLATE",
+        text: title,
+        details: details,
+        location: location,
+        dates: dates
+      });
+      return "https://calendar.google.com/calendar/render?" + qs.toString();
+    }
+
+    function downloadICS({title, description, location, start, end}){
+      const uid = "ieq-nuporanga-" + start.getTime() + "@site";
+      const dtstamp = toICSDateLocal(new Date());
+      const dtstart = toICSDateLocal(start);
+      const dtend = toICSDateLocal(end);
+
+      // Observação: usamos hora local (sem Z) para bater com o horário do celular.
+      const ics =
+`BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//IEQ Nuporanga//Site//PT-BR
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:${uid}
+DTSTAMP:${dtstamp}
+DTSTART:${dtstart}
+DTEND:${dtend}
+SUMMARY:${title}
+DESCRIPTION:${description}
+LOCATION:${location}
+END:VEVENT
+END:VCALENDAR`;
+
+      const blob = new Blob([ics], {type: "text/calendar;charset=utf-8"});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "proximo-culto-ieq-nuporanga.ics";
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      setTimeout(()=>URL.revokeObjectURL(url), 800);
+    }
+
+    function updateCalendarLinks(){
+      const next = NEXT_CULTO_CACHE || getNextCulto();
+      if(!next) return;
+
+      const start = new Date(next.when);
+      const end = new Date(start.getTime() + 90 * 60000); // 1h30
+
+      const title = `IEQ Nuporanga — ${next.item.label}`;
+      const location = "R. Joao Sabaini Neto, 135 - Jardim Brasilia | Nuporanga - SP";
+      const details = "Venha nos visitar! Culto com duração média de 1h30. Temos salinha para as crianças e você será muito bem recepcionado(a).";
+
+      if(calModalText){
+        calModalText.textContent = `Próximo culto: ${next.item.label} • ${formatDateBR(start)} (duração média: 1h30)`;
+      }
+
+      if(googleCalLink){
+        googleCalLink.href = buildGoogleCalendarUrl({
+          title, details, location, start, end
+        });
+      }
+
+      if(downloadIcsBtn){
+        downloadIcsBtn.onclick = ()=>{
+          downloadICS({
+            title,
+            description: details,
+            location,
+            start,
+            end
+          });
+        };
+      }
+    }
   </script>
 </body>
 </html>
