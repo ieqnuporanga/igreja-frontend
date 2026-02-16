@@ -298,6 +298,10 @@
     }
 
     .grid{display:grid;grid-template-columns: repeat(12, 1fr);gap:14px;margin-top:18px;width:100%}
+
+    /* ✅ FIX: .pad estava definido só em .card .pad, por isso o texto em Doações ficava colado nas laterais */
+    .pad{padding:16px}
+
     .card{
       grid-column: span 4;
       border-radius: var(--r24);
@@ -308,7 +312,6 @@
       max-width:100%;
     }
     .card .bar{height:6px;background: linear-gradient(90deg, var(--red), var(--yellow), var(--blue), var(--purple))}
-    .card .pad{padding:16px}
     .card h3{margin:0 0 8px;font-size:16px;font-weight:950;color:rgba(255,255,255,.92)}
     .card p{margin:0;color: rgba(255,255,255,.86);font-size:14px}
     .wide{grid-column: span 8}
@@ -679,6 +682,25 @@
     .modalActions{margin-top:12px;display:flex;gap:10px;flex-wrap:wrap}
     .muted{color: var(--muted)}
 
+    /* Modal lista completa */
+    .eventsModal{
+      width: min(92vw, 680px);
+    }
+    .eventsList{
+      max-height: min(70vh, 560px);
+      overflow:auto;
+      -webkit-overflow-scrolling: touch;
+      padding-right: 4px;
+    }
+    .eventsItem{
+      padding: 10px 0;
+      border-top:1px solid rgba(255,255,255,.10);
+    }
+    .eventsItem:first-child{border-top:0;padding-top:0}
+    .eventsWhen{font-weight:950;letter-spacing:-.2px}
+    .eventsTitle{opacity:.92}
+    .eventsObs{opacity:.82;font-size:13px;margin-top:4px}
+
     .waFloat{
       position:fixed;
       left:16px;
@@ -760,6 +782,9 @@
       box-shadow: 0 16px 40px rgba(0,0,0,.28);
       max-width:100%;
     }
+    .donBox .pad{
+      padding:16px; /* ✅ garante padrão dentro das caixas */
+    }
     .donKey{
       margin-top:10px;
       padding:12px 12px;
@@ -804,7 +829,6 @@
       .subtitle{font-size:15px;line-height:1.55;padding-left:0}
       .grid{gap:12px;margin-top:16px}
       .grid .card{grid-column: span 12}
-      .card .pad{padding:14px}
       .card h3{font-size:15px}
       .summary{padding:14px}
       .inlineMedia img{height:220px}
@@ -837,31 +861,25 @@
       .bgImage .sectionInner{ padding-bottom: 96px; }
     }
 
-
-    
     #liveMount{ overflow: hidden; }
-    
 
     @media (max-width: 560px){
       #liveMount{
-        aspect-ratio: 4 / 5 !important; 
-        min-height: 420px;             
+        aspect-ratio: 4 / 5 !important;
+        min-height: 420px;
       }
-    
-     
+
       #liveMount .livePlaceholder{
         height: 100%;
         overflow: auto;
         -webkit-overflow-scrolling: touch;
         padding: 18px 14px;
       }
-    
-   
+
       #liveMount .liveHint{
         max-width: 46ch;
       }
     }
-
   </style>
 </head>
 
@@ -884,7 +902,8 @@
         <button data-target="cremosResumo" data-href="cremos.html">No que cremos</button>
         <button data-target="pastores">Pastores</button>
         <button data-target="local">Localização</button>
-        <button data-target="eventos">Eventos</button>
+        <!-- ✅ Texto do menu: Eventos -> Fotos -->
+        <button data-target="eventos">Fotos</button>
         <button data-target="ministerios">Ministérios</button>
         <button data-target="nossaIgreja">Nossa igreja</button>
         <button data-target="doacoes">Doações</button>
@@ -913,7 +932,8 @@
       <button data-target="cremosResumo" data-href="cremos.html" data-close>No que cremos <span>›</span></button>
       <button data-target="pastores" data-close>Pastores <span>›</span></button>
       <button data-target="local" data-close>Localização <span>›</span></button>
-      <button data-target="eventos" data-close>Eventos <span>›</span></button>
+      <!-- ✅ Texto do menu mobile: Eventos -> Fotos -->
+      <button data-target="eventos" data-close>Fotos <span>›</span></button>
       <button data-target="ministerios" data-close>Ministérios <span>›</span></button>
       <button data-target="nossaIgreja" data-close>Nossa igreja <span>›</span></button>
       <button data-target="doacoes" data-close>Doações <span>›</span></button>
@@ -950,6 +970,10 @@
           </div>
           <div class="noticeBody" id="noticeBody">
             Fique ligado(a) nos avisos desta semana. Se precisar falar com a igreja, toque no botão do WhatsApp.
+            <!-- ✅ Botão apenas aqui (popup de avisos do início) -->
+            <div class="row" style="margin-top:12px">
+              <button class="btn" type="button" id="openEventsModalBtn">📅 Ver lista completa</button>
+            </div>
           </div>
         </div>
 
@@ -1178,7 +1202,8 @@
   <section id="eventos" class="theme-red bgImage" style="--bg-url:url('https://i.imgur.com/pk2f5kO.jpeg'); --bg-pos:center 40%; --bg-blur:3px;">
     <div class="sectionInner content container">
       <div class="kickerBar"></div>
-      <h2 class="title">Eventos & Fotos</h2>
+      <!-- ✅ Título alterado -->
+      <h2 class="title">Fotos dos eventos</h2>
       <p class="subtitle">Acompanhe nossos registros e momentos especiais.</p>
 
       <div class="grid">
@@ -1226,7 +1251,7 @@
       <h2 class="title">Ministérios</h2>
       <p class="subtitle">Servindo a Deus e cuidando de vidas em cada área.</p>
 
-    <div class="grid">
+      <div class="grid">
         <article class="card"><div class="bar"></div><div class="pad"><h3>🎶 Louvor</h3><p>Adoração com excelência e coração rendido a Cristo.</p></div></article>
         <article class="card"><div class="bar"></div><div class="pad"><h3>🎥 Mídia</h3><p>Transmissão, projeção e apoio audiovisual para servir melhor.</p></div></article>
         <article class="card"><div class="bar"></div><div class="pad"><h3>🧒 Crianças</h3><p>Ensino da Palavra com cuidado, amor e atenção especial.</p></div></article>
@@ -1289,7 +1314,7 @@
           <div class="donBox">
             <div class="pad">
               <h3 style="margin:0 0 8px;font-weight:950">💛 PIX</h3>
-              <p class="muted">Clique em “Copiar” e cole no seu banco.</p>
+              <p class="muted" style="margin:0">Clique em “Copiar” e cole no seu banco.</p>
               <div class="donKey" id="pixKeyBox">Carregando…</div>
               <div class="row">
                 <button class="btn" type="button" id="copyPixBtn">📋 Copiar chave PIX</button>
@@ -1302,7 +1327,7 @@
             <img class="qr" id="pixQrImg" alt="QR Code PIX" loading="lazy" decoding="async">
             <div class="pad">
               <h3 style="margin:0 0 8px;font-weight:950">📷 QR Code</h3>
-              <p class="muted">Aponte a câmera para o QR.</p>
+              <p class="muted" style="margin:0">Aponte a câmera para o QR.</p>
             </div>
           </div>
         </div>
@@ -1310,9 +1335,6 @@
     </div>
   </section>
 
-  <!-- =========================
-       AO VIVO (separado) - NÃO ALTERADO
-       ========================= -->
   <section id="aoVivo" class="theme-blackFade">
     <div class="sectionInner content container">
       <div class="kickerBar"></div>
@@ -1339,9 +1361,6 @@
     </div>
   </section>
 
-  <!-- =========================
-       PREGAÇÕES (sem API) + "pular" lives usando Iframe API
-       ========================= -->
   <section id="pregacoes" class="theme-scheduleDark">
     <div class="sectionInner content container">
       <div class="kickerBar"></div>
@@ -1421,6 +1440,7 @@
     </div>
   </div>
 
+  <!-- Modal Calendário -->
   <div class="modalBack" id="calModalBack" aria-hidden="true">
     <div class="modal" role="dialog" aria-modal="true" aria-label="Adicionar ao calendário">
       <div class="modalTop">
@@ -1435,6 +1455,25 @@
         </div>
         <div class="muted" style="margin-top:10px;font-size:13px;font-weight:900">
           Dica: o .ics funciona em iPhone (Calendário) e também no Android.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ✅ Modal Lista Completa (somente abre pelo botão do popup de avisos) -->
+  <div class="modalBack" id="eventsModalBack" aria-hidden="true">
+    <div class="modal eventsModal" role="dialog" aria-modal="true" aria-label="Lista completa de eventos do mês">
+      <div class="modalTop">
+        <strong id="eventsModalTitle">📅 Lista completa do mês</strong>
+        <button class="btn ghost iconBtn" id="eventsModalClose" aria-label="Fechar">✕</button>
+      </div>
+      <div class="modalBody">
+        <p class="muted" id="eventsModalSubtitle" style="margin:0 0 10px">
+          Carregando a agenda do mês…
+        </p>
+        <div class="eventsList" id="eventsModalList"></div>
+        <div class="muted" style="margin-top:12px;font-size:13px;font-weight:900">
+          Se a lista estiver vazia, confira se a aba do mês existe na planilha.
         </div>
       </div>
     </div>
@@ -1548,30 +1587,40 @@
       throw lastErr || new Error("Falha ao carregar a planilha.");
     }
 
+    function getValSmart(r, keys){
+      for(const k of keys){
+        if(r && Object.prototype.hasOwnProperty.call(r, k)) return r[k];
+      }
+      const map = {};
+      for(const kk of Object.keys(r || {})){
+        map[String(kk).toLowerCase()] = kk;
+      }
+      for(const k of keys){
+        const hit = map[String(k).toLowerCase()];
+        if(hit) return r[hit];
+      }
+      return undefined;
+    }
+
+    function monthTabNameFromDate(d){
+      const months = ["janeiro","fevereiro","marco","abril","maio","junho","julho","agosto","setembro","outubro","novembro","dezembro"];
+      return months[d.getMonth()];
+    }
+
+    function monthLabelPt(d){
+      const months = ["Janeiro","Fevereiro","Março","Abril","Maio","Junho","Julho","Agosto","Setembro","Outubro","Novembro","Dezembro"];
+      return months[d.getMonth()];
+    }
+
     async function loadUpcomingSchedule(){
       const rows = await fetchJsonTrySheets(SHEET_TABS_TRY);
       const today = startOfToday().getTime();
 
-      const getVal = (r, keys) => {
-        for(const k of keys){
-          if(r && Object.prototype.hasOwnProperty.call(r, k)) return r[k];
-        }
-        const map = {};
-        for(const kk of Object.keys(r || {})){
-          map[String(kk).toLowerCase()] = kk;
-        }
-        for(const k of keys){
-          const hit = map[String(k).toLowerCase()];
-          if(hit) return r[hit];
-        }
-        return undefined;
-      };
-
       const parsed = (rows || []).map(r=>{
-        const dataTxt = getVal(r, ["Data","data","DATA"]);
-        const evento = getVal(r, ["Evento","evento","EVENTO"]);
-        const horario = getVal(r, ["Horário","Horario","horario","HORÁRIO","HORARIO"]);
-        const obs = getVal(r, ["Observações","Observacoes","obs","observacoes","OBS","OBSERVACOES","OBSERVAÇÕES"]);
+        const dataTxt = getValSmart(r, ["Data","data","DATA"]);
+        const evento = getValSmart(r, ["Evento","evento","EVENTO"]);
+        const horario = getValSmart(r, ["Horário","Horario","horario","HORÁRIO","HORARIO"]);
+        const obs = getValSmart(r, ["Observações","Observacoes","obs","observacoes","OBS","OBSERVACOES","OBSERVAÇÕES"]);
         const date = parseBRDayMonthToDate(dataTxt);
         return { date, evento, horario, obs };
       }).filter(x => x.date);
@@ -1614,6 +1663,52 @@
         <div style="opacity:.85; font-size:13px; margin-top:-6px; margin-bottom:6px">Póximos 6 compromissos da agenda mensal.</div>
         <div style="border-top:1px solid rgba(255,255,255,.10)">${lines}</div>
       `;
+    }
+
+    async function loadMonthScheduleAll(){
+      const now = new Date();
+      const tab = monthTabNameFromDate(now);
+      const rows = await fetchJsonTrySheets([tab, ...SHEET_TABS_TRY]); // tenta o mês atual, depois fallback
+      const parsed = (rows || []).map(r=>{
+        const dataTxt = getValSmart(r, ["Data","data","DATA"]);
+        const evento = getValSmart(r, ["Evento","evento","EVENTO"]);
+        const horario = getValSmart(r, ["Horário","Horario","horario","HORÁRIO","HORARIO"]);
+        const obs = getValSmart(r, ["Observações","Observacoes","obs","observacoes","OBS","OBSERVACOES","OBSERVAÇÕES"]);
+        const date = parseBRDayMonthToDate(dataTxt);
+        return { date, evento, horario, obs };
+      }).filter(x => x.date);
+
+      // filtra só do mês atual (pelas datas dd/mm)
+      const m = now.getMonth();
+      const y = now.getFullYear();
+
+      const monthItems = parsed.filter(it => it.date.getMonth() === m && it.date.getFullYear() === y)
+        .sort((a,b)=> a.date - b.date);
+
+      return { items: monthItems, monthLabel: monthLabelPt(now) };
+    }
+
+    function renderMonthList(items){
+      if(!items || !items.length){
+        return `<div class="muted" style="opacity:.92">Nenhum evento encontrado para este mês.</div>`;
+      }
+      return items.map(it=>{
+        const when = formatBRShort(it.date);
+        const evento = escapeHTML(it.evento || "Evento");
+        const hora = (it.horario || "").trim();
+        const obs = (it.obs || "").trim();
+
+        const horaHTML = hora ? ` <span style="opacity:.9">• ${escapeHTML(hora)}</span>` : "";
+        const obsHTML = obs ? `<div class="eventsObs">${escapeHTML(obs)}</div>` : "";
+
+        return `
+          <div class="eventsItem">
+            <div class="eventsWhen">${escapeHTML(when)}${horaHTML}</div>
+            <div class="eventsTitle">${evento}</div>
+            ${obsHTML}
+          </div>
+        `;
+      }).join("");
     }
 
     // =========================
@@ -1938,7 +2033,15 @@
         if(dismissed) return;
 
         const items = await loadUpcomingSchedule();
-        if(noticeBody) noticeBody.innerHTML = renderUpcomingHTML(items);
+
+        // preserva o botão "Ver lista completa" que já está no HTML
+        const btnHTML = `
+          <div class="row" style="margin-top:12px">
+            <button class="btn" type="button" id="openEventsModalBtn">📅 Ver lista completa</button>
+          </div>
+        `;
+
+        if(noticeBody) noticeBody.innerHTML = renderUpcomingHTML(items) + btnHTML;
         if(noticeWrap) noticeWrap.style.display = "block";
 
         if(noticeClose){
@@ -1947,11 +2050,65 @@
             noticeWrap.style.display = "none";
           });
         }
+
+        // rewire do botão (porque noticeBody foi reescrito)
+        const openEventsModalBtn = document.getElementById("openEventsModalBtn");
+        if(openEventsModalBtn){
+          openEventsModalBtn.addEventListener("click", (e)=>{
+            e.preventDefault();
+            openEventsModal();
+          });
+        }
+
       }catch(err){
         if(noticeWrap) noticeWrap.style.display = "none";
       }
     }
     showNoticeIfNeeded();
+
+    // Modal Lista completa
+    const eventsModalBack = document.getElementById("eventsModalBack");
+    const eventsModalClose = document.getElementById("eventsModalClose");
+    const eventsModalTitle = document.getElementById("eventsModalTitle");
+    const eventsModalSubtitle = document.getElementById("eventsModalSubtitle");
+    const eventsModalList = document.getElementById("eventsModalList");
+
+    function openEventsModal(){
+      if(!eventsModalBack) return;
+      eventsModalBack.classList.add("show");
+      eventsModalBack.setAttribute("aria-hidden","false");
+      lockScroll(true);
+      hydrateEventsModal();
+    }
+    function closeEventsModal(){
+      if(!eventsModalBack) return;
+      eventsModalBack.classList.remove("show");
+      eventsModalBack.setAttribute("aria-hidden","true");
+      lockScroll(false);
+    }
+
+    if(eventsModalClose) eventsModalClose.addEventListener("click", closeEventsModal);
+    if(eventsModalBack){
+      eventsModalBack.addEventListener("click", (e)=>{
+        if(e.target === eventsModalBack) closeEventsModal();
+      });
+    }
+
+    async function hydrateEventsModal(){
+      try{
+        if(eventsModalTitle) eventsModalTitle.textContent = `📅 Lista completa • ${monthLabelPt(new Date())}`;
+        if(eventsModalSubtitle) eventsModalSubtitle.textContent = "Carregando a agenda do mês…";
+        if(eventsModalList) eventsModalList.innerHTML = "";
+
+        const data = await loadMonthScheduleAll();
+        if(eventsModalTitle) eventsModalTitle.textContent = `📅 Lista completa • ${data.monthLabel}`;
+        if(eventsModalSubtitle) eventsModalSubtitle.textContent = data.items.length ? "Eventos cadastrados na planilha para este mês:" : "Nenhum evento encontrado para este mês.";
+        if(eventsModalList) eventsModalList.innerHTML = renderMonthList(data.items);
+      }catch(err){
+        if(eventsModalSubtitle) eventsModalSubtitle.textContent = "Não consegui carregar a agenda do mês (verifique a aba do mês na planilha).";
+        if(eventsModalList) eventsModalList.innerHTML = "";
+      }
+    }
 
     const addCalBtn = document.getElementById("addCalBtn");
     const calModalBack = document.getElementById("calModalBack");
@@ -1981,8 +2138,12 @@
         if(e.target === calModalBack) closeCalModal();
       });
     }
+
     document.addEventListener("keydown", (e)=>{
-      if(e.key === "Escape" && calModalBack && calModalBack.classList.contains("show")) closeCalModal();
+      if(e.key === "Escape"){
+        if(calModalBack && calModalBack.classList.contains("show")) closeCalModal();
+        if(eventsModalBack && eventsModalBack.classList.contains("show")) closeEventsModal();
+      }
     });
 
     function toICSDateLocal(d){
@@ -2188,8 +2349,6 @@ END:VCALENDAR`;
 
     // ==========================================
     //  YOUTUBE SEM API DE DADOS (somente EMBED + IFRAME PLAYER API)
-    //  Objetivo: usar a playlist de uploads, mas "pular" itens que parecem live/upcoming/indisponíveis.
-    //  (A seção AO VIVO continua intacta)
     // ==========================================
     const YT_CHANNEL_ID = "UCNmU-juUErNMbHAJOQ508Ow";
     const UPLOADS_PLAYLIST = "UU" + YT_CHANNEL_ID.substring(2);
@@ -2219,7 +2378,6 @@ END:VCALENDAR`;
       el.appendChild(iframe);
     }
 
-    // Ao vivo: só carrega quando clicar (evita “indisponível” aparecendo sempre)
     (function(){
       const liveMount = document.getElementById("liveMount");
       const liveMeta = document.getElementById("liveMeta");
@@ -2247,7 +2405,6 @@ END:VCALENDAR`;
       if(liveTryBtn) liveTryBtn.addEventListener("click", (e)=>{ e.preventDefault(); tryLoadLive(); });
     })();
 
-    // -------- IFrame Player API loader (1x)
     let YT_API_READY = false;
     let YT_API_LOADING = false;
     const YT_READY_QUEUE = [];
@@ -2275,7 +2432,6 @@ END:VCALENDAR`;
       }
     };
 
-    // Pregações: usa playlist de uploads, mas pula itens "inválidos" (upcoming/live/privado)
     (function(){
       const mount = document.getElementById("uploadsMount");
       if(!mount) return;
@@ -2285,15 +2441,11 @@ END:VCALENDAR`;
         return;
       }
 
-      // placeholder enquanto carrega API do player
       mount.innerHTML = '<div style="padding:14px; text-align:center; opacity:.9">Carregando player…</div>';
 
-      // Heurística: lives/upcoming/indisponível tendem a:
-      // - disparar onError (101/150 etc) OU
-      // - ficar com getDuration() = 0 por tempo demais
       const MAX_SKIPS = 15;
       const CHECK_DELAY_MS = 650;
-      const MAX_CHECKS_PER_VIDEO = 10; // ~6.5s
+      const MAX_CHECKS_PER_VIDEO = 10;
 
       let player = null;
       let skipCount = 0;
@@ -2313,7 +2465,6 @@ END:VCALENDAR`;
 
         if(!player) return;
 
-        // protege contra loop infinito
         skipCount++;
         if(skipCount > MAX_SKIPS){
           mount.innerHTML = `
@@ -2340,12 +2491,9 @@ END:VCALENDAR`;
       }
 
       function looksLikeLiveOrInvalid(){
-        // Observações:
-        // - getDuration() pode retornar 0 no começo do carregamento, então a gente espera alguns checks.
-        // - Para upcoming/indisponível, geralmente continua 0 e/ou dá error.
         try{
           const d = player.getDuration();
-          if(d && d > 0) return false; // parece vídeo normal
+          if(d && d > 0) return false;
           return true;
         }catch(e){
           return true;
@@ -2357,7 +2505,6 @@ END:VCALENDAR`;
         checkTimer = setTimeout(()=>{
           if(!player) return;
 
-          // Se o item atual continuar "suspeito" depois de vários checks, pula.
           if(looksLikeLiveOrInvalid()){
             if(triesLeft <= 0){
               safeNext("duração 0 (provável live/upcoming/indisponível)");
@@ -2367,7 +2514,6 @@ END:VCALENDAR`;
             return;
           }
 
-          // Achou um vídeo com duração válida: para de checar.
           checking = false;
           clearCheckTimer();
         }, CHECK_DELAY_MS);
@@ -2380,37 +2526,27 @@ END:VCALENDAR`;
       }
 
       function onPlayerReady(){
-        // Quando o player está pronto, ele normalmente já "cue" o primeiro item.
-        // A gente inicia o ciclo de validação para pular lives/upcoming.
         startCheckCycle();
       }
 
       function onPlayerError(e){
-        // erros comuns: 101/150 (embed bloqueado), 100 (não encontrado), 2 (parâmetro inválido)
         safeNext("erro do player: " + (e && e.data));
       }
 
       function onPlayerStateChange(e){
-        // Regras:
-        // - Se começou a tocar (PLAYING), é vídeo válido
-        // - Se ficou CUED/UNSTARTED com duração 0 por tempo demais, nosso timer pula
-        // - Se trocar vídeo, recomeça checagem
         const state = e && e.data;
-        // 1 unstarted, 3 buffering, 5 cued, 0 ended, 2 paused, -1 unstarted (legacy)
         if(state === YT.PlayerState.PLAYING){
           checking = false;
           clearCheckTimer();
           return;
         }
 
-        // Quando muda de item (cued/buffering), revalida.
         if(state === YT.PlayerState.CUED || state === YT.PlayerState.BUFFERING || state === -1){
           startCheckCycle();
         }
 
         if(state === YT.PlayerState.ENDED){
-          // próximo item automaticamente
-          skipCount = Math.max(0, skipCount - 1); // "devolve" um skip para não estourar fácil
+          skipCount = Math.max(0, skipCount - 1);
         }
       }
 
@@ -2420,8 +2556,6 @@ END:VCALENDAR`;
           return;
         }
 
-        // Cria player no elemento uploadsMount
-        // OBS: usamos listType=playlist com playlist de uploads.
         player = new YT.Player("uploadsMount", {
           height: "100%",
           width: "100%",
@@ -2443,4 +2577,3 @@ END:VCALENDAR`;
   </script>
 </body>
 </html>
-
