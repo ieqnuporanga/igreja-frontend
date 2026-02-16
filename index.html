@@ -1200,7 +1200,7 @@
       <h2 class="title">Ministérios</h2>
       <p class="subtitle">Servindo a Deus e cuidando de vidas em cada área.</p>
 
-      <div class="grid">
+    <div class="grid">
         <article class="card"><div class="bar"></div><div class="pad"><h3>🎶 Louvor</h3><p>Adoração com excelência e coração rendido a Cristo.</p></div></article>
         <article class="card"><div class="bar"></div><div class="pad"><h3>🎥 Mídia</h3><p>Transmissão, projeção e apoio audiovisual para servir melhor.</p></div></article>
         <article class="card"><div class="bar"></div><div class="pad"><h3>🧒 Crianças</h3><p>Ensino da Palavra com cuidado, amor e atenção especial.</p></div></article>
@@ -1285,7 +1285,7 @@
   </section>
 
   <!-- =========================
-       AO VIVO (separado)
+       AO VIVO (separado) - NÃO ALTERADO
        ========================= -->
   <section id="aoVivo" class="theme-blackFade">
     <div class="sectionInner content container">
@@ -1314,7 +1314,7 @@
   </section>
 
   <!-- =========================
-       PREGAÇÕES (separado)
+       PREGAÇÕES (sem API) + "pular" lives usando Iframe API
        ========================= -->
   <section id="pregacoes" class="theme-scheduleDark">
     <div class="sectionInner content container">
@@ -2161,9 +2161,11 @@ END:VCALENDAR`;
     })();
 
     // ==========================================
-    //  YOUTUBE SEM API (somente EMBED)
+    //  YOUTUBE SEM API DE DADOS (somente EMBED + IFRAME PLAYER API)
+    //  Objetivo: usar a playlist de uploads, mas "pular" itens que parecem live/upcoming/indisponíveis.
+    //  (A seção AO VIVO continua intacta)
     // ==========================================
-    const YT_CHANNEL_ID = "UCNmU-juUErNMbHAJOQ508Ow"; // ex: UCxxxxxxxxxxxxxxxxxxxxxx
+    const YT_CHANNEL_ID = "UCNmU-juUErNMbHAJOQ508Ow";
     const UPLOADS_PLAYLIST = "UU" + YT_CHANNEL_ID.substring(2);
 
     function liveEmbedUrl(){
@@ -2176,19 +2178,6 @@ END:VCALENDAR`;
       });
       return "https://www.youtube.com/embed/live_stream?" + qs.toString();
     }
-
-    function uploadsEmbedUrl(){
-      const qs = new URLSearchParams({
-        listType: "playlist",
-        list: UPLOADS_PLAYLIST,
-        index: "1",     
-        rel: "0",
-        modestbranding: "1",
-        playsinline: "1"
-      });
-      return "https://www.youtube.com/embed/videoseries?" + qs.toString();
-    }
-
 
     function mountIframeInto(el, src, title){
       const iframe = document.createElement("iframe");
@@ -2232,7 +2221,35 @@ END:VCALENDAR`;
       if(liveTryBtn) liveTryBtn.addEventListener("click", (e)=>{ e.preventDefault(); tryLoadLive(); });
     })();
 
-    // Pregações: abre playlist de uploads (o mais recente já entra no player)
+    // -------- IFrame Player API loader (1x)
+    let YT_API_READY = false;
+    let YT_API_LOADING = false;
+    const YT_READY_QUEUE = [];
+
+    function loadYouTubeIframeAPI(){
+      if(YT_API_READY) return Promise.resolve();
+      if(YT_API_LOADING){
+        return new Promise(res => YT_READY_QUEUE.push(res));
+      }
+      YT_API_LOADING = true;
+      return new Promise((resolve)=>{
+        YT_READY_QUEUE.push(resolve);
+        const s = document.createElement("script");
+        s.src = "https://www.youtube.com/iframe_api";
+        s.async = true;
+        document.head.appendChild(s);
+      });
+    }
+
+    window.onYouTubeIframeAPIReady = function(){
+      YT_API_READY = true;
+      YT_API_LOADING = false;
+      while(YT_READY_QUEUE.length){
+        try{ (YT_READY_QUEUE.shift())(); }catch(e){}
+      }
+    };
+
+    // Pregações: usa playlist de uploads, mas pula itens "inválidos" (upcoming/live/privado)
     (function(){
       const mount = document.getElementById("uploadsMount");
       if(!mount) return;
@@ -2242,10 +2259,161 @@ END:VCALENDAR`;
         return;
       }
 
-      mountIframeInto(mount, uploadsEmbedUrl(), "Últimos vídeos do canal");
+      // placeholder enquanto carrega API do player
+      mount.innerHTML = '<div style="padding:14px; text-align:center; opacity:.9">Carregando player…</div>';
+
+      // Heurística: lives/upcoming/indisponível tendem a:
+      // - disparar onError (101/150 etc) OU
+      // - ficar com getDuration() = 0 por tempo demais
+      const MAX_SKIPS = 15;
+      const CHECK_DELAY_MS = 650;
+      const MAX_CHECKS_PER_VIDEO = 10; // ~6.5s
+
+      let player = null;
+      let skipCount = 0;
+      let checking = false;
+      let checkTimer = null;
+
+      function clearCheckTimer(){
+        if(checkTimer){
+          clearTimeout(checkTimer);
+          checkTimer = null;
+        }
+      }
+
+      function safeNext(reason){
+        clearCheckTimer();
+        checking = false;
+
+        if(!player) return;
+
+        // protege contra loop infinito
+        skipCount++;
+        if(skipCount > MAX_SKIPS){
+          mount.innerHTML = `
+            <div class="livePlaceholder">
+              <div style="font-size:16px;font-weight:950">⚠️ Não achei um vídeo válido</div>
+              <div class="liveHint">
+                Pulei ${MAX_SKIPS} itens (prováveis lives/upcoming/indisponíveis) e parei para não travar.
+                <br><br>
+                Motivo: <b>${String(reason || "—")}</b>
+              </div>
+              <div class="row" style="justify-content:center">
+                <a class="btn" href="https://www.youtube.com/@ieqnuporangasp/videos" target="_blank" rel="noopener">Abrir vídeos no YouTube</a>
+              </div>
+            </div>
+          `;
+          try{ player.destroy(); }catch(e){}
+          player = null;
+          return;
+        }
+
+        try{
+          player.nextVideo();
+        }catch(e){}
+      }
+
+      function looksLikeLiveOrInvalid(){
+        // Observações:
+        // - getDuration() pode retornar 0 no começo do carregamento, então a gente espera alguns checks.
+        // - Para upcoming/indisponível, geralmente continua 0 e/ou dá error.
+        try{
+          const d = player.getDuration();
+          if(d && d > 0) return false; // parece vídeo normal
+          return true;
+        }catch(e){
+          return true;
+        }
+      }
+
+      function scheduleCheck(triesLeft){
+        clearCheckTimer();
+        checkTimer = setTimeout(()=>{
+          if(!player) return;
+
+          // Se o item atual continuar "suspeito" depois de vários checks, pula.
+          if(looksLikeLiveOrInvalid()){
+            if(triesLeft <= 0){
+              safeNext("duração 0 (provável live/upcoming/indisponível)");
+              return;
+            }
+            scheduleCheck(triesLeft - 1);
+            return;
+          }
+
+          // Achou um vídeo com duração válida: para de checar.
+          checking = false;
+          clearCheckTimer();
+        }, CHECK_DELAY_MS);
+      }
+
+      function startCheckCycle(){
+        if(checking) return;
+        checking = true;
+        scheduleCheck(MAX_CHECKS_PER_VIDEO);
+      }
+
+      function onPlayerReady(){
+        // Quando o player está pronto, ele normalmente já "cue" o primeiro item.
+        // A gente inicia o ciclo de validação para pular lives/upcoming.
+        startCheckCycle();
+      }
+
+      function onPlayerError(e){
+        // erros comuns: 101/150 (embed bloqueado), 100 (não encontrado), 2 (parâmetro inválido)
+        safeNext("erro do player: " + (e && e.data));
+      }
+
+      function onPlayerStateChange(e){
+        // Regras:
+        // - Se começou a tocar (PLAYING), é vídeo válido
+        // - Se ficou CUED/UNSTARTED com duração 0 por tempo demais, nosso timer pula
+        // - Se trocar vídeo, recomeça checagem
+        const state = e && e.data;
+        // 1 unstarted, 3 buffering, 5 cued, 0 ended, 2 paused, -1 unstarted (legacy)
+        if(state === YT.PlayerState.PLAYING){
+          checking = false;
+          clearCheckTimer();
+          return;
+        }
+
+        // Quando muda de item (cued/buffering), revalida.
+        if(state === YT.PlayerState.CUED || state === YT.PlayerState.BUFFERING || state === -1){
+          startCheckCycle();
+        }
+
+        if(state === YT.PlayerState.ENDED){
+          // próximo item automaticamente
+          skipCount = Math.max(0, skipCount - 1); // "devolve" um skip para não estourar fácil
+        }
+      }
+
+      loadYouTubeIframeAPI().then(()=>{
+        if(!window.YT || !window.YT.Player){
+          mount.textContent = "⚠️ Falha ao carregar o player do YouTube.";
+          return;
+        }
+
+        // Cria player no elemento uploadsMount
+        // OBS: usamos listType=playlist com playlist de uploads.
+        player = new YT.Player("uploadsMount", {
+          height: "100%",
+          width: "100%",
+          playerVars: {
+            listType: "playlist",
+            list: UPLOADS_PLAYLIST,
+            rel: 0,
+            modestbranding: 1,
+            playsinline: 1
+          },
+          events: {
+            onReady: onPlayerReady,
+            onError: onPlayerError,
+            onStateChange: onPlayerStateChange
+          }
+        });
+      });
     })();
   </script>
 </body>
 </html>
-
-
