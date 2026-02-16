@@ -579,6 +579,26 @@
       background: rgba(255,255,255,.05);
     }
 
+    /* Placeholder do Ao vivo */
+    .livePlaceholder{
+      width:100%;
+      height:100%;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+      gap:12px;
+      padding:18px;
+      text-align:center;
+      color: rgba(255,255,255,.86);
+      font-weight:900;
+      background:
+        radial-gradient(700px 300px at 50% 30%, rgba(255,0,0,.12), transparent 60%),
+        radial-gradient(700px 300px at 50% 70%, rgba(0,178,255,.10), transparent 60%),
+        rgba(0,0,0,.25);
+    }
+    .liveHint{opacity:.86;font-weight:800;font-size:13px;line-height:1.5;max-width:64ch}
+
     .toTop{position:fixed;right:16px;bottom:16px;z-index:250;display:none;}
     .toTop.show{display:block}
     .arrowBtn{
@@ -806,23 +826,15 @@
       *{transition:none !important;animation:none !important}
     }
 
-    :root{
-      --gutterMin: 18px;
-    }
+    :root{ --gutterMin: 18px; }
 
     @media (max-width: 560px){
-      :root{
-        --padX: clamp(18px, 5vw, 22px);
-      }
-
+      :root{ --padX: clamp(18px, 5vw, 22px); }
       .container{
         padding-left: max(calc(var(--padX) + env(safe-area-inset-left)), var(--gutterMin));
         padding-right: max(calc(var(--padX) + env(safe-area-inset-right)), var(--gutterMin));
       }
-
-      .bgImage .sectionInner{
-        padding-bottom: 96px;
-      }
+      .bgImage .sectionInner{ padding-bottom: 96px; }
     }
   </style>
 </head>
@@ -1272,6 +1284,9 @@
     </div>
   </section>
 
+  <!-- =========================
+       AO VIVO (separado)
+       ========================= -->
   <section id="aoVivo" class="theme-blackFade">
     <div class="sectionInner content container">
       <div class="kickerBar"></div>
@@ -1279,25 +1294,39 @@
       <p class="subtitle">Quando a transmissão estiver ativa no canal, ela toca aqui.</p>
 
       <div class="videoCard" style="margin-top:16px">
-        <div class="videoThumb" id="liveMount" style="aspect-ratio:16/9; background:#000; display:grid; place-items:center; color:rgba(255,255,255,.82); font-weight:900;">
-          Carregando player…
+        <div class="videoThumb" id="liveMount" style="aspect-ratio:16/9; background:#000;">
+          <div class="livePlaceholder">
+            <div style="font-size:16px;font-weight:950">🔴 Ao vivo</div>
+            <div class="liveHint">
+              Quando houver transmissão ativa, o player abre. Se não estiver ao vivo agora, pode aparecer como indisponível.
+              <br><br>
+              Dica: clique em <b>Tentar carregar</b> quando souber que a live começou.
+            </div>
+            <div class="row" style="justify-content:center; margin-top:6px">
+              <button class="btn" type="button" id="liveTryBtn">▶ Tentar carregar</button>
+              <a class="btn ghost" href="https://www.youtube.com/@ieqnuporangasp/live" target="_blank" rel="noopener">Abrir no YouTube</a>
+            </div>
+          </div>
         </div>
         <div class="videoMeta" id="liveMeta">Canal IEQ Nuporanga</div>
       </div>
     </div>
   </section>
 
+  <!-- =========================
+       PREGAÇÕES (separado)
+       ========================= -->
   <section id="pregacoes" class="theme-scheduleDark">
     <div class="sectionInner content container">
       <div class="kickerBar"></div>
       <h2 class="title">Pregações & Vídeos</h2>
-      <p class="subtitle">Últimos vídeos do canal.</p>
+      <p class="subtitle">Últimos vídeos do canal (o mais recente já abre no player).</p>
 
       <div class="videoCard" style="margin-top:16px">
         <div class="videoThumb" id="uploadsMount" style="aspect-ratio:16/9; background:#000; display:grid; place-items:center; color:rgba(255,255,255,.82); font-weight:900;">
           Carregando vídeos…
         </div>
-        <div class="videoMeta">Use a lista do player para ver os últimos vídeos e escolher o que assistir.</div>
+        <div class="videoMeta">Use a lista do player para escolher outros vídeos.</div>
       </div>
     </div>
   </section>
@@ -1438,17 +1467,12 @@
       return `${dias[d.getDay()]} • ${dd}/${mm}`;
     }
 
-    // ---- GVIZ helpers ----
     function buildGvizUrlBySheetName(sheetName){
-      const qs = new URLSearchParams({
-        tqx: "out:json",
-        sheet: sheetName
-      });
+      const qs = new URLSearchParams({ tqx: "out:json", sheet: sheetName });
       return `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?${qs.toString()}`;
     }
 
     function parseGviz(text){
-      // retorna { table: { cols:[], rows:[] }, ... }
       const start = text.indexOf("{");
       const end = text.lastIndexOf("}");
       if(start === -1 || end === -1) throw new Error("Resposta GViz inválida");
@@ -1469,7 +1493,6 @@
         for(let i=0;i<headers.length;i++){
           const key = headers[i] || ("col" + i);
           const cell = cells[i];
-          // cell.v pode vir como number/date/string
           row[key] = cell ? (cell.f ?? cell.v ?? "") : "";
         }
         out.push(row);
@@ -1491,8 +1514,6 @@
       for(const name of sheetNames){
         try{
           const rows = await fetchGvizSheet(name);
-          if(Array.isArray(rows) && rows.length) return rows;
-          // se veio vazio, ainda assim pode ser válido; retorna vazio só se nenhuma aba tiver nada
           if(Array.isArray(rows)) return rows;
         }catch(e){
           lastErr = e;
@@ -1503,15 +1524,12 @@
 
     async function loadUpcomingSchedule(){
       const rows = await fetchJsonTrySheets(SHEET_TABS_TRY);
-
       const today = startOfToday().getTime();
 
-      // tenta pegar por nomes comuns (aceita sua planilha independente de maiúscula/acentos)
       const getVal = (r, keys) => {
         for(const k of keys){
           if(r && Object.prototype.hasOwnProperty.call(r, k)) return r[k];
         }
-        // fallback: procura case-insensitive
         const map = {};
         for(const kk of Object.keys(r || {})){
           map[String(kk).toLowerCase()] = kk;
@@ -1525,13 +1543,11 @@
 
       const parsed = (rows || []).map(r=>{
         const dataTxt = getVal(r, ["Data","data","DATA"]);
-        const dia = getVal(r, ["Dia","dia","DIA"]);
         const evento = getVal(r, ["Evento","evento","EVENTO"]);
         const horario = getVal(r, ["Horário","Horario","horario","HORÁRIO","HORARIO"]);
         const obs = getVal(r, ["Observações","Observacoes","obs","observacoes","OBS","OBSERVACOES","OBSERVAÇÕES"]);
-
         const date = parseBRDayMonthToDate(dataTxt);
-        return { date, dataTxt, dia, evento, horario, obs };
+        return { date, evento, horario, obs };
       }).filter(x => x.date);
 
       const upcoming = parsed
@@ -1677,7 +1693,7 @@
         modestbranding: "1",
         playsinline: "1"
       });
-      return `https://www.youtube-nocookie.com/embed/${id}?${qs.toString()}`;
+      return `https://www.youtube.com/embed/${id}?${qs.toString()}`;
     }
 
     function mountInlinePlayer(container){
@@ -1896,7 +1912,6 @@
         if(dismissed) return;
 
         const items = await loadUpcomingSchedule();
-
         if(noticeBody) noticeBody.innerHTML = renderUpcomingHTML(items);
         if(noticeWrap) noticeWrap.style.display = "block";
 
@@ -1907,7 +1922,6 @@
           });
         }
       }catch(err){
-        // Se falhar, esconde (sem quebrar a página)
         if(noticeWrap) noticeWrap.style.display = "none";
       }
     }
@@ -1947,10 +1961,10 @@
 
     function toICSDateLocal(d){
       const y = d.getFullYear();
-      const m = pad2(d.getMonth()+1);
-      const day = pad2(d.getDate());
-      const hh = pad2(d.getHours());
-      const mm = pad2(d.getMinutes());
+      const m = String(d.getMonth()+1).padStart(2,"0");
+      const day = String(d.getDate()).padStart(2,"0");
+      const hh = String(d.getHours()).padStart(2,"0");
+      const mm = String(d.getMinutes()).padStart(2,"0");
       return `${y}${m}${day}T${hh}${mm}00`;
     }
 
@@ -2146,12 +2160,13 @@ END:VCALENDAR`;
       onScrollSpy();
     })();
 
-    (function(){
-      const YT_CHANNEL_ID = "UCNmU-juUErNMbHAJOQ508Ow";
-      const liveMount = document.getElementById("liveMount");
-      const liveMeta = document.getElementById("liveMeta");
-      if(!liveMount) return;
+    // ==========================================
+    //  YOUTUBE SEM API (somente EMBED)
+    // ==========================================
+    const YT_CHANNEL_ID = "UCNmU-juUErNMbHAJOQ508Ow"; // ex: UCxxxxxxxxxxxxxxxxxxxxxx
+    const UPLOADS_PLAYLIST = "UU" + YT_CHANNEL_ID.substring(2);
 
+    function liveEmbedUrl(){
       const qs = new URLSearchParams({
         channel: YT_CHANNEL_ID,
         autoplay: "0",
@@ -2159,110 +2174,73 @@ END:VCALENDAR`;
         modestbranding: "1",
         playsinline: "1"
       });
+      return "https://www.youtube.com/embed/live_stream?" + qs.toString();
+    }
 
+    function uploadsEmbedUrl(){
+      const qs = new URLSearchParams({
+        listType: "playlist",
+        list: UPLOADS_PLAYLIST,
+        rel: "0",
+        modestbranding: "1",
+        playsinline: "1"
+      });
+      return "https://www.youtube.com/embed/videoseries?" + qs.toString();
+    }
+
+    function mountIframeInto(el, src, title){
       const iframe = document.createElement("iframe");
-      iframe.src = "https://www.youtube-nocookie.com/embed/live_stream?" + qs.toString();
-      iframe.title = "Transmissão ao vivo";
+      iframe.src = src;
+      iframe.title = title || "YouTube";
       iframe.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
       iframe.allowFullscreen = true;
       iframe.referrerPolicy = "strict-origin-when-cross-origin";
       iframe.style.width = "100%";
       iframe.style.height = "100%";
       iframe.style.border = "0";
+      el.innerHTML = "";
+      el.appendChild(iframe);
+    }
 
-      liveMount.innerHTML = "";
-      liveMount.appendChild(iframe);
+    // Ao vivo: só carrega quando clicar (evita “indisponível” aparecendo sempre)
+    (function(){
+      const liveMount = document.getElementById("liveMount");
+      const liveMeta = document.getElementById("liveMeta");
+      const liveTryBtn = document.getElementById("liveTryBtn");
+      if(!liveMount) return;
 
-      if(liveMeta) liveMeta.textContent = "🔴 Ao vivo (quando houver transmissão ativa no canal)";
+      function tryLoadLive(){
+        if(!YT_CHANNEL_ID || !YT_CHANNEL_ID.startsWith("UC")){
+          liveMount.innerHTML = `
+            <div class="livePlaceholder">
+              <div style="font-size:16px;font-weight:950">⚠️ ID do canal inválido</div>
+              <div class="liveHint">Edite <b>YT_CHANNEL_ID</b> no final do arquivo (precisa começar com <b>UC</b>).</div>
+              <div class="row" style="justify-content:center">
+                <a class="btn" href="https://www.youtube.com/@ieqnuporangasp" target="_blank" rel="noopener">Abrir canal</a>
+              </div>
+            </div>
+          `;
+          if(liveMeta) liveMeta.textContent = "🔴 Ao vivo (configure o ID do canal)";
+          return;
+        }
+        mountIframeInto(liveMount, liveEmbedUrl(), "Transmissão ao vivo");
+        if(liveMeta) liveMeta.textContent = "🔴 Ao vivo (quando houver transmissão ativa no canal)";
+      }
+
+      if(liveTryBtn) liveTryBtn.addEventListener("click", (e)=>{ e.preventDefault(); tryLoadLive(); });
     })();
 
-    // ===========================================================
-    //  PREGAÇÕES (Uploads) — COM PULO AUTOMÁTICO DE LIVES/OFFLINE
-    //  (substitui o iframe simples por YouTube Iframe API)
-    // ===========================================================
+    // Pregações: abre playlist de uploads (o mais recente já entra no player)
     (function(){
-      const YT_CHANNEL_ID = "UCNmU-juUErNMbHAJOQ508Ow";
-      const UPLOADS_PLAYLIST = "UU" + YT_CHANNEL_ID.substring(2);
       const mount = document.getElementById("uploadsMount");
       if(!mount) return;
 
-      function loadYTApi(){
-        return new Promise((resolve)=>{
-          if(window.YT && window.YT.Player) return resolve();
-
-          // evita duplicar script
-          if(document.querySelector('script[src="https://www.youtube.com/iframe_api"]')){
-            // se já tiver, só aguarda callback
-          }else{
-            const tag = document.createElement("script");
-            tag.src = "https://www.youtube.com/iframe_api";
-            document.head.appendChild(tag);
-          }
-
-          // encadeia caso já exista um callback antigo
-          const prev = window.onYouTubeIframeAPIReady;
-          window.onYouTubeIframeAPIReady = function(){
-            try{ if(typeof prev === "function") prev(); }catch(e){}
-            resolve();
-          };
-        });
+      if(!YT_CHANNEL_ID || !YT_CHANNEL_ID.startsWith("UC")){
+        mount.textContent = "⚠️ Configure o ID do canal (YT_CHANNEL_ID) para carregar os vídeos.";
+        return;
       }
 
-      loadYTApi().then(()=>{
-        // cria um "div" para o player
-        const holder = document.createElement("div");
-        holder.id = "ytUploadsPlayer";
-        holder.style.width = "100%";
-        holder.style.height = "100%";
-        mount.innerHTML = "";
-        mount.appendChild(holder);
-
-        let triedSkip = 0;
-
-        function trySkipLive(player){
-          if(triedSkip >= 8) return; // evita loop infinito
-          triedSkip++;
-
-          try{
-            const data = player.getVideoData ? player.getVideoData() : null;
-            if(data && data.isLive){
-              player.nextVideo();
-              return;
-            }
-          }catch(e){}
-        }
-
-        const playerVars = {
-          listType: "playlist",
-          list: UPLOADS_PLAYLIST,
-          rel: 0,
-          modestbranding: 1,
-          playsinline: 1,
-          enablejsapi: 1,
-          origin: window.location.origin
-        };
-
-        // eslint-disable-next-line no-undef
-        new YT.Player("ytUploadsPlayer", {
-          width: "100%",
-          height: "100%",
-          playerVars,
-          events: {
-            onReady: (ev)=>{
-              setTimeout(()=> trySkipLive(ev.target), 900);
-            },
-            onError: (ev)=>{
-              try{ ev.target.nextVideo(); }catch(e){}
-            },
-            onStateChange: (ev)=>{
-              // -1 = unstarted, 5 = cued (às vezes acontece com live/offline)
-              if(ev.data === -1 || ev.data === 5){
-                setTimeout(()=> trySkipLive(ev.target), 900);
-              }
-            }
-          }
-        });
-      });
+      mountIframeInto(mount, uploadsEmbedUrl(), "Últimos vídeos do canal");
     })();
   </script>
 </body>
