@@ -1386,15 +1386,12 @@
   </div>
 
   <script>
+    // =========================
+    //  AVISOS VIA GOOGLE SHEETS
+    //  (sem opensheet / sem backend)
+    // =========================
     const SHEET_ID = "1B8jnN0rSlNGtnyhR_kvGBvcNzyNPvDVnsltB4nhph30";
-    const SHEET_TABS_TRY = [
-      "fevereiro",
-      "marco",
-      "abril",
-      "maio",
-      "junho",
-      "julho"
-    ];
+    const SHEET_TABS_TRY = ["fevereiro","marco","abril","maio","junho","julho"];
     const UPCOMING_LIMIT = 6;
 
     function escapeHTML(str){
@@ -1441,38 +1438,97 @@
       return `${dias[d.getDay()]} • ${dd}/${mm}`;
     }
 
-    async function fetchJsonTry(urls){
+    // ---- GVIZ helpers ----
+    function buildGvizUrlBySheetName(sheetName){
+      const qs = new URLSearchParams({
+        tqx: "out:json",
+        sheet: sheetName
+      });
+      return `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?${qs.toString()}`;
+    }
+
+    function parseGviz(text){
+      // retorna { table: { cols:[], rows:[] }, ... }
+      const start = text.indexOf("{");
+      const end = text.lastIndexOf("}");
+      if(start === -1 || end === -1) throw new Error("Resposta GViz inválida");
+      const json = text.slice(start, end + 1);
+      return JSON.parse(json);
+    }
+
+    function gvizToObjects(gviz){
+      const table = gviz && gviz.table;
+      if(!table || !Array.isArray(table.cols) || !Array.isArray(table.rows)) return [];
+
+      const headers = table.cols.map(c => (c && (c.label || c.id)) ? String(c.label || c.id) : "");
+      const out = [];
+
+      for(const r of table.rows){
+        const row = {};
+        const cells = (r && Array.isArray(r.c)) ? r.c : [];
+        for(let i=0;i<headers.length;i++){
+          const key = headers[i] || ("col" + i);
+          const cell = cells[i];
+          // cell.v pode vir como number/date/string
+          row[key] = cell ? (cell.f ?? cell.v ?? "") : "";
+        }
+        out.push(row);
+      }
+      return out;
+    }
+
+    async function fetchGvizSheet(sheetName){
+      const url = buildGvizUrlBySheetName(sheetName);
+      const res = await fetch(url, { cache: "no-store" });
+      if(!res.ok) throw new Error("HTTP " + res.status);
+      const txt = await res.text();
+      const gviz = parseGviz(txt);
+      return gvizToObjects(gviz);
+    }
+
+    async function fetchJsonTrySheets(sheetNames){
       let lastErr = null;
-      for(const url of urls){
+      for(const name of sheetNames){
         try{
-          const res = await fetch(url, { cache: "no-store" });
-          if(!res.ok){
-            lastErr = new Error("HTTP " + res.status);
-            continue;
-          }
-          const data = await res.json();
-          if(Array.isArray(data)) return data;
-          if(data && typeof data === "object") return data;
+          const rows = await fetchGvizSheet(name);
+          if(Array.isArray(rows) && rows.length) return rows;
+          // se veio vazio, ainda assim pode ser válido; retorna vazio só se nenhuma aba tiver nada
+          if(Array.isArray(rows)) return rows;
         }catch(e){
           lastErr = e;
         }
       }
-      throw lastErr || new Error("Falha ao carregar.");
+      throw lastErr || new Error("Falha ao carregar a planilha.");
     }
 
     async function loadUpcomingSchedule(){
-      const urls = SHEET_TABS_TRY.map(tab => `https://opensheet.elk.sh/${SHEET_ID}/${tab}`);
-
-      const rows = await fetchJsonTry(urls);
+      const rows = await fetchJsonTrySheets(SHEET_TABS_TRY);
 
       const today = startOfToday().getTime();
 
+      // tenta pegar por nomes comuns (aceita sua planilha independente de maiúscula/acentos)
+      const getVal = (r, keys) => {
+        for(const k of keys){
+          if(r && Object.prototype.hasOwnProperty.call(r, k)) return r[k];
+        }
+        // fallback: procura case-insensitive
+        const map = {};
+        for(const kk of Object.keys(r || {})){
+          map[String(kk).toLowerCase()] = kk;
+        }
+        for(const k of keys){
+          const hit = map[String(k).toLowerCase()];
+          if(hit) return r[hit];
+        }
+        return undefined;
+      };
+
       const parsed = (rows || []).map(r=>{
-        const dataTxt = r["Data"] ?? r["data"] ?? r["DATA"];
-        const dia = r["Dia"] ?? r["dia"];
-        const evento = r["Evento"] ?? r["evento"];
-        const horario = r["Horário"] ?? r["Horario"] ?? r["horario"];
-        const obs = r["Observações"] ?? r["Observacoes"] ?? r["obs"] ?? r["observacoes"];
+        const dataTxt = getVal(r, ["Data","data","DATA"]);
+        const dia = getVal(r, ["Dia","dia","DIA"]);
+        const evento = getVal(r, ["Evento","evento","EVENTO"]);
+        const horario = getVal(r, ["Horário","Horario","horario","HORÁRIO","HORARIO"]);
+        const obs = getVal(r, ["Observações","Observacoes","obs","observacoes","OBS","OBSERVACOES","OBSERVAÇÕES"]);
 
         const date = parseBRDayMonthToDate(dataTxt);
         return { date, dataTxt, dia, evento, horario, obs };
@@ -1518,6 +1574,9 @@
       `;
     }
 
+    // =========================
+    //  PIX
+    // =========================
     const PIX_KEY = "ieqnuporanga@gmail.com";
     const PIX_NAME = "Igreja do Evangelho Quadrangular";
     const PIX_QR_IMAGE_URL = "https://i.imgur.com/I5xVAmH.jpeg";
@@ -1848,6 +1907,7 @@
           });
         }
       }catch(err){
+        // Se falhar, esconde (sem quebrar a página)
         if(noticeWrap) noticeWrap.style.display = "none";
       }
     }
@@ -2147,4 +2207,3 @@ END:VCALENDAR`;
   </script>
 </body>
 </html>
-
