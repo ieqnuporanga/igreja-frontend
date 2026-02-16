@@ -34,17 +34,12 @@
       --muted: rgba(255,255,255,.78);
 
       --max: 1140px;
-
       --headerTop: 96px;
       --headerSmall: 72px;
-
       --r24: 24px;
 
-      /* padding seguro + responsivo */
-      --padX: clamp(18px, 4vw, 28px);
-
-      /* garante um gutter mínimo real no celular */
-      --gutterMin: 18px;
+      --padX: clamp(20px, 5vw, 34px);
+      --gutterMin: 22px;
     }
 
     *{box-sizing:border-box}
@@ -57,8 +52,6 @@
       line-height:1.6;
       overflow-x:hidden;
       text-rendering: optimizeLegibility;
-      opacity:1;
-      transform:none;
     }
 
     a{color:inherit;text-decoration:none}
@@ -67,13 +60,16 @@
     .container{
       max-width:var(--max);
       margin:0 auto;
-      padding-left: calc(var(--padX) + env(safe-area-inset-left));
-      padding-right: calc(var(--padX) + env(safe-area-inset-right));
+      padding-left: max(calc(var(--padX) + env(safe-area-inset-left)), var(--gutterMin));
+      padding-right: max(calc(var(--padX) + env(safe-area-inset-right)), var(--gutterMin));
     }
 
-    section{position:relative}
+    section{position:relative; scroll-margin-top: calc(var(--headerTop) + 18px);}
+    body.scrolled section{ scroll-margin-top: calc(var(--headerSmall) + 18px); }
+
     .sectionInner{padding:58px 0}
     .content{position:relative;z-index:2}
+    .content, .sectionInner, section{ overflow-x: clip; }
 
     header{
       position:fixed;top:0;left:0;right:0;
@@ -99,29 +95,17 @@
       gap:14px;
     }
 
-	.brand{
-	  display:flex;
-	  align-items:center;
-	  gap:14px;
-	  min-width:0;
-	  padding-left:6px;
-	  margin-right:40px; /* espaço correto entre logo e menu */
-	  background:transparent;
-	  border:0;
-	  cursor:pointer;
-	}
-
-	.nav{
-	  display:none;
-	  gap:8px;
-	  align-items:center;
-	  margin-left:18px; /* garante que o menu acompanhe a logo */
-	}
-
-	@media (min-width: 980px){
-	  .nav{display:flex}
-	}
-
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:14px;
+      min-width:0;
+      padding-left:6px;
+      margin-right:40px;
+      background:transparent;
+      border:0;
+      cursor:pointer;
+    }
 
     .logoBox{
       width:56px;height:56px;border-radius:18px;
@@ -159,7 +143,26 @@
     }
     body.scrolled .brandText p{opacity:.9;margin-top:2px}
 
-    .nav{display:none;gap:8px;align-items:center}
+    .btn{
+      display:inline-flex;align-items:center;justify-content:center;gap:10px;
+      font-size:14px;font-weight:950;
+      padding:10px 12px;border-radius:999px;
+      border:1px solid rgba(255,255,255,.18);
+      background: rgba(255,255,255,.10);
+      color: rgba(255,255,255,.95);
+      cursor:pointer;white-space:nowrap;user-select:none;
+      transition: transform .12s ease, box-shadow .12s ease, background .12s ease, border-color .12s ease;
+    }
+    .btn:hover{transform:translateY(-1px);background: rgba(255,255,255,.14);border-color: rgba(255,255,255,.22)}
+    .btn.ghost{background: rgba(255,255,255,.08)}
+    .iconBtn{width:44px;height:44px;border-radius:14px;padding:0}
+
+    .nav{
+      display:none;
+      gap:8px;
+      align-items:center;
+      margin-left:18px;
+    }
     .nav button{
       font-family:inherit;
       font-size:13px;font-weight:900;
@@ -181,30 +184,6 @@
       background: rgba(255,255,255,.14);
       border-color: rgba(255,255,255,.26);
     }
-	
-	@media (min-width: 980px){
-	  .nav button{
-		font-size:12px;
-		padding:8px 10px;
-	  }
-	}
-
-
-
-
-    .btn{
-      display:inline-flex;align-items:center;justify-content:center;gap:10px;
-      font-size:14px;font-weight:950;
-      padding:10px 12px;border-radius:999px;
-      border:1px solid rgba(255,255,255,.18);
-      background: rgba(255,255,255,.10);
-      color: rgba(255,255,255,.95);
-      cursor:pointer;white-space:nowrap;user-select:none;
-      transition: transform .12s ease, box-shadow .12s ease, background .12s ease, border-color .12s ease;
-    }
-    .btn:hover{transform:translateY(-1px);background: rgba(255,255,255,.14);border-color: rgba(255,255,255,.22)}
-    .btn.ghost{background: rgba(255,255,255,.08)}
-    .iconBtn{width:44px;height:44px;border-radius:14px;padding:0}
 
     .menuBars{width:18px;height:12px;position:relative}
     .menuBars span{
@@ -248,7 +227,6 @@
     .drawerFooter{margin-top:auto;padding:14px;border-top:1px solid rgba(255,255,255,.12);display:flex;gap:10px;flex-wrap:wrap}
     body.menuOpen .backdrop{display:block}
     body.menuOpen .drawer{transform: translateX(0)}
-    @media (min-width: 980px){ .nav{display:flex} .menuBtn{display:none} }
 
     .theme-blackFade{ background: linear-gradient(180deg, #060A12, #050812); }
     .theme-scheduleDark{
@@ -261,11 +239,7 @@
     .theme-red{ background: linear-gradient(180deg, #200608, #120407); }
     .theme-blue{ background: linear-gradient(180deg, #051827, #04101a); }
 
-    .bgImage{
-      --bg-url:none;
-      position:relative;
-      overflow:hidden;
-    }
+    .bgImage{ --bg-url:none; position:relative; overflow:hidden; }
     .bgImage::before{
       content:"";
       position:absolute;
@@ -323,7 +297,7 @@
       padding-left: 2px;
     }
 
-    .grid{display:grid;grid-template-columns: repeat(12, 1fr);gap:14px;margin-top:18px}
+    .grid{display:grid;grid-template-columns: repeat(12, 1fr);gap:14px;margin-top:18px;width:100%}
     .card{
       grid-column: span 4;
       border-radius: var(--r24);
@@ -331,6 +305,7 @@
       border:1px solid var(--line);
       background: var(--panel);
       box-shadow: 0 16px 40px rgba(0,0,0,.30);
+      max-width:100%;
     }
     .card .bar{height:6px;background: linear-gradient(90deg, var(--red), var(--yellow), var(--blue), var(--purple))}
     .card .pad{padding:16px}
@@ -339,7 +314,6 @@
     .wide{grid-column: span 8}
     .locInfo{grid-column: span 6;}
 
-    /* Card do "Próximo culto" */
     .nextCardLine{
       margin-top:10px;
       padding-top:10px;
@@ -377,8 +351,6 @@
     }
     .heroLogo{
       width:min(260px, 72vw);
-      opacity:1;
-      transform:none;
       background:transparent !important;
       border:0 !important;
       box-shadow:none !important;
@@ -405,6 +377,7 @@
       box-shadow: 0 16px 40px rgba(0,0,0,.30);
       padding:16px;
       min-height: 128px;
+      max-width:100%;
     }
     .avatar{
       width:96px;height:96px;border-radius:20px;
@@ -432,6 +405,7 @@
       border:1px solid var(--line);
       background: var(--panel);
       box-shadow: 0 16px 40px rgba(0,0,0,.30);
+      max-width:100%;
     }
     iframe.map{width:100%;height:380px;border:0;display:block}
     .pad16{padding:16px}
@@ -447,6 +421,7 @@
         radial-gradient(900px 420px at 60% 85%, rgba(102,0,255,.22), transparent 60%),
         linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,.05));
       box-shadow: 0 20px 70px rgba(0,0,0,.40);
+      max-width:100%;
     }
     .eventHero .top{
       padding:16px;
@@ -465,6 +440,7 @@
       box-shadow: 0 16px 40px rgba(0,0,0,.30);
       padding:16px;
       grid-column: span 12;
+      max-width:100%;
     }
     .summary p{margin:0;color:rgba(255,255,255,.86);font-size:14px;line-height:1.85}
     .summary b{color:rgba(255,255,255,.92)}
@@ -500,6 +476,7 @@
       border-radius:22px;
       overflow:hidden;
       background: rgba(0,0,0,.18);
+      max-width:100%;
     }
     .galleryHead{
       padding:12px;
@@ -559,6 +536,7 @@
       overflow:hidden;
       background:rgba(0,0,0,.28);
       box-shadow: 0 16px 40px rgba(0,0,0,.25);
+      max-width:100%;
     }
     .videoThumb{
       position:relative;
@@ -580,6 +558,7 @@
       display:grid;place-items:center;
       cursor:pointer;
       background: radial-gradient(450px 220px at 50% 50%, rgba(0,0,0,.15), rgba(0,0,0,.55));
+      text-decoration:none;
     }
     .playBtn .pill{
       display:inline-flex;align-items:center;gap:10px;
@@ -619,17 +598,6 @@
     .footGrid{display:grid;grid-template-columns: 1.2fr .8fr;gap: 18px}
     .fine{margin:10px 0 0;color: rgba(255,255,255,.78);font-size:13px}
 
-    .reveal{ opacity:1; transform:none; filter:none; }
-    .reveal.in{ opacity:1; transform:none; }
-    .reveal.pop{ transform:none; }
-    .reveal.pop.in{ transform:none; }
-
-    section{ scroll-margin-top: calc(var(--headerTop) + 18px); }
-    body.scrolled section{ scroll-margin-top: calc(var(--headerSmall) + 18px); }
-
-    /* ===========================
-       BANNER DISCRETO (avisos)
-       =========================== */
     .noticeWrap{
       margin: 14px 0 0;
       grid-column: span 12;
@@ -638,6 +606,7 @@
       border:1px solid rgba(255,255,255,.14);
       background: rgba(255,255,255,.06);
       box-shadow: 0 14px 38px rgba(0,0,0,.24);
+      max-width:100%;
     }
     .noticeBar{
       display:flex;align-items:flex-start;justify-content:space-between;gap:12px;
@@ -663,9 +632,6 @@
     }
     .noticeClose:hover{background: rgba(255,255,255,.10);border-color: rgba(255,255,255,.22)}
 
-    /* ===========================
-       MODAL "Adicionar ao calendário"
-       =========================== */
     .modalBack{
       position:fixed; inset:0;
       background: rgba(2,6,23,.62);
@@ -693,9 +659,6 @@
     .modalActions{margin-top:12px;display:flex;gap:10px;flex-wrap:wrap}
     .muted{color: var(--muted)}
 
-    /* ===========================
-       BOTÃO FLUTUANTE WHATSAPP
-       =========================== */
     .waFloat{
       position:fixed;
       left:16px;
@@ -704,6 +667,7 @@
       display:flex;
       align-items:center;
       gap:10px;
+      max-width: calc(100vw - 32px);
     }
     .waBtn{
       display:inline-flex;align-items:center;justify-content:center;gap:10px;
@@ -718,12 +682,10 @@
       cursor:pointer;
     }
     .waBtn:hover{transform: translateY(-1px); background: rgba(255,255,255,.14); border-color: rgba(255,255,255,.24);}
-    .waIcon{
-      width:18px;height:18px;display:block;
-    }
+    .waIcon{width:18px;height:18px;display:block;}
     .waMini{
+      position:relative;
       display:none;
-      max-width: 200px;
       word-wrap: break-word;
       font-size:12.5px;
       font-weight:900;
@@ -735,175 +697,19 @@
       max-width: 220px;
       line-height:1.35;
     }
-    .waFloat{
-      max-width: calc(100vw - 32px);
-    }
-    @media (min-width: 700px){
-      .waMini{display:block}
-    }
-
-    @media (max-width: 980px){
-      .grid .card{grid-column: span 6}
-      .person{grid-column: span 12}
-      .mapWrap{grid-column: span 12}
-      .wide{grid-column: span 12}
-      .locInfo{grid-column: span 12;}
-      .title{font-size:30px}
-      .footGrid{grid-template-columns: 1fr}
-    }
-
-    @media (max-width: 560px){
-      :root{ --padX: clamp(20px, 5vw, 30px); }
-
-      .container{
-        padding-left: max(calc(var(--padX) + env(safe-area-inset-left)), var(--gutterMin));
-        padding-right: max(calc(var(--padX) + env(safe-area-inset-right)), var(--gutterMin));
-      }
-
-      .sectionInner{padding:42px 0}
-      .kickerBar{width:132px;margin-bottom:12px}
-      .title{font-size:26px;letter-spacing:-.8px;line-height:1.12;margin-bottom:8px;padding-left: 0;}
-      .subtitle{font-size:15px;line-height:1.55;padding-left: 0;}
-      .grid{gap:12px;margin-top:16px}
-      .grid .card{grid-column: span 12}
-      .card .pad{padding:14px}
-      .card h3{font-size:15px}
-      .summary{padding:14px}
-      .inlineMedia img{height:220px}
-      .galleryHead{padding:10px}
-      .galleryFrame{height:420px}
-      .tabBtn{padding:9px 11px;font-size:12.5px}
-      .btn{font-size:13px;padding:10px 11px}
-      .brandText h1{max-width: 58vw}
-      .brandText p{max-width: 58vw}
-
-      /* botão do menu um pouco menor no mobile */
-      .iconBtn{
-        width: 40px;
-        height: 40px;
-        border-radius: 14px;
-      }
-
-      /* seção hero: dá um ar a mais sem “colar” */
-      .bgImage .sectionInner{
-        padding-bottom: 96px;
-      }
-
-      /* WhatsApp: ocupa menos no mobile */
-      .waBtn{padding: 12px 12px; border-radius: 18px;}
-    }
-
-    @media (prefers-reduced-motion: reduce){
-      *{transition:none !important;animation:none !important}
-    }
-    @media (max-width: 420px){
-      .waMini{
-        display:none;
-      }
-    }
-
-    /* ===========================
-       FIX DEFINITIVO: GUTTER MOBILE
-       =========================== */
-
-    /* 1) aumenta o gutter base (geral) */
-    :root{
-      --padX: clamp(20px, 5vw, 34px);
-      --gutterMin: 22px; /* antes 18px */
-    }
-
-    /* 2) container com padding “de verdade” + safe-area */
-    .container{
-      max-width: var(--max);
-      margin: 0 auto;
-      padding-left: max(calc(var(--padX) + env(safe-area-inset-left)), var(--gutterMin));
-      padding-right: max(calc(var(--padX) + env(safe-area-inset-right)), var(--gutterMin));
-    }
-
-    /* 3) evita qualquer filho “vazar” e colar na borda */
-    .content, .sectionInner, section{
-      overflow-x: clip;
-    }
-
-    /* 4) garante que grid e cards não encostem (mesmo com sombra/borda) */
-    .grid{
-      width: 100%;
-      margin-left: 0;
-      margin-right: 0;
-    }
-
-    .card, .person, .mapWrap, .eventHero, .summary, .noticeWrap, .galleryWrap, .videoCard{
-      max-width: 100%;
-    }
-
-    /* 5) se algum iframe/imagem estiver estourando, força ele caber */
-    iframe, img{
-      max-width: 100%;
-    }
-
-    /* 6) mobile: dá ainda mais respiro */
-    @media (max-width: 560px){
-      :root{
-        --padX: 24px;
-        --gutterMin: 24px;
-      }
-
-      /* pequeno “respiro” extra nos títulos */
-      .title, .subtitle{
-        padding-left: 0;
-        padding-right: 0;
-      }
-    }
-
-    /* X para fechar o card "Primeira vez por aqui?" */
-    .firstTimeCard{
-      position: relative;
-    }
-
-    /* Ajuste: reservar espaço pro X não ficar em cima do texto */
-    .firstTimeCard{
-      position: relative;
-    }
-
-    /* cria “área livre” pro botão no topo */
-    .firstTimeCard p{
-      margin-top: 0;
-      padding-right: 56px;   /* espaço lateral pro X */
-      padding-top: 2px;      /* leve respiro */
-    }
-
-    /* se quiser, o mesmo no bloco de botões */
-    .firstTimeCard .row{
-      padding-right: 56px;   /* opcional: evita encostar no X */
-    }
-
-    .firstTimeClose{
+    .waMiniClose{
       position:absolute;
-      top:12px;
-      right:12px;
-      width:40px;
-      height:40px;
-      border-radius:14px;
-      display:grid;
-      place-items:center;
-      cursor:pointer;
-      z-index:5;
+      top:6px;
+      right:8px;
+      background:none;
+      border:none;
       color:#fff;
-      font-size:18px;
+      font-size:14px;
       font-weight:900;
-      background: rgba(0,0,0,.45);
-      border: 1px solid rgba(255,255,255,.35);
+      cursor:pointer;
     }
-    .firstTimeClose:hover{ background: rgba(0,0,0,.65); }
+    @media (min-width: 700px){ .waMini{display:block} }
 
-    /* posiciona o X do card primeira vez */
-    #firstTimeClose{
-      position:absolute;
-      top:12px;
-      right:12px;
-    }
-
-    /* imagem no topo do card endereço */
     .cardImg{
       height:140px;
       background-size:cover;
@@ -911,30 +717,14 @@
       filter: saturate(1.05) contrast(1.05);
       border-bottom:1px solid rgba(255,255,255,.12);
     }
-
-    /* overlay suave pra não ficar estourado */
     .cardImg::after{
       content:"";
       display:block;
       width:100%;
       height:100%;
-      background:linear-gradient(
-        180deg,
-        rgba(0,0,0,.15),
-        rgba(0,0,0,.55)
-      );
+      background:linear-gradient(180deg, rgba(0,0,0,.15), rgba(0,0,0,.55));
     }
 
-    /* mobile: imagem menor */
-    @media (max-width:560px){
-      .cardImg{
-        height:110px;
-      }
-    }
-
-    /* ===========================
-       DOAÇÕES (FIX)
-       =========================== */
     .donWrap{
       grid-column: span 12;
       display:grid;
@@ -948,6 +738,7 @@
       border:1px solid rgba(255,255,255,.14);
       background: rgba(255,255,255,.06);
       box-shadow: 0 16px 40px rgba(0,0,0,.28);
+      max-width:100%;
     }
     .donKey{
       margin-top:10px;
@@ -968,9 +759,114 @@
       background: rgba(0,0,0,.18);
       border-bottom:1px solid rgba(255,255,255,.10);
     }
+
+    @media (min-width: 980px){ .nav{display:flex} .menuBtn{display:none} }
+    @media (min-width: 980px){
+      .nav button{ font-size:12px; padding:8px 10px; }
+    }
+
     @media (max-width: 980px){
+      .grid .card{grid-column: span 6}
+      .person{grid-column: span 12}
+      .mapWrap{grid-column: span 12}
+      .wide{grid-column: span 12}
+      .locInfo{grid-column: span 12;}
+      .title{font-size:30px}
+      .footGrid{grid-template-columns: 1fr}
       .donBox{grid-column: span 12;}
     }
+
+    @media (max-width: 560px){
+      :root{ --padX: 24px; --gutterMin: 24px; }
+      .sectionInner{padding:42px 0}
+      .kickerBar{width:132px;margin-bottom:12px}
+      .title{font-size:26px;letter-spacing:-.8px;line-height:1.12;margin-bottom:8px;padding-left:0}
+      .subtitle{font-size:15px;line-height:1.55;padding-left:0}
+      .grid{gap:12px;margin-top:16px}
+      .grid .card{grid-column: span 12}
+      .card .pad{padding:14px}
+      .card h3{font-size:15px}
+      .summary{padding:14px}
+      .inlineMedia img{height:220px}
+      .galleryHead{padding:10px}
+      .galleryFrame{height:420px}
+      .tabBtn{padding:9px 11px;font-size:12.5px}
+      .btn{font-size:13px;padding:10px 11px}
+      .brandText h1{max-width: 58vw}
+      .brandText p{max-width: 58vw}
+      .iconBtn{ width:40px; height:40px; border-radius:14px; }
+      .bgImage .sectionInner{ padding-bottom:96px; }
+      .waBtn{padding: 12px 12px; border-radius: 18px;}
+      .cardImg{ height:110px; }
+    }
+
+    @media (max-width: 420px){ .waMini{display:none} }
+
+    @media (prefers-reduced-motion: reduce){
+      *{transition:none !important;animation:none !important}
+    }
+	
+/* ===========================
+   MOBILE: mais respiro lateral
+   =========================== */
+
+/* garante um gutter mínimo real no celular */
+:root{
+  --gutterMin: 18px;
+}
+
+/* reforça o padding lateral no mobile e cria "safe padding" */
+@media (max-width: 560px){
+  :root{
+    /* padX mais consistente (não precisa ser maior, precisa ser estável) */
+    --padX: clamp(18px, 5vw, 22px);
+  }
+
+  .container{
+    padding-left: max(calc(var(--padX) + env(safe-area-inset-left)), var(--gutterMin));
+    padding-right: max(calc(var(--padX) + env(safe-area-inset-right)), var(--gutterMin));
+  }
+
+  /* header: 
+  .head{
+    gap: 10px;
+  }
+  .brand{
+    padding-left: 0; 
+    gap: 10px;
+  }
+  .brandText h1,
+  .brandText p{
+    padding-left: 0; 
+  }
+
+  .brandText h1{ max-width: 52vw; }
+  .brandText p{ max-width: 52vw; }
+
+  .iconBtn{
+    width: 40px;
+    height: 40px;
+    border-radius: 14px;
+  }
+
+  .grid{ gap: 14px; }
+  .card, .summary, .person, .mapWrap, .eventHero{
+    border-radius: 22px;
+  }
+
+  .inlineMedia,
+  .videoCard,
+  .galleryWrap{
+    border-radius: 20px;
+  }
+
+  /* seção hero: dá um ar a mais sem “colar” */
+  .bgImage .sectionInner{
+    padding-bottom: 96px;
+  }
+}
+
+
   </style>
 </head>
 
@@ -997,7 +893,7 @@
         <button data-target="ministerios">Ministérios</button>
         <button data-target="nossaIgreja">Nossa igreja</button>
         <button data-target="doacoes">Doações</button>
-		<button data-target="aoVivo">Ao vivo</button>
+        <button data-target="aoVivo">Ao vivo</button>
         <button data-target="pregacoes">Pregações</button>
         <button data-target="contato">Contato</button>
       </nav>
@@ -1026,7 +922,7 @@
       <button data-target="ministerios" data-close>Ministérios <span>›</span></button>
       <button data-target="nossaIgreja" data-close>Nossa igreja <span>›</span></button>
       <button data-target="doacoes" data-close>Doações <span>›</span></button>
-	  <button data-target="aoVivo" data-close>Ao vivo <span>›</span></button>
+      <button data-target="aoVivo" data-close>Ao vivo <span>›</span></button>
       <button data-target="pregacoes" data-close>Pregações <span>›</span></button>
       <button data-target="contato" data-close>Contato <span>›</span></button>
     </div>
@@ -1046,12 +942,9 @@
 
       <div class="kickerBar"></div>
       <h2 class="title">Seja bem-vindo(a)!</h2>
-      <p class="subtitle">
-        QUADRANGULAR NUPORANGA | TEMPLO A RESPOSTA — Uma igreja que ama você!.
-      </p>
+      <p class="subtitle">QUADRANGULAR NUPORANGA | TEMPLO A RESPOSTA — Uma igreja que ama você!.</p>
 
       <div class="grid" style="margin-top:16px">
-        <!-- ✅ BANNER DISCRETO (avisos) -->
         <div class="noticeWrap" id="noticeWrap" style="display:none">
           <div class="noticeBar">
             <div>
@@ -1067,10 +960,7 @@
 
         <article class="card wide">
           <div class="bar"></div>
-
-          <!-- imagem topo do card -->
           <div class="cardImg" style="background-image:url('https://i.imgur.com/F3XC6NZ.jpeg')"></div>
-
           <div class="pad">
             <h3>📍 Endereço</h3>
             <p>R. Joao Sabaini Neto, 135 - Jardim Brasilia | Nuporanga - SP</p>
@@ -1089,35 +979,36 @@
               <button class="btn ghost" type="button" id="addCalBtn">📅 Adicionar ao calendário</button>
             </div>
 
-            <div class="nextCardLine" id="nextCultoHint">
-              Baseado na programação semanal fixa.
-            </div>
+            <div class="nextCardLine" id="nextCultoHint">Baseado na programação semanal fixa.</div>
           </div>
         </article>
+		
+	<article class="card">
+	  <div class="bar"></div>
+	  <div class="pad">
+		<h3>📲 Redes oficiais</h3>
+		<p class="muted">Acompanhe nossos conteúdos e avisos.</p>
 
-        <article class="card">
-          <div class="bar"></div>
-          <div class="pad">
-            <h3>📲 Redes oficiais</h3>
-            <p class="muted">Acompanhe nossos conteúdos e avisos.</p>
-            <div class="row">
-              <a class="btn ghost" href="https://www.instagram.com/ieqnuporangasp" target="_blank" rel="noopener">Instagram</a>
-              <a class="btn ghost" href="https://www.youtube.com/@ieqnuporangasp" target="_blank" rel="noopener">YouTube</a>
-            </div>
-          </div>
-        </article>
+		<div class="row">
+		  <a class="btn ghost" href="https://www.instagram.com/ieqnuporangasp" target="_blank" rel="noopener">Instagram</a>
+		  <a class="btn ghost" href="https://www.youtube.com/@ieqnuporangasp" target="_blank" rel="noopener">YouTube</a>
+		  <a class="btn ghost" href="https://www.tiktok.com/@ieqnuporangasp" target="_blank" rel="noopener">TikTok</a>
+		  <a class="btn ghost" href="https://www.facebook.com/profile.php?id=61584372636777" target="_blank" rel="noopener">Facebook</a>
+		</div>
+	  </div>
+	</article>
 
-        <!-- ✅ PRIMEIRA VEZ AQUI (com X) -->
-        <div class="summary firstTimeCard" id="firstTimeCard" style="grid-column: span 12;">
-          <button class="noticeClose" id="firstTimeClose">✕</button>
 
-          <p>
+        <div class="summary" id="firstTimeCard" style="grid-column: span 12; position:relative;">
+          <button class="noticeClose" id="firstTimeClose" style="position:absolute;top:12px;right:12px;z-index:5;" aria-label="Fechar">✕</button>
+
+          <p style="padding-right:56px;">
             <b>Primeira vez por aqui?</b> Você é muito bem-vindo(a)! Vai ser um prazer te receber.
             O culto dura em média <b>1h30</b>, temos <b>salinha para as crianças</b> e uma equipe preparada para te acolher.
             Chegue alguns minutinhos antes e, se precisar, <b>fale com a gente no WhatsApp</b>.
           </p>
 
-          <div class="row">
+          <div class="row" style="padding-right:56px;">
             <a class="btn ghost" href="#local">🧭 Ver localização</a>
             <button class="btn ghost" type="button" id="firstTimeWhatsBtn">💬 Falar no WhatsApp</button>
           </div>
@@ -1158,12 +1049,7 @@
           </p>
 
           <div class="inlineMedia">
-            <img
-              src="https://i.imgur.com/YyuUBTA.jpeg"
-              alt="Aimee Semple McPherson - Fundadora da Igreja do Evangelho Quadrangular"
-              loading="lazy"
-              decoding="async"
-            />
+            <img src="https://i.imgur.com/YyuUBTA.jpeg" alt="Aimee Semple McPherson - Fundadora da Igreja do Evangelho Quadrangular" loading="lazy" decoding="async" />
             <div class="cap">Aimee Semple McPherson - Fundadora da Igreja do Evangelho Quadrangular</div>
           </div>
 
@@ -1190,13 +1076,7 @@
           </p>
 
           <div class="inlineMedia">
-            <img
-              src="https://i.imgur.com/50YK4Pp.jpeg"
-              alt="Jesus Salva - Jesus Batiza no Espirito Santo - Jesus Cura - Jesus Voltará"
-              loading="lazy"
-              decoding="async"
-              style="object-position:center 72%;"
-            />
+            <img src="https://i.imgur.com/50YK4Pp.jpeg" alt="Jesus Salva - Jesus Batiza no Espirito Santo - Jesus Cura - Jesus Voltará" loading="lazy" decoding="async" style="object-position:center 72%;" />
             <div class="cap">Jesus Salva • Jesus Batiza no Espírito Santo • Jesus Cura • Jesus Voltará</div>
           </div>
 
@@ -1208,8 +1088,7 @@
     </div>
   </section>
 
-  <section id="pastores" class="theme-blackFade bgImage"
-    style="--bg-url:url('https://i.imgur.com/JCA7Xgo.jpeg'); --bg-pos:center 45%; --bg-blur:3px;">
+  <section id="pastores" class="theme-blackFade bgImage" style="--bg-url:url('https://i.imgur.com/JCA7Xgo.jpeg'); --bg-pos:center 45%; --bg-blur:3px;">
     <div class="sectionInner content container">
       <div class="kickerBar"></div>
       <h2 class="title">Nossos Pastores</h2>
@@ -1347,112 +1226,31 @@
     </div>
   </section>
 
-  <!-- ✅ MINISTÉRIOS -->
   <section id="ministerios" class="theme-scheduleDark">
     <div class="sectionInner content container">
       <div class="kickerBar"></div>
-      <h2 class="title">Ministérios </h2>
+      <h2 class="title">Ministérios</h2>
       <p class="subtitle">Servindo a Deus e cuidando de vidas em cada área.</p>
 
       <div class="grid">
-
-        <article class="card">
-          <div class="bar"></div>
-          <div class="pad">
-            <h3>🎶 Louvor</h3>
-            <p>Adoração com excelência e coração rendido a Cristo.</p>
-          </div>
-        </article>
-
-        <article class="card">
-          <div class="bar"></div>
-          <div class="pad">
-            <h3>🎥 Mídia</h3>
-            <p>Transmissão, projeção e apoio audiovisual para servir melhor.</p>
-          </div>
-        </article>
-
-        <article class="card">
-          <div class="bar"></div>
-          <div class="pad">
-            <h3>🧒 Crianças</h3>
-            <p>Ensino da Palavra com cuidado, amor e atenção especial.</p>
-          </div>
-        </article>
-
-        <article class="card">
-          <div class="bar"></div>
-          <div class="pad">
-            <h3>🔥 Jovens</h3>
-            <p>Comunhão, discipulado e crescimento espiritual.</p>
-          </div>
-        </article>
-
-        <article class="card">
-          <div class="bar"></div>
-          <div class="pad">
-            <h3>🤝 Diaconato</h3>
-            <p>Serviço e apoio à igreja com dedicação e cuidado.</p>
-          </div>
-        </article>
-
-        <article class="card">
-          <div class="bar"></div>
-          <div class="pad">
-            <h3>🙏 Intercessão</h3>
-            <p>Um ministério comprometido com oração constante.</p>
-          </div>
-        </article>
-
-        <article class="card">
-          <div class="bar"></div>
-          <div class="pad">
-            <h3>🌍 Missões</h3>
-            <p>Levando o Evangelho além das quatro paredes.</p>
-          </div>
-        </article>
-
-        <article class="card">
-          <div class="bar"></div>
-          <div class="pad">
-            <h3>💍 Casais</h3>
-            <p>Fortalecendo famílias e relacionamentos à luz da Palavra.</p>
-          </div>
-        </article>
-
-        <article class="card">
-          <div class="bar"></div>
-          <div class="pad">
-            <h3>👨 Homens</h3>
-            <p>Homens firmes na fé, liderança e caráter cristão.</p>
-          </div>
-        </article>
-
-        <article class="card">
-          <div class="bar"></div>
-          <div class="pad">
-            <h3>👩 Mulheres</h3>
-            <p>Mulheres edificadas, fortalecidas e chamadas por Deus.</p>
-          </div>
-        </article>
-
-        <article class="card">
-          <div class="bar"></div>
-          <div class="pad">
-            <h3>❤️ Ação Social</h3>
-            <p>Cuidando de vidas e servindo a comunidade com amor.</p>
-          </div>
-        </article>
+        <article class="card"><div class="bar"></div><div class="pad"><h3>🎶 Louvor</h3><p>Adoração com excelência e coração rendido a Cristo.</p></div></article>
+        <article class="card"><div class="bar"></div><div class="pad"><h3>🎥 Mídia</h3><p>Transmissão, projeção e apoio audiovisual para servir melhor.</p></div></article>
+        <article class="card"><div class="bar"></div><div class="pad"><h3>🧒 Crianças</h3><p>Ensino da Palavra com cuidado, amor e atenção especial.</p></div></article>
+        <article class="card"><div class="bar"></div><div class="pad"><h3>🔥 Jovens</h3><p>Comunhão, discipulado e crescimento espiritual.</p></div></article>
+        <article class="card"><div class="bar"></div><div class="pad"><h3>🤝 Diaconato</h3><p>Serviço e apoio à igreja com dedicação e cuidado.</p></div></article>
+        <article class="card"><div class="bar"></div><div class="pad"><h3>🙏 Intercessão</h3><p>Um ministério comprometido com oração constante.</p></div></article>
+        <article class="card"><div class="bar"></div><div class="pad"><h3>🌍 Missões</h3><p>Levando o Evangelho além das quatro paredes.</p></div></article>
+        <article class="card"><div class="bar"></div><div class="pad"><h3>💍 Casais</h3><p>Fortalecendo famílias e relacionamentos à luz da Palavra.</p></div></article>
+        <article class="card"><div class="bar"></div><div class="pad"><h3>👨 Homens</h3><p>Homens firmes na fé, liderança e caráter cristão.</p></div></article>
+        <article class="card"><div class="bar"></div><div class="pad"><h3>👩 Mulheres</h3><p>Mulheres edificadas, fortalecidas e chamadas por Deus.</p></div></article>
+        <article class="card"><div class="bar"></div><div class="pad"><h3>❤️ Ação Social</h3><p>Cuidando de vidas e servindo a comunidade com amor.</p></div></article>
 
         <div class="summary">
-          <p>
-            Quer servir com a gente? <b>Nos chame no WhatsApp</b> e vamos te orientar.
-          </p>
+          <p>Quer servir com a gente? <b>Nos chame no WhatsApp</b> e vamos te orientar.</p>
           <div class="row">
             <button class="btn" type="button" id="ministeriosWhatsBtn">💬 Falar no WhatsApp</button>
           </div>
         </div>
-
       </div>
     </div>
   </section>
@@ -1471,19 +1269,14 @@
             e muitos testemunhos de transformação.
           </p>
 
-          <!-- ✅ VÍDEO (thumb -> player embutido) -->
-          <div class="videoCard" data-video-card>
-            <div class="videoThumb" id="videoOpen"
-                 data-video-id="jK03Yof78RQ"
-                 data-video-title="Trajetória IEQ Nuporanga">
+          <div class="videoCard">
+            <div class="videoThumb" id="videoOpen" data-video-id="jK03Yof78RQ" data-video-title="Trajetória IEQ Nuporanga">
               <img src="https://i.ytimg.com/vi/jK03Yof78RQ/hqdefault.jpg" alt="Vídeo: trajetória IEQ Nuporanga" loading="lazy" decoding="async">
               <div class="playBtn" role="button" aria-label="Assistir aqui" tabindex="0">
                 <div class="pill">▶ Assistir aqui</div>
               </div>
             </div>
-            <div class="videoMeta">
-              Toque em <b>Assistir aqui</b> para abrir o player no site.
-            </div>
+            <div class="videoMeta">Toque em <b>Assistir aqui</b> para abrir o player no site.</div>
           </div>
 
         </div>
@@ -1491,7 +1284,6 @@
     </div>
   </section>
 
-  <!-- ✅ DOAÇÕES -->
   <section id="doacoes" class="theme-scheduleDark">
     <div class="sectionInner content container">
       <div class="kickerBar"></div>
@@ -1502,8 +1294,8 @@
         <div class="donWrap">
           <div class="donBox">
             <div class="pad">
-              <h3 style="margin:0 0 8px;font-weight:950"> 💛 PIX</h3>
-              <p class="muted"> Clique em “Copiar” e cole no seu banco.</p>
+              <h3 style="margin:0 0 8px;font-weight:950">💛 PIX</h3>
+              <p class="muted">Clique em “Copiar” e cole no seu banco.</p>
               <div class="donKey" id="pixKeyBox">Carregando…</div>
               <div class="row">
                 <button class="btn" type="button" id="copyPixBtn">📋 Copiar chave PIX</button>
@@ -1516,38 +1308,38 @@
             <img class="qr" id="pixQrImg" alt="QR Code PIX" loading="lazy" decoding="async">
             <div class="pad">
               <h3 style="margin:0 0 8px;font-weight:950">📷 QR Code</h3>
-              <p class="muted">Aponte a câmera para o QR (quando você adicionar a imagem).</p>
+              <p class="muted">Aponte a câmera para o QR.</p>
             </div>
           </div>
         </div>
       </div>
     </div>
   </section>
-  
-	<section id="aoVivo" class="theme-blackFade">
-	  <div class="sectionInner content container">
-		<div class="kickerBar"></div>
-		<h2 class="title">Ao vivo</h2>
-		<p class="subtitle">Quando a transmissão começar, ela aparece aqui automaticamente.</p>
 
-		<div class="videoCard" style="margin-top:16px">
-		  <div class="videoThumb" id="liveMount" style="aspect-ratio:16/9; background:#000; display:grid; place-items:center; color:rgba(255,255,255,.82); font-weight:900;">
-			Carregando status da live…
-		  </div>
-		  <div class="videoMeta" id="liveMeta">—</div>
-		</div>
-	  </div>
-	</section>
+  <section id="aoVivo" class="theme-blackFade">
+    <div class="sectionInner content container">
+      <div class="kickerBar"></div>
+      <h2 class="title">Ao vivo</h2>
+      <p class="subtitle">Quando a transmissão começar, ela aparece aqui automaticamente.</p>
 
-	<section id="pregacoes" class="theme-scheduleDark">
-	  <div class="sectionInner content container">
-		<div class="kickerBar"></div>
-		<h2 class="title">Pregações & Vídeos</h2>
-		<p class="subtitle">Assista diretamente aqui no site.</p>
+      <div class="videoCard" style="margin-top:16px">
+        <div class="videoThumb" id="liveMount" style="aspect-ratio:16/9; background:#000; display:grid; place-items:center; color:rgba(255,255,255,.82); font-weight:900;">
+          Carregando status da live…
+        </div>
+        <div class="videoMeta" id="liveMeta">—</div>
+      </div>
+    </div>
+  </section>
 
-		<div class="grid" id="ytVideos"></div>
-	  </div>
-	</section>
+  <section id="pregacoes" class="theme-scheduleDark">
+    <div class="sectionInner content container">
+      <div class="kickerBar"></div>
+      <h2 class="title">Pregações & Vídeos</h2>
+      <p class="subtitle">Assista diretamente aqui no site.</p>
+
+      <div class="grid" id="ytVideos"></div>
+    </div>
+  </section>
 
   <section id="contato" class="theme-blue">
     <div class="sectionInner content container">
@@ -1573,7 +1365,6 @@
     </div>
   </section>
 
-
   <footer>
     <div class="container footInner">
       <div class="footGrid">
@@ -1581,30 +1372,24 @@
           <div style="font-weight:950;font-size:16px">IEQ Nuporanga | Templo A Resposta</div>
           <div class="fine">© <span id="year"></span> — Igreja do Evangelho Quadrangular</div>
         </div>
-		<div class="fine" style="text-align:center">
-		  Domingo 18h • Segunda 19h • Quarta 19h • Quinta 19h
-		  <div style="margin-top:10px">
-			<a class="btn ghost"
-			   href="https://midia.otimizandooaltar.com"
-			   target="_blank"
-			   rel="noopener">
-			   Área Equipe
-			</a>
-		  </div>
-		</div>
+        <div class="fine" style="text-align:center">
+          Domingo 18h • Segunda 19h • Quarta 19h • Quinta 19h
+          <div style="margin-top:10px">
+            <a class="btn ghost" href="https://midia.otimizandooaltar.com" target="_blank" rel="noopener">Área Equipe</a>
+          </div>
+        </div>
       </div>
     </div>
   </footer>
 
   <div class="toTop" id="toTop">
     <button class="arrowBtn" id="topBtn" aria-label="Voltar ao topo">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
         <path d="M12 5l-7 7m7-7l7 7M12 5v14" stroke="rgba(255,255,255,.92)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
       </svg>
     </button>
   </div>
 
-  <!-- ✅ WHATSAPP FLUTUANTE -->
   <div class="waFloat" aria-label="Contato WhatsApp">
     <a class="waBtn" id="waFloatBtn" href="#" rel="noopener" aria-label="Falar no WhatsApp">
       <svg class="waIcon" viewBox="0 0 32 32" fill="none" aria-hidden="true">
@@ -1613,25 +1398,13 @@
       </svg>
       WhatsApp
     </a>
-	<div class="waMini" id="waMiniBox">
-	  <button id="waMiniClose"
-			  style="
-				position:absolute;
-				top:6px;
-				right:8px;
-				background:none;
-				border:none;
-				color:#fff;
-				font-size:14px;
-				font-weight:900;
-				cursor:pointer;
-			  ">✕</button>
 
-	  Dúvidas, pedidos de oração<br/>ou informações? Fale com a gente.
-	</div>
+    <div class="waMini" id="waMiniBox">
+      <button id="waMiniClose" class="waMiniClose" type="button" aria-label="Fechar">✕</button>
+      Dúvidas, pedidos de oração<br/>ou informações? Fale com a gente.
+    </div>
+  </div>
 
-
-  <!-- ✅ MODAL CALENDÁRIO -->
   <div class="modalBack" id="calModalBack" aria-hidden="true">
     <div class="modal" role="dialog" aria-modal="true" aria-label="Adicionar ao calendário">
       <div class="modalTop">
@@ -1652,28 +1425,117 @@
   </div>
 
   <script>
-    // =========================
-    // CONFIG (EDITE AQUI)
-    // =========================
+	const SHEET_URL = "https://opensheet.elk.sh/1xP2VqoCeHain9XaX2AoZfJBZzM7ONDGPg1jVUOyhCgg/Programação%20Fevereiro";
+	const UPCOMING_LIMIT = 6; 
 
-    // 1) Avisos via Google Sheets (CSV publicado)
-    // Como gerar:
-    // - No Google Sheets: Arquivo > Compartilhar > Publicar na web
-    // - Escolha a aba (sheet) e formato: CSV
-    // - Cole o link aqui (tem que ser "pub?output=csv")
-    const NOTICE_SHEET_CSV_URL = ""; // EX: "https://docs.google.com/spreadsheets/d/e/XXXX/pub?gid=0&single=true&output=csv";
+	function escapeHTML(str){
+	  return String(str ?? "")
+		.replaceAll("&","&amp;")
+		.replaceAll("<","&lt;")
+		.replaceAll(">","&gt;")
+		.replaceAll('"',"&quot;")
+		.replaceAll("'","&#39;");
+	}
+	
+	function parseBRDayMonthToDate(ddmm){
+	  const s = String(ddmm || "").trim();
+	  const m = s.match(/^(\d{1,2})\/(\d{1,2})$/);
+	  if(!m) return null;
 
-    // Fallback se o Sheets não estiver configurado / falhar
-    const NOTICE_FALLBACK_TEXT = "📌 Nenhum aviso a ser exibido!";
+	  const day = Number(m[1]);
+	  const month = Number(m[2]); // 1-12
+	  if(!(day>=1 && day<=31 && month>=1 && month<=12)) return null;
 
-    // 2) Doações (PIX)
-    const PIX_KEY = "ieqnuporanga@gmail.com";    
-    const PIX_NAME = "Igreja do Evangelho Quadrangular"; // só exibição
-    const PIX_QR_IMAGE_URL = "https://i.imgur.com/I5xVAmH.jpeg"; // EX: "https://i.imgur.com/I5xVAmH.jpeg" (opcional)
+	  const now = new Date();
+	  let year = now.getFullYear();
 
-    // =========================
+	  let d = new Date(year, month-1, day, 0, 0, 0, 0);
 
-    // ano
+
+	  const thirtyDays = 30 * 24 * 60 * 60 * 1000;
+	  if(now.getTime() - d.getTime() > thirtyDays){
+		year = year + 1;
+		d = new Date(year, month-1, day, 0, 0, 0, 0);
+	  }
+
+	  return d;
+	}
+
+	function startOfToday(){
+	  const n = new Date();
+	  return new Date(n.getFullYear(), n.getMonth(), n.getDate(), 0, 0, 0, 0);
+	}
+
+	function formatBRShort(d){
+	  const dias = ["Dom","Seg","Ter","Qua","Qui","Sex","Sáb"];
+	  const dd = String(d.getDate()).padStart(2,"0");
+	  const mm = String(d.getMonth()+1).padStart(2,"0");
+	  return `${dias[d.getDay()]} • ${dd}/${mm}`;
+	}
+
+	async function loadUpcomingSchedule(){
+	  const res = await fetch(SHEET_URL, { cache: "no-store" });
+	  if(!res.ok) throw new Error("HTTP " + res.status);
+	  const rows = await res.json();
+
+	  const today = startOfToday().getTime();
+
+	  const parsed = (rows || []).map(r=>{
+		const dataTxt = r["Data"] ?? r["data"] ?? r["DATA"];
+		const dia = r["Dia"] ?? r["dia"];
+		const evento = r["Evento"] ?? r["evento"];
+		const horario = r["Horário"] ?? r["Horario"] ?? r["horario"];
+		const obs = r["Observações"] ?? r["Observacoes"] ?? r["obs"] ?? r["observacoes"];
+
+		const date = parseBRDayMonthToDate(dataTxt);
+		return { date, dataTxt, dia, evento, horario, obs };
+	  }).filter(x => x.date); 
+
+	  const upcoming = parsed
+		.filter(x => x.date.getTime() >= today)
+		.sort((a,b)=> a.date - b.date)
+		.slice(0, UPCOMING_LIMIT);
+
+	  return upcoming;
+	}
+
+	function renderUpcomingHTML(items){
+	  if(!items || !items.length){
+		return `<div style="opacity:.9">📌 Nenhum evento futuro encontrado na planilha.</div>`;
+	  }
+
+	  const lines = items.map(it=>{
+		const when = formatBRShort(it.date);
+		const evento = escapeHTML(it.evento || "Evento");
+		const hora = (it.horario || "").trim();
+		const obs = (it.obs || "").trim();
+
+		const horaHTML = hora ? ` <span style="opacity:.9">• ${escapeHTML(hora)}</span>` : "";
+		const obsHTML = obs ? `<div style="opacity:.82; font-size:13px; margin-top:4px">${escapeHTML(obs)}</div>` : "";
+
+		return `
+		  <div style="padding:10px 0; border-top:1px solid rgba(255,255,255,.10)">
+			<div style="font-weight:950; letter-spacing:-.2px">
+			  ${escapeHTML(when)}${horaHTML}
+			</div>
+			<div style="opacity:.92">${evento}</div>
+			${obsHTML}
+		  </div>
+		`;
+	  }).join("");
+
+	  return `
+		<div style="font-weight:950; margin-bottom:8px">📅 Próximos eventos</div>
+		<div style="opacity:.85; font-size:13px; margin-top:-6px; margin-bottom:6px">Atualizado pela planilha</div>
+		<div style="border-top:1px solid rgba(255,255,255,.10)">${lines}</div>
+	  `;
+	}
+
+
+    const PIX_KEY = "ieqnuporanga@gmail.com";
+    const PIX_NAME = "Igreja do Evangelho Quadrangular";
+    const PIX_QR_IMAGE_URL = "https://i.imgur.com/I5xVAmH.jpeg";
+
     const yearEl = document.getElementById("year");
     if(yearEl) yearEl.textContent = new Date().getFullYear();
 
@@ -1710,6 +1572,7 @@
       }
       requestAnimationFrame(step);
     }
+
     function scrollToSection(id){
       const el = document.getElementById(id);
       if(!el) return;
@@ -1724,12 +1587,24 @@
     function handleNavClick(e){
       const btn = e.target.closest("[data-target]");
       if(!btn) return;
-      e.preventDefault();
 
       const href = btn.getAttribute("data-href");
-      const wantsPage = !!href && (e.ctrlKey || e.metaKey || e.shiftKey || e.altKey);
-      if (wantsPage){ location.href = href; return; }
+      const hasHref = !!href && href.trim().length > 0;
 
+      // ✅ Se tem data-href: clique normal navega para a página, clique com modificadores abre normalmente pelo navegador
+      if(hasHref){
+        // garante que o botão se comporte como link (sem quebrar em mobile/desktop)
+        if(e.ctrlKey || e.metaKey || e.shiftKey || e.altKey){
+          // deixa o navegador lidar (abrir nova aba etc.)
+          return;
+        }
+        e.preventDefault();
+        window.location.href = href;
+        return;
+      }
+
+      // ✅ Caso não tenha href: faz scroll suave para a seção
+      e.preventDefault();
       const id = btn.getAttribute("data-target");
       closeMenu();
       scrollToSection(id);
@@ -1754,7 +1629,6 @@
       });
     }
 
-    // ✅ PLAYER EMBUTIDO (thumb -> iframe) com youtube-nocookie (menos erro 153)
     function buildEmbedUrl(id){
       const qs = new URLSearchParams({
         autoplay: "0",
@@ -1772,8 +1646,6 @@
       if(!id) return;
 
       const iframe = document.createElement("iframe");
-      iframe.width = "560";
-      iframe.height = "315";
       iframe.src = buildEmbedUrl(id);
       iframe.title = title;
       iframe.frameBorder = "0";
@@ -1811,7 +1683,6 @@
       }
     }
 
-    // galeria
     const DRIVE_FOLDERS = {
       cultos: {
         id: "1G3-fLudBhqaOmxhQd8bjy31oYrPiqZWM",
@@ -1853,11 +1724,6 @@
     });
     setGallery("cultos");
 
-    /* ==========================
-       Próximo culto (contador)
-       ========================== */
-
-    // 0=Dom, 1=Seg, 2=Ter, 3=Qua, 4=Qui, 5=Sex, 6=Sáb
     const CULTOS_FIXOS = [
       { dow: 0, hour: 18, min: 0, label: "Culto de Celebração" },
       { dow: 1, hour: 19, min: 0, label: "Culto de Mulheres" },
@@ -1917,9 +1783,7 @@
       const hours = Math.floor((totalMin % (60*24)) / 60);
       const mins = totalMin % 60;
 
-      if(totalMin < 60){
-        return `em ${totalMin} min`;
-      }
+      if(totalMin < 60) return `em ${totalMin} min`;
 
       const parts = [];
       if(days > 0) parts.push(days + (days === 1 ? " dia" : " dias"));
@@ -1956,10 +1820,7 @@
     updateNextCulto();
     setInterval(updateNextCulto, 30000);
 
-    /* ==========================
-       WhatsApp (flutuante + botões)
-       ========================== */
-    const WHATS_NUMBER = "5516991044148"; // com DDI 55
+    const WHATS_NUMBER = "5516991044148";
     function buildWhatsLink(text){
       const base = "https://wa.me/" + WHATS_NUMBER;
       const qs = new URLSearchParams({ text });
@@ -1967,9 +1828,7 @@
     }
 
     function getNextCultoText(){
-      const next = NEXT_CULTO_CACHE || getNextCulto();
-      if(!next) return "Olá! Gostaria de conhecer a igreja de vocês.";
-      return `Olá! Gostaria de mais informações sobre o próximo culto.`;
+      return "Olá! Gostaria de mais informações sobre o próximo culto.";
     }
 
     const waFloatBtn = document.getElementById("waFloatBtn");
@@ -1977,8 +1836,7 @@
       if(!btn) return;
       btn.addEventListener("click", (e)=>{
         e.preventDefault();
-        const msg = getNextCultoText();
-        window.open(buildWhatsLink(msg), "_blank", "noopener");
+        window.open(buildWhatsLink(getNextCultoText()), "_blank", "noopener");
       });
     }
     wireWhatsBtn(waFloatBtn);
@@ -1986,43 +1844,35 @@
     wireWhatsBtn(document.getElementById("ministeriosWhatsBtn"));
     wireWhatsBtn(document.getElementById("contatoWhatsBtn"));
 
-    /* ==========================
-       Banner discreto (avisos) + dismiss
-       ========================== */
     const noticeWrap = document.getElementById("noticeWrap");
     const noticeClose = document.getElementById("noticeClose");
     const noticeBody = document.getElementById("noticeBody");
 
-    // Edite o texto do banner aqui (quando precisar)
-    const NOTICE_TEXT = `📌 Nenhum aviso a ser exibido!`;
+	async function showNoticeIfNeeded(){
+	  try{
+		const key = "ieq_notice_dismissed_v1";
+		const dismissed = localStorage.getItem(key) === "1";
+		if(dismissed) return;
 
-    function showNoticeIfNeeded(){
-      try{
-        const key = "ieq_notice_dismissed_v1";
-        const dismissed = localStorage.getItem(key) === "1";
-        if(dismissed) return;
+		const items = await loadUpcomingSchedule();
 
-        if(noticeBody) noticeBody.textContent = NOTICE_TEXT;
-        if(noticeWrap) noticeWrap.style.display = "block";
+		if(noticeBody) noticeBody.innerHTML = renderUpcomingHTML(items);
+		if(noticeWrap) noticeWrap.style.display = "block";
 
-        if(noticeClose){
-          noticeClose.addEventListener("click", ()=>{
-            localStorage.setItem(key, "1");
-            noticeWrap.style.display = "none";
-          });
-        }
-      }catch(err){
-        // se localStorage falhar, só mostra normal
-        if(noticeBody) noticeBody.textContent = NOTICE_TEXT;
-        if(noticeWrap) noticeWrap.style.display = "block";
-        if(noticeClose) noticeClose.addEventListener("click", ()=>{ noticeWrap.style.display = "none"; });
-      }
-    }
-    showNoticeIfNeeded();
+		if(noticeClose){
+		  noticeClose.addEventListener("click", ()=>{
+			localStorage.setItem(key, "1");
+			noticeWrap.style.display = "none";
+		  });
+		}
+	  }catch(err){
+		console.error(err);
+		// se falhar, não quebra o site: só não mostra
+	  }
+	}
+	showNoticeIfNeeded();
 
-    /* ==========================
-       Adicionar ao calendário (Google + .ics)
-       ========================== */
+
     const addCalBtn = document.getElementById("addCalBtn");
     const calModalBack = document.getElementById("calModalBack");
     const calModalClose = document.getElementById("calModalClose");
@@ -2056,18 +1906,15 @@
     });
 
     function toICSDateLocal(d){
-      // formato local "YYYYMMDDTHHMMSS"
       const y = d.getFullYear();
       const m = pad2(d.getMonth()+1);
       const day = pad2(d.getDate());
       const hh = pad2(d.getHours());
       const mm = pad2(d.getMinutes());
-      const ss = "00";
-      return `${y}${m}${day}T${hh}${mm}${ss}`;
+      return `${y}${m}${day}T${hh}${mm}00`;
     }
 
     function buildGoogleCalendarUrl({title, details, location, start, end}){
-      // Google aceita datas "YYYYMMDDTHHMMSS/YYYYMMDDTHHMMSS" (interpreta na timezone do usuário)
       const dates = `${toICSDateLocal(start)}/${toICSDateLocal(end)}`;
       const qs = new URLSearchParams({
         action: "TEMPLATE",
@@ -2085,7 +1932,6 @@
       const dtstart = toICSDateLocal(start);
       const dtend = toICSDateLocal(end);
 
-      // Observação: usamos hora local (sem Z) para bater com o horário do celular.
       const ics =
 `BEGIN:VCALENDAR
 VERSION:2.0
@@ -2119,7 +1965,7 @@ END:VCALENDAR`;
       if(!next) return;
 
       const start = new Date(next.when);
-      const end = new Date(start.getTime() + 90 * 60000); // 1h30
+      const end = new Date(start.getTime() + 90 * 60000);
 
       const title = `IEQ Nuporanga — ${next.item.label}`;
       const location = "R. Joao Sabaini Neto, 135 - Jardim Brasilia | Nuporanga - SP";
@@ -2130,27 +1976,16 @@ END:VCALENDAR`;
       }
 
       if(googleCalLink){
-        googleCalLink.href = buildGoogleCalendarUrl({
-          title, details, location, start, end
-        });
+        googleCalLink.href = buildGoogleCalendarUrl({ title, details, location, start, end });
       }
 
       if(downloadIcsBtn){
         downloadIcsBtn.onclick = ()=>{
-          downloadICS({
-            title,
-            description: details,
-            location,
-            start,
-            end
-          });
+          downloadICS({ title, description: details, location, start, end });
         };
       }
     }
 
-    /* ==========================
-       Fechar card "Primeira vez por aqui?" (com localStorage)
-       ========================== */
     (function(){
       const card = document.getElementById("firstTimeCard");
       const close = document.getElementById("firstTimeClose");
@@ -2168,14 +2003,10 @@ END:VCALENDAR`;
           card.style.display = "none";
         });
       }catch(e){
-        // se localStorage falhar, fecha só na hora
         close.addEventListener("click", ()=>{ card.style.display = "none"; });
       }
     })();
 
-    /* ==========================
-       Doações: preencher + copiar PIX (FIX)
-       ========================== */
     const pixKeyBox = document.getElementById("pixKeyBox");
     const copyPixBtn = document.getElementById("copyPixBtn");
     const pixStatus = document.getElementById("pixStatus");
@@ -2221,223 +2052,188 @@ END:VCALENDAR`;
         }
       });
     }
-	
-	// fechar mensagem do WhatsApp
-	(function(){
-	  const box = document.getElementById("waMiniBox");
-	  const close = document.getElementById("waMiniClose");
-	  const key = "ieq_wa_mini_dismissed_v1";
 
-	  if(!box || !close) return;
+    (function(){
+      const box = document.getElementById("waMiniBox");
+      const close = document.getElementById("waMiniClose");
+      const key = "ieq_wa_mini_dismissed_v1";
 
-	  try{
-		if(localStorage.getItem(key) === "1"){
-		  box.style.display = "none";
-		  return;
-		}
+      if(!box || !close) return;
 
-		close.addEventListener("click", ()=>{
-		  box.style.display = "none";
-		  localStorage.setItem(key, "1");
-		});
+      try{
+        if(localStorage.getItem(key) === "1"){
+          box.style.display = "none";
+          return;
+        }
 
-	  }catch(e){
-		close.addEventListener("click", ()=>{
-		  box.style.display = "none";
-		});
-	  }
-	})();
-	
-	/* ==========================
-	   Menu ativo conforme seção visível
-	   ========================== */
+        close.addEventListener("click", ()=>{
+          box.style.display = "none";
+          localStorage.setItem(key, "1");
+        });
 
-	(function(){
+      }catch(e){
+        close.addEventListener("click", ()=>{ box.style.display = "none"; });
+      }
+    })();
 
-	  const sections = Array.from(document.querySelectorAll("section[id]"));
-	  const navBtns = Array.from(document.querySelectorAll("[data-target]"));
+    (function(){
+      const sections = Array.from(document.querySelectorAll("section[id]"));
+      const navBtns = Array.from(document.querySelectorAll("[data-target]"));
+      if(!sections.length || !navBtns.length) return;
 
-	  if(!sections.length || !navBtns.length) return;
-
-	  function setActive(id){
-		navBtns.forEach(btn=>{
-		  btn.classList.toggle("active", btn.getAttribute("data-target") === id);
-		});
-	  }
-
-	function onScrollSpy(){
-	  const offset = 140; // margem por causa do header fixo
-	  let current = sections[0].id;
-
-	  // 1) comportamento normal: pega a última seção cujo topo já passou do offset
-	  sections.forEach(sec=>{
-		const top = sec.getBoundingClientRect().top;
-		if(top - offset <= 0){
-		  current = sec.id;
-		}
-	  });
-
-	  // 2) FIX: se estiver no final da página, ativa a última seção (geralmente "contato")
-	  const nearBottom = (window.innerHeight + window.scrollY) >= (document.documentElement.scrollHeight - 6);
-	  if(nearBottom){
-		current = sections[sections.length - 1].id;
-	  }
-
-	  setActive(current);
-	}
-
-
-	  window.addEventListener("scroll", onScrollSpy, { passive:true });
-	  onScrollSpy();
-
-	})();
-	
-/* ==========================
-   Ao vivo automático (YouTube)
-   ========================== */
-(function(){
-  const YT_CHANNEL_ID = "UCNmU-juUErNMbHAJOQ508Ow"; // exemplo: "UCxxxx..."
-  const YT_API_KEY = "AIzaSyC09Q0-MKHypLDhc7jcy-0-aJYf08Ck_5Y";       // crie no Google Cloud
-  const POLL_MS = 60000; // 1 min
-
-  const liveMount = document.getElementById("liveMount");
-  const liveMeta = document.getElementById("liveMeta");
-
-  if(!liveMount) return;
-
-  function buildEmbed(id){
-    const qs = new URLSearchParams({
-      autoplay: "0",
-      rel: "0",
-      modestbranding: "1",
-      playsinline: "1"
-    });
-    return `https://www.youtube-nocookie.com/embed/${id}?${qs.toString()}`;
-  }
-
-  function mountIframe(videoId){
-    liveMount.innerHTML = "";
-    const iframe = document.createElement("iframe");
-    iframe.src = buildEmbed(videoId);
-    iframe.title = "Transmissão ao vivo";
-    iframe.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
-    iframe.allowFullscreen = true;
-    iframe.referrerPolicy = "strict-origin-when-cross-origin";
-    iframe.style.width = "100%";
-    iframe.style.height = "100%";
-    iframe.style.border = "0";
-    liveMount.appendChild(iframe);
-  }
-
-  function mountOffline(){
-    liveMount.innerHTML = `
-      <div style="padding:18px; text-align:center;">
-        🔴 Ainda não estamos ao vivo.<br/>
-        <span style="opacity:.85; font-size:13px;">Quando iniciar, o player aparece aqui automaticamente.</span>
-      </div>
-    `;
-  }
-
-  async function checkLive(){
-    try{
-      // busca live ATIVA do canal
-      const url = "https://www.googleapis.com/youtube/v3/search?" + new URLSearchParams({
-        part: "snippet",
-        channelId: YT_CHANNEL_ID,
-        eventType: "live",
-        type: "video",
-        maxResults: "1",
-        key: YT_API_KEY
-      });
-
-      const res = await fetch(url);
-      if(!res.ok) throw new Error("HTTP " + res.status);
-      const data = await res.json();
-
-      const item = (data.items && data.items[0]) ? data.items[0] : null;
-      if(item && item.id && item.id.videoId){
-        const vid = item.id.videoId;
-        mountIframe(vid);
-        if(liveMeta) liveMeta.textContent = "🔴 Ao vivo agora — " + (item.snippet?.title || "");
-        return;
+      function setActive(id){
+        navBtns.forEach(btn=>{
+          btn.classList.toggle("active", btn.getAttribute("data-target") === id);
+        });
       }
 
-      // se não tiver live
-      mountOffline();
-      if(liveMeta) liveMeta.textContent = "Offline";
-    }catch(e){
-      // se falhar, mostra offline pra não quebrar o layout
-      mountOffline();
-      if(liveMeta) liveMeta.textContent = "Não foi possível checar a live agora.";
-    }
-  }
+      function onScrollSpy(){
+        const offset = 140;
+        let current = sections[0].id;
 
-  checkLive();
-  setInterval(checkLive, POLL_MS);
-})();
+        sections.forEach(sec=>{
+          const top = sec.getBoundingClientRect().top;
+          if(top - offset <= 0) current = sec.id;
+        });
 
-/* ==========================
-   Últimos vídeos do YouTube
-   ========================== */
+        const nearBottom = (window.innerHeight + window.scrollY) >= (document.documentElement.scrollHeight - 6);
+        if(nearBottom) current = sections[sections.length - 1].id;
 
-(function(){
+        setActive(current);
+      }
 
-const YT_CHANNEL_ID = "UCNmU-juUErNMbHAJOQ508Ow"; // exemplo: "UCxxxx..."
-const YT_API_KEY = "AIzaSyC09Q0-MKHypLDhc7jcy-0-aJYf08Ck_5Y";       // crie no Google Cloud
-const MAX = 6;
+      window.addEventListener("scroll", onScrollSpy, { passive:true });
+      onScrollSpy();
+    })();
 
-const wrap = document.getElementById("ytVideos");
-if(!wrap) return;
+    (function(){
+      const YT_CHANNEL_ID = "UCNmU-juUErNMbHAJOQ508Ow";
+      const YT_API_KEY = "AIzaSyC09Q0-MKHypLDhc7jcy-0-aJYf08Ck_5Y";
+      const POLL_MS = 60000;
 
-async function loadVideos(){
+      const liveMount = document.getElementById("liveMount");
+      const liveMeta = document.getElementById("liveMeta");
+      if(!liveMount) return;
 
-  try{
+      function buildEmbed(id){
+        const qs = new URLSearchParams({
+          autoplay: "0",
+          rel: "0",
+          modestbranding: "1",
+          playsinline: "1"
+        });
+        return `https://www.youtube-nocookie.com/embed/${id}?${qs.toString()}`;
+      }
 
-    const url = "https://www.googleapis.com/youtube/v3/search?" + new URLSearchParams({
-      part: "snippet",
-      channelId: YT_CHANNEL_ID,
-      maxResults: MAX,
-      order: "date",
-      type: "video",
-      key: YT_API_KEY
-    });
+      function mountIframe(videoId){
+        liveMount.innerHTML = "";
+        const iframe = document.createElement("iframe");
+        iframe.src = buildEmbed(videoId);
+        iframe.title = "Transmissão ao vivo";
+        iframe.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
+        iframe.allowFullscreen = true;
+        iframe.referrerPolicy = "strict-origin-when-cross-origin";
+        iframe.style.width = "100%";
+        iframe.style.height = "100%";
+        iframe.style.border = "0";
+        liveMount.appendChild(iframe);
+      }
 
-    const res = await fetch(url);
-    const data = await res.json();
-
-    wrap.innerHTML = "";
-
-    data.items.forEach(v=>{
-
-      const id = v.id.videoId;
-      const title = v.snippet.title;
-      const thumb = v.snippet.thumbnails.high.url;
-
-      wrap.innerHTML += `
-        <article class="card">
-          <div class="videoThumb">
-            <img src="${thumb}">
-            <a class="playBtn" href="https://youtu.be/${id}" target="_blank">
-              <div class="pill">▶ Assistir</div>
-            </a>
+      function mountOffline(){
+        liveMount.innerHTML = `
+          <div style="padding:18px; text-align:center;">
+            🔴 Ainda não estamos ao vivo.<br/>
+            <span style="opacity:.85; font-size:13px;">Quando iniciar, o player aparece aqui automaticamente.</span>
           </div>
-          <div class="videoMeta">${title}</div>
-        </article>
-      `;
+        `;
+      }
 
-    });
+      async function checkLive(){
+        try{
+          const url = "https://www.googleapis.com/youtube/v3/search?" + new URLSearchParams({
+            part: "snippet",
+            channelId: YT_CHANNEL_ID,
+            eventType: "live",
+            type: "video",
+            maxResults: "1",
+            key: YT_API_KEY
+          });
 
-  }catch(e){
-    wrap.innerHTML = "<div class='summary'>Não foi possível carregar vídeos.</div>";
-  }
-}
+          const res = await fetch(url);
+          if(!res.ok) throw new Error("HTTP " + res.status);
+          const data = await res.json();
 
-loadVideos();
+          const item = (data.items && data.items[0]) ? data.items[0] : null;
+          if(item && item.id && item.id.videoId){
+            const vid = item.id.videoId;
+            mountIframe(vid);
+            if(liveMeta) liveMeta.textContent = "🔴 Ao vivo agora — " + (item.snippet?.title || "");
+            return;
+          }
 
-})();
+          mountOffline();
+          if(liveMeta) liveMeta.textContent = "Offline";
+        }catch(e){
+          mountOffline();
+          if(liveMeta) liveMeta.textContent = "Não foi possível checar a live agora.";
+        }
+      }
 
+      checkLive();
+      setInterval(checkLive, POLL_MS);
+    })();
 
+    (function(){
+      const YT_CHANNEL_ID = "UCNmU-juUErNMbHAJOQ508Ow";
+      const YT_API_KEY = "AIzaSyC09Q0-MKHypLDhc7jcy-0-aJYf08Ck_5Y";
+      const MAX = 6;
 
+      const wrap = document.getElementById("ytVideos");
+      if(!wrap) return;
+
+      async function loadVideos(){
+        try{
+          const url = "https://www.googleapis.com/youtube/v3/search?" + new URLSearchParams({
+            part: "snippet",
+            channelId: YT_CHANNEL_ID,
+            maxResults: MAX,
+            order: "date",
+            type: "video",
+            key: YT_API_KEY
+          });
+
+          const res = await fetch(url);
+          if(!res.ok) throw new Error("HTTP " + res.status);
+          const data = await res.json();
+
+          wrap.innerHTML = "";
+
+          (data.items || []).forEach(v=>{
+            const id = v.id?.videoId;
+            if(!id) return;
+            const title = v.snippet?.title || "Vídeo";
+            const thumb = v.snippet?.thumbnails?.high?.url || "";
+
+            wrap.innerHTML += `
+              <article class="card">
+                <div class="videoThumb">
+                  <img src="${thumb}" alt="${title.replace(/"/g, "&quot;")}" loading="lazy" decoding="async">
+                  <a class="playBtn" href="https://youtu.be/${id}" target="_blank" rel="noopener">
+                    <div class="pill">▶ Assistir</div>
+                  </a>
+                </div>
+                <div class="videoMeta">${title}</div>
+              </article>
+            `;
+          });
+
+        }catch(e){
+          wrap.innerHTML = "<div class='summary'>Não foi possível carregar vídeos.</div>";
+        }
+      }
+
+      loadVideos();
+    })();
   </script>
 </body>
 </html>
