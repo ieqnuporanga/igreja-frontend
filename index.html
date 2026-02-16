@@ -8,6 +8,38 @@
   <meta name="theme-color" content="#060A12" />
   <meta name="referrer" content="strict-origin-when-cross-origin" />
 
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="IEQ Nuporanga | Templo A Resposta" />
+  <meta property="og:description" content="Igreja do Evangelho Quadrangular em Nuporanga/SP. Horários, pastores, localização, eventos e informações." />
+  <meta property="og:image" content="https://i.imgur.com/gdJy8hB.jpg" />
+  <meta property="og:locale" content="pt_BR" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="IEQ Nuporanga | Templo A Resposta" />
+  <meta name="twitter:description" content="Igreja do Evangelho Quadrangular em Nuporanga/SP. Horários, pastores, localização, eventos e informações." />
+  <meta name="twitter:image" content="https://i.imgur.com/gdJy8hB.jpg" />
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Church",
+    "name": "IEQ Nuporanga | Templo A Resposta",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "R. Joao Sabaini Neto, 135 - Jardim Brasilia",
+      "addressLocality": "Nuporanga",
+      "addressRegion": "SP",
+      "addressCountry": "BR"
+    },
+    "telephone": "+55 16 99104-4148",
+    "sameAs": [
+      "https://www.youtube.com/@ieqnuporangasp",
+      "https://www.instagram.com/ieqnuporangasp",
+      "https://www.tiktok.com/@ieqnuporangasp",
+      "https://www.facebook.com/profile.php?id=61584372636777"
+    ]
+  }
+  </script>
+
   <link rel="icon" href="https://i.imgur.com/PlDV9NW.jpeg" />
   <link rel="apple-touch-icon" href="https://i.imgur.com/PlDV9NW.jpeg" />
 
@@ -299,7 +331,6 @@
 
     .grid{display:grid;grid-template-columns: repeat(12, 1fr);gap:14px;margin-top:18px;width:100%}
 
-    /* ✅ FIX: .pad estava definido só em .card .pad, por isso o texto em Doações ficava colado nas laterais */
     .pad{padding:16px}
 
     .card{
@@ -582,7 +613,6 @@
       background: rgba(255,255,255,.05);
     }
 
-    /* Placeholder do Ao vivo */
     .livePlaceholder{
       width:100%;
       height:100%;
@@ -682,7 +712,6 @@
     .modalActions{margin-top:12px;display:flex;gap:10px;flex-wrap:wrap}
     .muted{color: var(--muted)}
 
-    /* Modal lista completa */
     .eventsModal{
       width: min(92vw, 680px);
     }
@@ -783,7 +812,7 @@
       max-width:100%;
     }
     .donBox .pad{
-      padding:16px; /* ✅ garante padrão dentro das caixas */
+      padding:16px;
     }
     .donKey{
       margin-top:10px;
@@ -902,7 +931,6 @@
         <button data-target="cremosResumo" data-href="cremos.html">No que cremos</button>
         <button data-target="pastores">Pastores</button>
         <button data-target="local">Localização</button>
-        <!-- ✅ Texto do menu: Eventos -> Fotos -->
         <button data-target="eventos">Fotos</button>
         <button data-target="ministerios">Ministérios</button>
         <button data-target="nossaIgreja">Nossa igreja</button>
@@ -932,7 +960,6 @@
       <button data-target="cremosResumo" data-href="cremos.html" data-close>No que cremos <span>›</span></button>
       <button data-target="pastores" data-close>Pastores <span>›</span></button>
       <button data-target="local" data-close>Localização <span>›</span></button>
-      <!-- ✅ Texto do menu mobile: Eventos -> Fotos -->
       <button data-target="eventos" data-close>Fotos <span>›</span></button>
       <button data-target="ministerios" data-close>Ministérios <span>›</span></button>
       <button data-target="nossaIgreja" data-close>Nossa igreja <span>›</span></button>
@@ -970,7 +997,6 @@
           </div>
           <div class="noticeBody" id="noticeBody">
             Fique ligado(a) nos avisos desta semana. Se precisar falar com a igreja, toque no botão do WhatsApp.
-            <!-- ✅ Botão apenas aqui (popup de avisos do início) -->
             <div class="row" style="margin-top:12px">
               <button class="btn" type="button" id="openEventsModalBtn">📅 Ver lista completa</button>
             </div>
@@ -1202,7 +1228,6 @@
   <section id="eventos" class="theme-red bgImage" style="--bg-url:url('https://i.imgur.com/pk2f5kO.jpeg'); --bg-pos:center 40%; --bg-blur:3px;">
     <div class="sectionInner content container">
       <div class="kickerBar"></div>
-      <!-- ✅ Título alterado -->
       <h2 class="title">Fotos dos eventos</h2>
       <p class="subtitle">Acompanhe nossos registros e momentos especiais.</p>
 
@@ -1346,17 +1371,23 @@
           <div class="livePlaceholder">
             <div style="font-size:16px;font-weight:950">🔴 Ao vivo</div>
             <div class="liveHint">
-              Quando houver transmissão ativa, o player abre. Se não estiver ao vivo agora, pode aparecer como indisponível.
+              Se não estiver ao vivo agora, pode aparecer como indisponível.
               <br><br>
-              Dica: clique em <b>Tentar carregar</b> quando souber que a live começou.
+              Quando souber que a live começou, toque em <b>Tentar carregar</b>.
             </div>
             <div class="row" style="justify-content:center; margin-top:6px">
               <button class="btn" type="button" id="liveTryBtn">▶ Tentar carregar</button>
               <a class="btn ghost" href="https://www.youtube.com/@ieqnuporangasp/live" target="_blank" rel="noopener">Abrir no YouTube</a>
+              <a class="btn ghost" href="https://www.youtube.com/@ieqnuporangasp" target="_blank" rel="noopener">Canal</a>
             </div>
           </div>
         </div>
-        <div class="videoMeta" id="liveMeta">Canal IEQ Nuporanga</div>
+        <div class="videoMeta" id="liveMeta">
+          Canal IEQ Nuporanga
+          <div class="muted" style="margin-top:6px;font-size:13px;font-weight:900">
+            Dica: se a live estiver ao vivo e não abrir, toque em “Tentar carregar” novamente.
+          </div>
+        </div>
       </div>
     </div>
   </section>
@@ -1365,13 +1396,19 @@
     <div class="sectionInner content container">
       <div class="kickerBar"></div>
       <h2 class="title">Pregações & Vídeos</h2>
-      <p class="subtitle">Últimos vídeos do canal (o mais recente já abre no player).</p>
+      <p class="subtitle">Últimos vídeos do canal (use a lista do player para escolher outros).</p>
 
       <div class="videoCard" style="margin-top:16px">
         <div class="videoThumb" id="uploadsMount" style="aspect-ratio:16/9; background:#000; display:grid; place-items:center; color:rgba(255,255,255,.82); font-weight:900;">
           Carregando vídeos…
         </div>
-        <div class="videoMeta">Use a lista do player para escolher outros vídeos.</div>
+        <div class="videoMeta">
+          Use a lista do player para escolher outros vídeos.
+          <div class="row" style="margin-top:10px">
+            <a class="btn ghost" href="https://www.youtube.com/@ieqnuporangasp/videos" target="_blank" rel="noopener">Abrir vídeos no YouTube</a>
+            <a class="btn ghost" href="https://www.youtube.com/@ieqnuporangasp/playlists" target="_blank" rel="noopener">Playlists</a>
+          </div>
+        </div>
       </div>
     </div>
   </section>
@@ -1440,7 +1477,6 @@
     </div>
   </div>
 
-  <!-- Modal Calendário -->
   <div class="modalBack" id="calModalBack" aria-hidden="true">
     <div class="modal" role="dialog" aria-modal="true" aria-label="Adicionar ao calendário">
       <div class="modalTop">
@@ -1460,7 +1496,6 @@
     </div>
   </div>
 
-  <!-- ✅ Modal Lista Completa (somente abre pelo botão do popup de avisos) -->
   <div class="modalBack" id="eventsModalBack" aria-hidden="true">
     <div class="modal eventsModal" role="dialog" aria-modal="true" aria-label="Lista completa de eventos do mês">
       <div class="modalTop">
@@ -1480,10 +1515,6 @@
   </div>
 
   <script>
-    // =========================
-    //  AVISOS VIA GOOGLE SHEETS
-    //  (sem opensheet / sem backend)
-    // =========================
     const SHEET_ID = "1B8jnN0rSlNGtnyhR_kvGBvcNzyNPvDVnsltB4nhph30";
     const SHEET_TABS_TRY = ["fevereiro","marco","abril","maio","junho","julho"];
     const UPCOMING_LIMIT = 6;
@@ -1668,7 +1699,7 @@
     async function loadMonthScheduleAll(){
       const now = new Date();
       const tab = monthTabNameFromDate(now);
-      const rows = await fetchJsonTrySheets([tab, ...SHEET_TABS_TRY]); // tenta o mês atual, depois fallback
+      const rows = await fetchJsonTrySheets([tab, ...SHEET_TABS_TRY]);
       const parsed = (rows || []).map(r=>{
         const dataTxt = getValSmart(r, ["Data","data","DATA"]);
         const evento = getValSmart(r, ["Evento","evento","EVENTO"]);
@@ -1678,7 +1709,6 @@
         return { date, evento, horario, obs };
       }).filter(x => x.date);
 
-      // filtra só do mês atual (pelas datas dd/mm)
       const m = now.getMonth();
       const y = now.getFullYear();
 
@@ -1711,9 +1741,6 @@
       }).join("");
     }
 
-    // =========================
-    //  PIX
-    // =========================
     const PIX_KEY = "ieqnuporanga@gmail.com";
     const PIX_NAME = "Igreja do Evangelho Quadrangular";
     const PIX_QR_IMAGE_URL = "https://i.imgur.com/I5xVAmH.jpeg";
@@ -2034,7 +2061,6 @@
 
         const items = await loadUpcomingSchedule();
 
-        // preserva o botão "Ver lista completa" que já está no HTML
         const btnHTML = `
           <div class="row" style="margin-top:12px">
             <button class="btn" type="button" id="openEventsModalBtn">📅 Ver lista completa</button>
@@ -2051,7 +2077,6 @@
           });
         }
 
-        // rewire do botão (porque noticeBody foi reescrito)
         const openEventsModalBtn = document.getElementById("openEventsModalBtn");
         if(openEventsModalBtn){
           openEventsModalBtn.addEventListener("click", (e)=>{
@@ -2066,7 +2091,6 @@
     }
     showNoticeIfNeeded();
 
-    // Modal Lista completa
     const eventsModalBack = document.getElementById("eventsModalBack");
     const eventsModalClose = document.getElementById("eventsModalClose");
     const eventsModalTitle = document.getElementById("eventsModalTitle");
@@ -2347,9 +2371,6 @@ END:VCALENDAR`;
       onScrollSpy();
     })();
 
-    // ==========================================
-    //  YOUTUBE SEM API DE DADOS (somente EMBED + IFRAME PLAYER API)
-    // ==========================================
     const YT_CHANNEL_ID = "UCNmU-juUErNMbHAJOQ508Ow";
     const UPLOADS_PLAYLIST = "UU" + YT_CHANNEL_ID.substring(2);
 
@@ -2402,7 +2423,28 @@ END:VCALENDAR`;
         if(liveMeta) liveMeta.textContent = "🔴 Ao vivo (quando houver transmissão ativa no canal)";
       }
 
+      window.ieqTryLoadLive = tryLoadLive;
+
       if(liveTryBtn) liveTryBtn.addEventListener("click", (e)=>{ e.preventDefault(); tryLoadLive(); });
+    })();
+
+    (function(){
+      const sec = document.getElementById("aoVivo");
+      if(!sec) return;
+
+      let tried = false;
+      const obs = new IntersectionObserver((entries)=>{
+        for(const ent of entries){
+          if(ent.isIntersecting && ent.intersectionRatio >= 0.35){
+            if(!tried && typeof window.ieqTryLoadLive === "function"){
+              tried = true;
+              try{ window.ieqTryLoadLive(); }catch(e){}
+            }
+          }
+        }
+      }, { threshold: [0.35] });
+
+      obs.observe(sec);
     })();
 
     let YT_API_READY = false;
