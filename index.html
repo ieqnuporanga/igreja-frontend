@@ -836,6 +836,32 @@
       }
       .bgImage .sectionInner{ padding-bottom: 96px; }
     }
+
+
+    
+    #liveMount{ overflow: hidden; }
+    
+
+    @media (max-width: 560px){
+      #liveMount{
+        aspect-ratio: 4 / 5 !important; 
+        min-height: 420px;             
+      }
+    
+     
+      #liveMount .livePlaceholder{
+        height: 100%;
+        overflow: auto;
+        -webkit-overflow-scrolling: touch;
+        padding: 18px 14px;
+      }
+    
+   
+      #liveMount .liveHint{
+        max-width: 46ch;
+      }
+    }
+
   </style>
 </head>
 
@@ -2417,3 +2443,4 @@ END:VCALENDAR`;
   </script>
 </body>
 </html>
+
