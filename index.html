@@ -95,16 +95,33 @@
 
     .head{
       height:100%;
-      display:flex;align-items:center;justify-content:space-between;
+      display:flex;align-items:center;justify-content:flex-start;
       gap:14px;
     }
 
-    .brand{
-      display:flex;align-items:center;gap:14px;
-      min-width:0;
-      padding-left: 6px;
-      background:transparent;border:0;cursor:pointer;
-    }
+	.brand{
+	  display:flex;
+	  align-items:center;
+	  gap:14px;
+	  min-width:0;
+	  padding-left:6px;
+	  margin-right:40px; /* espaço correto entre logo e menu */
+	  background:transparent;
+	  border:0;
+	  cursor:pointer;
+	}
+
+	.nav{
+	  display:none;
+	  gap:8px;
+	  align-items:center;
+	  margin-left:18px; /* garante que o menu acompanhe a logo */
+	}
+
+	@media (min-width: 980px){
+	  .nav{display:flex}
+	}
+
 
     .logoBox{
       width:56px;height:56px;border-radius:18px;
@@ -164,6 +181,16 @@
       background: rgba(255,255,255,.14);
       border-color: rgba(255,255,255,.26);
     }
+	
+	@media (min-width: 980px){
+	  .nav button{
+		font-size:12px;
+		padding:8px 10px;
+	  }
+	}
+
+
+
 
     .btn{
       display:inline-flex;align-items:center;justify-content:center;gap:10px;
@@ -268,16 +295,16 @@
 
     .kickerBar{
       height:6px;border-radius:999px;
-		background: linear-gradient(
-		  90deg,
-		  var(--red) 0%,
-		  var(--red) 20%,
-		  var(--yellow) 35%,
-		  var(--yellow) 50%,
-		  var(--blue) 65%,
-		  var(--blue) 80%,
-		  var(--purple) 100%
-		);
+      background: linear-gradient(
+        90deg,
+        var(--red) 0%,
+        var(--red) 20%,
+        var(--yellow) 35%,
+        var(--yellow) 50%,
+        var(--blue) 65%,
+        var(--blue) 80%,
+        var(--purple) 100%
+      );
       width: 160px;margin-bottom: 14px;
     }
     .title{
@@ -696,8 +723,8 @@
     }
     .waMini{
       display:none;
-	  max-width: 200px;
-	  word-wrap: break-word;
+      max-width: 200px;
+      word-wrap: break-word;
       font-size:12.5px;
       font-weight:900;
       color: rgba(255,255,255,.80);
@@ -708,9 +735,9 @@
       max-width: 220px;
       line-height:1.35;
     }
-	.waFloat{
-	  max-width: calc(100vw - 32px);
-	}
+    .waFloat{
+      max-width: calc(100vw - 32px);
+    }
     @media (min-width: 700px){
       .waMini{display:block}
     }
@@ -769,145 +796,181 @@
     @media (prefers-reduced-motion: reduce){
       *{transition:none !important;animation:none !important}
     }
-	@media (max-width: 420px){
-	  .waMini{
-		display:none;
-	  }
-}
+    @media (max-width: 420px){
+      .waMini{
+        display:none;
+      }
+    }
 
-	/* ===========================
-	   FIX DEFINITIVO: GUTTER MOBILE
-	   =========================== */
+    /* ===========================
+       FIX DEFINITIVO: GUTTER MOBILE
+       =========================== */
 
-	/* 1) aumenta o gutter base (geral) */
-	:root{
-	  --padX: clamp(20px, 5vw, 34px);
-	  --gutterMin: 22px; /* antes 18px */
-	}
+    /* 1) aumenta o gutter base (geral) */
+    :root{
+      --padX: clamp(20px, 5vw, 34px);
+      --gutterMin: 22px; /* antes 18px */
+    }
 
-	/* 2) container com padding “de verdade” + safe-area */
-	.container{
-	  max-width: var(--max);
-	  margin: 0 auto;
-	  padding-left: max(calc(var(--padX) + env(safe-area-inset-left)), var(--gutterMin));
-	  padding-right: max(calc(var(--padX) + env(safe-area-inset-right)), var(--gutterMin));
-	}
+    /* 2) container com padding “de verdade” + safe-area */
+    .container{
+      max-width: var(--max);
+      margin: 0 auto;
+      padding-left: max(calc(var(--padX) + env(safe-area-inset-left)), var(--gutterMin));
+      padding-right: max(calc(var(--padX) + env(safe-area-inset-right)), var(--gutterMin));
+    }
 
-	/* 3) evita qualquer filho “vazar” e colar na borda */
-	.content, .sectionInner, section{
-	  overflow-x: clip;
-	}
+    /* 3) evita qualquer filho “vazar” e colar na borda */
+    .content, .sectionInner, section{
+      overflow-x: clip;
+    }
 
-	/* 4) garante que grid e cards não encostem (mesmo com sombra/borda) */
-	.grid{
-	  width: 100%;
-	  margin-left: 0;
-	  margin-right: 0;
-	}
+    /* 4) garante que grid e cards não encostem (mesmo com sombra/borda) */
+    .grid{
+      width: 100%;
+      margin-left: 0;
+      margin-right: 0;
+    }
 
-	.card, .person, .mapWrap, .eventHero, .summary, .noticeWrap, .galleryWrap, .videoCard{
-	  max-width: 100%;
-	}
+    .card, .person, .mapWrap, .eventHero, .summary, .noticeWrap, .galleryWrap, .videoCard{
+      max-width: 100%;
+    }
 
-	/* 5) se algum iframe/imagem estiver estourando, força ele caber */
-	iframe, img{
-	  max-width: 100%;
-	}
+    /* 5) se algum iframe/imagem estiver estourando, força ele caber */
+    iframe, img{
+      max-width: 100%;
+    }
 
-	/* 6) mobile: dá ainda mais respiro */
-	@media (max-width: 560px){
-	  :root{
-		--padX: 24px;
-		--gutterMin: 24px;
-	  }
+    /* 6) mobile: dá ainda mais respiro */
+    @media (max-width: 560px){
+      :root{
+        --padX: 24px;
+        --gutterMin: 24px;
+      }
 
-	  /* pequeno “respiro” extra nos títulos */
-	  .title, .subtitle{
-		padding-left: 0;
-		padding-right: 0;
-	  }
-	}
-	
-	/* X para fechar o card "Primeira vez por aqui?" */
-	.firstTimeCard{
-	  position: relative;
-	}
+      /* pequeno “respiro” extra nos títulos */
+      .title, .subtitle{
+        padding-left: 0;
+        padding-right: 0;
+      }
+    }
 
-	
-/* Ajuste: reservar espaço pro X não ficar em cima do texto */
-.firstTimeCard{
-  position: relative;
-}
+    /* X para fechar o card "Primeira vez por aqui?" */
+    .firstTimeCard{
+      position: relative;
+    }
 
-/* cria “área livre” pro botão no topo */
-.firstTimeCard p{
-  margin-top: 0;
-  padding-right: 56px;   /* espaço lateral pro X */
-  padding-top: 2px;      /* leve respiro */
-}
+    /* Ajuste: reservar espaço pro X não ficar em cima do texto */
+    .firstTimeCard{
+      position: relative;
+    }
 
-/* se quiser, o mesmo no bloco de botões */
-.firstTimeCard .row{
-  padding-right: 56px;   /* opcional: evita encostar no X */
-}
+    /* cria “área livre” pro botão no topo */
+    .firstTimeCard p{
+      margin-top: 0;
+      padding-right: 56px;   /* espaço lateral pro X */
+      padding-top: 2px;      /* leve respiro */
+    }
 
-.firstTimeClose{
-  position:absolute;
-  top:12px;
-  right:12px;
-  width:40px;
-  height:40px;
-  border-radius:14px;
-  display:grid;
-  place-items:center;
-  cursor:pointer;
-  z-index:5;
-  color:#fff;
-  font-size:18px;
-  font-weight:900;
-  background: rgba(0,0,0,.45);
-  border: 1px solid rgba(255,255,255,.35);
-}
-.firstTimeClose:hover{ background: rgba(0,0,0,.65); }
+    /* se quiser, o mesmo no bloco de botões */
+    .firstTimeCard .row{
+      padding-right: 56px;   /* opcional: evita encostar no X */
+    }
 
-/* posiciona o X do card primeira vez */
-#firstTimeClose{
-  position:absolute;
-  top:12px;
-  right:12px;
-}
+    .firstTimeClose{
+      position:absolute;
+      top:12px;
+      right:12px;
+      width:40px;
+      height:40px;
+      border-radius:14px;
+      display:grid;
+      place-items:center;
+      cursor:pointer;
+      z-index:5;
+      color:#fff;
+      font-size:18px;
+      font-weight:900;
+      background: rgba(0,0,0,.45);
+      border: 1px solid rgba(255,255,255,.35);
+    }
+    .firstTimeClose:hover{ background: rgba(0,0,0,.65); }
 
+    /* posiciona o X do card primeira vez */
+    #firstTimeClose{
+      position:absolute;
+      top:12px;
+      right:12px;
+    }
 
-/* imagem no topo do card endereço */
-.cardImg{
-  height:140px;
-  background-size:cover;
-  background-position:center 55%;
-  filter: saturate(1.05) contrast(1.05);
-  border-bottom:1px solid rgba(255,255,255,.12);
-}
+    /* imagem no topo do card endereço */
+    .cardImg{
+      height:140px;
+      background-size:cover;
+      background-position:center 55%;
+      filter: saturate(1.05) contrast(1.05);
+      border-bottom:1px solid rgba(255,255,255,.12);
+    }
 
-/* overlay suave pra não ficar estourado */
-.cardImg::after{
-  content:"";
-  display:block;
-  width:100%;
-  height:100%;
-  background:linear-gradient(
-    180deg,
-    rgba(0,0,0,.15),
-    rgba(0,0,0,.55)
-  );
-}
+    /* overlay suave pra não ficar estourado */
+    .cardImg::after{
+      content:"";
+      display:block;
+      width:100%;
+      height:100%;
+      background:linear-gradient(
+        180deg,
+        rgba(0,0,0,.15),
+        rgba(0,0,0,.55)
+      );
+    }
 
-/* mobile: imagem menor */
-@media (max-width:560px){
-  .cardImg{
-    height:110px;
-  }
-}
+    /* mobile: imagem menor */
+    @media (max-width:560px){
+      .cardImg{
+        height:110px;
+      }
+    }
 
-
+    /* ===========================
+       DOAÇÕES (FIX)
+       =========================== */
+    .donWrap{
+      grid-column: span 12;
+      display:grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap:14px;
+    }
+    .donBox{
+      grid-column: span 6;
+      border-radius: var(--r24);
+      overflow:hidden;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.06);
+      box-shadow: 0 16px 40px rgba(0,0,0,.28);
+    }
+    .donKey{
+      margin-top:10px;
+      padding:12px 12px;
+      border-radius:18px;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(0,0,0,.18);
+      font-weight:950;
+      letter-spacing:.2px;
+      color: rgba(255,255,255,.92);
+      word-break: break-word;
+    }
+    .qr{
+      width:100%;
+      height:260px;
+      display:block;
+      object-fit: contain;
+      background: rgba(0,0,0,.18);
+      border-bottom:1px solid rgba(255,255,255,.10);
+    }
+    @media (max-width: 980px){
+      .donBox{grid-column: span 12;}
+    }
   </style>
 </head>
 
@@ -933,6 +996,9 @@
         <button data-target="eventos">Eventos</button>
         <button data-target="ministerios">Ministérios</button>
         <button data-target="nossaIgreja">Nossa igreja</button>
+        <button data-target="doacoes">Doações</button>
+		<button data-target="aoVivo">Ao vivo</button>
+        <button data-target="pregacoes">Pregações</button>
         <button data-target="contato">Contato</button>
       </nav>
 
@@ -959,6 +1025,9 @@
       <button data-target="eventos" data-close>Eventos <span>›</span></button>
       <button data-target="ministerios" data-close>Ministérios <span>›</span></button>
       <button data-target="nossaIgreja" data-close>Nossa igreja <span>›</span></button>
+      <button data-target="doacoes" data-close>Doações <span>›</span></button>
+	  <button data-target="aoVivo" data-close>Ao vivo <span>›</span></button>
+      <button data-target="pregacoes" data-close>Pregações <span>›</span></button>
       <button data-target="contato" data-close>Contato <span>›</span></button>
     </div>
     <div class="drawerFooter">
@@ -996,14 +1065,13 @@
           </div>
         </div>
 
-		<article class="card wide">
-		  <div class="bar"></div>
+        <article class="card wide">
+          <div class="bar"></div>
 
-		  <!-- imagem topo do card -->
-		  <div class="cardImg" style="background-image:url('https://i.imgur.com/F3XC6NZ.jpeg')"></div>
+          <!-- imagem topo do card -->
+          <div class="cardImg" style="background-image:url('https://i.imgur.com/F3XC6NZ.jpeg')"></div>
 
-		  <div class="pad">
-
+          <div class="pad">
             <h3>📍 Endereço</h3>
             <p>R. Joao Sabaini Neto, 135 - Jardim Brasilia | Nuporanga - SP</p>
           </div>
@@ -1039,22 +1107,21 @@
           </div>
         </article>
 
-		<!-- ✅ PRIMEIRA VEZ AQUI (com X) -->
-		<div class="summary firstTimeCard" id="firstTimeCard" style="grid-column: span 12;">
-		  <button class="noticeClose" id="firstTimeClose">✕</button>
+        <!-- ✅ PRIMEIRA VEZ AQUI (com X) -->
+        <div class="summary firstTimeCard" id="firstTimeCard" style="grid-column: span 12;">
+          <button class="noticeClose" id="firstTimeClose">✕</button>
 
-		  <p>
-			<b>Primeira vez por aqui?</b> Você é muito bem-vindo(a)! Vai ser um prazer te receber.
-			O culto dura em média <b>1h30</b>, temos <b>salinha para as crianças</b> e uma equipe preparada para te acolher.
-			Chegue alguns minutinhos antes e, se precisar, <b>fale com a gente no WhatsApp</b>.
-		  </p>
+          <p>
+            <b>Primeira vez por aqui?</b> Você é muito bem-vindo(a)! Vai ser um prazer te receber.
+            O culto dura em média <b>1h30</b>, temos <b>salinha para as crianças</b> e uma equipe preparada para te acolher.
+            Chegue alguns minutinhos antes e, se precisar, <b>fale com a gente no WhatsApp</b>.
+          </p>
 
-		  <div class="row">
-			<a class="btn ghost" href="#local">🧭 Ver localização</a>
-			<button class="btn ghost" type="button" id="firstTimeWhatsBtn">💬 Falar no WhatsApp</button>
-		  </div>
-		</div>
-
+          <div class="row">
+            <a class="btn ghost" href="#local">🧭 Ver localização</a>
+            <button class="btn ghost" type="button" id="firstTimeWhatsBtn">💬 Falar no WhatsApp</button>
+          </div>
+        </div>
 
       </div>
     </div>
@@ -1281,115 +1348,114 @@
   </section>
 
   <!-- ✅ MINISTÉRIOS -->
-	<section id="ministerios" class="theme-scheduleDark">
-	  <div class="sectionInner content container">
-		<div class="kickerBar"></div>
-		<h2 class="title">Ministérios </h2>
-		<p class="subtitle">Servindo a Deus e cuidando de vidas em cada área.</p>
+  <section id="ministerios" class="theme-scheduleDark">
+    <div class="sectionInner content container">
+      <div class="kickerBar"></div>
+      <h2 class="title">Ministérios </h2>
+      <p class="subtitle">Servindo a Deus e cuidando de vidas em cada área.</p>
 
-		<div class="grid">
+      <div class="grid">
 
-		  <article class="card">
-			<div class="bar"></div>
-			<div class="pad">
-			  <h3>🎶 Louvor</h3>
-			  <p>Adoração com excelência e coração rendido a Cristo.</p>
-			</div>
-		  </article>
+        <article class="card">
+          <div class="bar"></div>
+          <div class="pad">
+            <h3>🎶 Louvor</h3>
+            <p>Adoração com excelência e coração rendido a Cristo.</p>
+          </div>
+        </article>
 
-		  <article class="card">
-			<div class="bar"></div>
-			<div class="pad">
-			  <h3>🎥 Mídia</h3>
-			  <p>Transmissão, projeção e apoio audiovisual para servir melhor.</p>
-			</div>
-		  </article>
+        <article class="card">
+          <div class="bar"></div>
+          <div class="pad">
+            <h3>🎥 Mídia</h3>
+            <p>Transmissão, projeção e apoio audiovisual para servir melhor.</p>
+          </div>
+        </article>
 
-		  <article class="card">
-			<div class="bar"></div>
-			<div class="pad">
-			  <h3>🧒 Crianças</h3>
-			  <p>Ensino da Palavra com cuidado, amor e atenção especial.</p>
-			</div>
-		  </article>
+        <article class="card">
+          <div class="bar"></div>
+          <div class="pad">
+            <h3>🧒 Crianças</h3>
+            <p>Ensino da Palavra com cuidado, amor e atenção especial.</p>
+          </div>
+        </article>
 
-		  <article class="card">
-			<div class="bar"></div>
-			<div class="pad">
-			  <h3>🔥 Jovens</h3>
-			  <p>Comunhão, discipulado e crescimento espiritual.</p>
-			</div>
-		  </article>
+        <article class="card">
+          <div class="bar"></div>
+          <div class="pad">
+            <h3>🔥 Jovens</h3>
+            <p>Comunhão, discipulado e crescimento espiritual.</p>
+          </div>
+        </article>
 
-		  <article class="card">
-			<div class="bar"></div>
-			<div class="pad">
-			  <h3>🤝 Diaconato</h3>
-			  <p>Serviço e apoio à igreja com dedicação e cuidado.</p>
-			</div>
-		  </article>
+        <article class="card">
+          <div class="bar"></div>
+          <div class="pad">
+            <h3>🤝 Diaconato</h3>
+            <p>Serviço e apoio à igreja com dedicação e cuidado.</p>
+          </div>
+        </article>
 
-		  <article class="card">
-			<div class="bar"></div>
-			<div class="pad">
-			  <h3>🙏 Intercessão</h3>
-			  <p>Um ministério comprometido com oração constante.</p>
-			</div>
-		  </article>
+        <article class="card">
+          <div class="bar"></div>
+          <div class="pad">
+            <h3>🙏 Intercessão</h3>
+            <p>Um ministério comprometido com oração constante.</p>
+          </div>
+        </article>
 
-		  <article class="card">
-			<div class="bar"></div>
-			<div class="pad">
-			  <h3>🌍 Missões</h3>
-			  <p>Levando o Evangelho além das quatro paredes.</p>
-			</div>
-		  </article>
+        <article class="card">
+          <div class="bar"></div>
+          <div class="pad">
+            <h3>🌍 Missões</h3>
+            <p>Levando o Evangelho além das quatro paredes.</p>
+          </div>
+        </article>
 
-		  <article class="card">
-			<div class="bar"></div>
-			<div class="pad">
-			  <h3>💍 Casais</h3>
-			  <p>Fortalecendo famílias e relacionamentos à luz da Palavra.</p>
-			</div>
-		  </article>
+        <article class="card">
+          <div class="bar"></div>
+          <div class="pad">
+            <h3>💍 Casais</h3>
+            <p>Fortalecendo famílias e relacionamentos à luz da Palavra.</p>
+          </div>
+        </article>
 
-		  <article class="card">
-			<div class="bar"></div>
-			<div class="pad">
-			  <h3>👨 Homens</h3>
-			  <p>Homens firmes na fé, liderança e caráter cristão.</p>
-			</div>
-		  </article>
+        <article class="card">
+          <div class="bar"></div>
+          <div class="pad">
+            <h3>👨 Homens</h3>
+            <p>Homens firmes na fé, liderança e caráter cristão.</p>
+          </div>
+        </article>
 
-		  <article class="card">
-			<div class="bar"></div>
-			<div class="pad">
-			  <h3>👩 Mulheres</h3>
-			  <p>Mulheres edificadas, fortalecidas e chamadas por Deus.</p>
-			</div>
-		  </article>
+        <article class="card">
+          <div class="bar"></div>
+          <div class="pad">
+            <h3>👩 Mulheres</h3>
+            <p>Mulheres edificadas, fortalecidas e chamadas por Deus.</p>
+          </div>
+        </article>
 
-		  <article class="card">
-			<div class="bar"></div>
-			<div class="pad">
-			  <h3>❤️ Ação Social</h3>
-			  <p>Cuidando de vidas e servindo a comunidade com amor.</p>
-			</div>
-		  </article>
+        <article class="card">
+          <div class="bar"></div>
+          <div class="pad">
+            <h3>❤️ Ação Social</h3>
+            <p>Cuidando de vidas e servindo a comunidade com amor.</p>
+          </div>
+        </article>
 
-		  <div class="summary">
-			<p>
-			  Quer servir com a gente? <b>Nos chame no WhatsApp</b> e vamos te orientar.
-			</p>
-			<div class="row">
-			  <button class="btn" type="button" id="ministeriosWhatsBtn">💬 Falar no WhatsApp</button>
-			</div>
-		  </div>
+        <div class="summary">
+          <p>
+            Quer servir com a gente? <b>Nos chame no WhatsApp</b> e vamos te orientar.
+          </p>
+          <div class="row">
+            <button class="btn" type="button" id="ministeriosWhatsBtn">💬 Falar no WhatsApp</button>
+          </div>
+        </div>
 
-		</div>
-	  </div>
-	</section>
-
+      </div>
+    </div>
+  </section>
 
   <section id="nossaIgreja" class="theme-blackFade bgImage" style="--bg-url:url('https://i.imgur.com/F3XC6NZ.jpeg')">
     <div class="sectionInner content container">
@@ -1425,6 +1491,64 @@
     </div>
   </section>
 
+  <!-- ✅ DOAÇÕES -->
+  <section id="doacoes" class="theme-scheduleDark">
+    <div class="sectionInner content container">
+      <div class="kickerBar"></div>
+      <h2 class="title">Doações & Ofertas</h2>
+      <p class="subtitle">Se você deseja contribuir, aqui vai uma forma simples e segura.</p>
+
+      <div class="grid">
+        <div class="donWrap">
+          <div class="donBox">
+            <div class="pad">
+              <h3 style="margin:0 0 8px;font-weight:950"> 💛 PIX</h3>
+              <p class="muted"> Clique em “Copiar” e cole no seu banco.</p>
+              <div class="donKey" id="pixKeyBox">Carregando…</div>
+              <div class="row">
+                <button class="btn" type="button" id="copyPixBtn">📋 Copiar chave PIX</button>
+              </div>
+              <div class="muted" id="pixStatus" style="margin-top:8px;font-size:13px;font-weight:900"></div>
+            </div>
+          </div>
+
+          <div class="donBox">
+            <img class="qr" id="pixQrImg" alt="QR Code PIX" loading="lazy" decoding="async">
+            <div class="pad">
+              <h3 style="margin:0 0 8px;font-weight:950">📷 QR Code</h3>
+              <p class="muted">Aponte a câmera para o QR (quando você adicionar a imagem).</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+	<section id="aoVivo" class="theme-blackFade">
+	  <div class="sectionInner content container">
+		<div class="kickerBar"></div>
+		<h2 class="title">Ao vivo</h2>
+		<p class="subtitle">Quando a transmissão começar, ela aparece aqui automaticamente.</p>
+
+		<div class="videoCard" style="margin-top:16px">
+		  <div class="videoThumb" id="liveMount" style="aspect-ratio:16/9; background:#000; display:grid; place-items:center; color:rgba(255,255,255,.82); font-weight:900;">
+			Carregando status da live…
+		  </div>
+		  <div class="videoMeta" id="liveMeta">—</div>
+		</div>
+	  </div>
+	</section>
+
+	<section id="pregacoes" class="theme-scheduleDark">
+	  <div class="sectionInner content container">
+		<div class="kickerBar"></div>
+		<h2 class="title">Pregações & Vídeos</h2>
+		<p class="subtitle">Assista diretamente aqui no site.</p>
+
+		<div class="grid" id="ytVideos"></div>
+	  </div>
+	</section>
+
   <section id="contato" class="theme-blue">
     <div class="sectionInner content container">
       <div class="kickerBar"></div>
@@ -1445,11 +1569,10 @@
             </div>
           </div>
         </article>
-
-
       </div>
     </div>
   </section>
+
 
   <footer>
     <div class="container footInner">
@@ -1458,9 +1581,17 @@
           <div style="font-weight:950;font-size:16px">IEQ Nuporanga | Templo A Resposta</div>
           <div class="fine">© <span id="year"></span> — Igreja do Evangelho Quadrangular</div>
         </div>
-        <div class="fine">
-          Domingo 18h • Segunda 19h • Quarta 19h • Quinta 19h
-        </div>
+		<div class="fine" style="text-align:center">
+		  Domingo 18h • Segunda 19h • Quarta 19h • Quinta 19h
+		  <div style="margin-top:10px">
+			<a class="btn ghost"
+			   href="https://midia.otimizandooaltar.com"
+			   target="_blank"
+			   rel="noopener">
+			   Área Equipe
+			</a>
+		  </div>
+		</div>
       </div>
     </div>
   </footer>
@@ -1482,10 +1613,23 @@
       </svg>
       WhatsApp
     </a>
-    <div class="waMini">
-      Dúvidas, pedidos de oração<br/>ou informações? Fale com a gente.
-    </div>
-  </div>
+	<div class="waMini" id="waMiniBox">
+	  <button id="waMiniClose"
+			  style="
+				position:absolute;
+				top:6px;
+				right:8px;
+				background:none;
+				border:none;
+				color:#fff;
+				font-size:14px;
+				font-weight:900;
+				cursor:pointer;
+			  ">✕</button>
+
+	  Dúvidas, pedidos de oração<br/>ou informações? Fale com a gente.
+	</div>
+
 
   <!-- ✅ MODAL CALENDÁRIO -->
   <div class="modalBack" id="calModalBack" aria-hidden="true">
@@ -1508,6 +1652,27 @@
   </div>
 
   <script>
+    // =========================
+    // CONFIG (EDITE AQUI)
+    // =========================
+
+    // 1) Avisos via Google Sheets (CSV publicado)
+    // Como gerar:
+    // - No Google Sheets: Arquivo > Compartilhar > Publicar na web
+    // - Escolha a aba (sheet) e formato: CSV
+    // - Cole o link aqui (tem que ser "pub?output=csv")
+    const NOTICE_SHEET_CSV_URL = ""; // EX: "https://docs.google.com/spreadsheets/d/e/XXXX/pub?gid=0&single=true&output=csv";
+
+    // Fallback se o Sheets não estiver configurado / falhar
+    const NOTICE_FALLBACK_TEXT = "📌 Nenhum aviso a ser exibido!";
+
+    // 2) Doações (PIX)
+    const PIX_KEY = "ieqnuporanga@gmail.com";    
+    const PIX_NAME = "Igreja do Evangelho Quadrangular"; // só exibição
+    const PIX_QR_IMAGE_URL = "https://i.imgur.com/I5xVAmH.jpeg"; // EX: "https://i.imgur.com/I5xVAmH.jpeg" (opcional)
+
+    // =========================
+
     // ano
     const yearEl = document.getElementById("year");
     if(yearEl) yearEl.textContent = new Date().getFullYear();
@@ -1804,7 +1969,6 @@
     function getNextCultoText(){
       const next = NEXT_CULTO_CACHE || getNextCulto();
       if(!next) return "Olá! Gostaria de conhecer a igreja de vocês.";
-      const whenStr = formatDateBR(next.when);
       return `Olá! Gostaria de mais informações sobre o próximo culto.`;
     }
 
@@ -1830,8 +1994,7 @@
     const noticeBody = document.getElementById("noticeBody");
 
     // Edite o texto do banner aqui (quando precisar)
-	const NOTICE_TEXT = `📌 Nenhum aviso a ser exibido!`
-
+    const NOTICE_TEXT = `📌 Nenhum aviso a ser exibido!`;
 
     function showNoticeIfNeeded(){
       try{
@@ -1984,32 +2147,296 @@ END:VCALENDAR`;
         };
       }
     }
-	
-	
-		/* ==========================
-		   Fechar card "Primeira vez por aqui?" (com localStorage)
-		   ========================== */
-		(function(){
-		  const card = document.getElementById("firstTimeCard");
-		  const close = document.getElementById("firstTimeClose");
-		  const key = "ieq_first_time_dismissed_v1";
 
-		  if(!card || !close) return;
+    /* ==========================
+       Fechar card "Primeira vez por aqui?" (com localStorage)
+       ========================== */
+    (function(){
+      const card = document.getElementById("firstTimeCard");
+      const close = document.getElementById("firstTimeClose");
+      const key = "ieq_first_time_dismissed_v1";
 
-		  try{
-			if(localStorage.getItem(key) === "1"){
-			  card.style.display = "none";
-			  return;
-			}
-			close.addEventListener("click", ()=>{
-			  localStorage.setItem(key, "1");
-			  card.style.display = "none";
-			});
-		  }catch(e){
-			// se localStorage falhar, fecha só na hora
-			close.addEventListener("click", ()=>{ card.style.display = "none"; });
-		  }
+      if(!card || !close) return;
+
+      try{
+        if(localStorage.getItem(key) === "1"){
+          card.style.display = "none";
+          return;
+        }
+        close.addEventListener("click", ()=>{
+          localStorage.setItem(key, "1");
+          card.style.display = "none";
+        });
+      }catch(e){
+        // se localStorage falhar, fecha só na hora
+        close.addEventListener("click", ()=>{ card.style.display = "none"; });
+      }
+    })();
+
+    /* ==========================
+       Doações: preencher + copiar PIX (FIX)
+       ========================== */
+    const pixKeyBox = document.getElementById("pixKeyBox");
+    const copyPixBtn = document.getElementById("copyPixBtn");
+    const pixStatus = document.getElementById("pixStatus");
+    const pixQrImg = document.getElementById("pixQrImg");
+
+    function setPixUI(){
+      const key = (PIX_KEY || "").trim();
+
+      if(pixKeyBox) pixKeyBox.textContent = key ? key : "Chave PIX ainda não configurada";
+      if(pixStatus) pixStatus.textContent = key ? `Titular: ${PIX_NAME}` : "Edite PIX_KEY no código para ativar.";
+
+      if(pixQrImg){
+        const qr = (PIX_QR_IMAGE_URL || "").trim();
+        if(qr){
+          pixQrImg.src = qr;
+          pixQrImg.style.display = "block";
+        }else{
+          pixQrImg.removeAttribute("src");
+          pixQrImg.style.display = "block";
+          pixQrImg.style.background = "rgba(0,0,0,.22)";
+          pixQrImg.alt = "QR Code PIX (adicione a imagem)";
+        }
+      }
+
+      if(copyPixBtn){
+        copyPixBtn.disabled = !key;
+        copyPixBtn.style.opacity = key ? "1" : ".6";
+      }
+    }
+    setPixUI();
+
+    if(copyPixBtn){
+      copyPixBtn.addEventListener("click", async ()=>{
+        const key = (PIX_KEY || "").trim();
+        if(!key) return;
+
+        try{
+          await navigator.clipboard.writeText(key);
+          copyPixBtn.textContent = "✅ PIX copiado";
+          setTimeout(()=>{ copyPixBtn.textContent = "📋 Copiar chave PIX"; }, 1400);
+        }catch(e){
+          prompt("Copie a chave PIX:", key);
+        }
+      });
+    }
+	
+	// fechar mensagem do WhatsApp
+	(function(){
+	  const box = document.getElementById("waMiniBox");
+	  const close = document.getElementById("waMiniClose");
+	  const key = "ieq_wa_mini_dismissed_v1";
+
+	  if(!box || !close) return;
+
+	  try{
+		if(localStorage.getItem(key) === "1"){
+		  box.style.display = "none";
+		  return;
+		}
+
+		close.addEventListener("click", ()=>{
+		  box.style.display = "none";
+		  localStorage.setItem(key, "1");
+		});
+
+	  }catch(e){
+		close.addEventListener("click", ()=>{
+		  box.style.display = "none";
+		});
+	  }
+	})();
+	
+	/* ==========================
+	   Menu ativo conforme seção visível
+	   ========================== */
+
+	(function(){
+
+	  const sections = Array.from(document.querySelectorAll("section[id]"));
+	  const navBtns = Array.from(document.querySelectorAll("[data-target]"));
+
+	  if(!sections.length || !navBtns.length) return;
+
+	  function setActive(id){
+		navBtns.forEach(btn=>{
+		  btn.classList.toggle("active", btn.getAttribute("data-target") === id);
+		});
+	  }
+
+	function onScrollSpy(){
+	  const offset = 140; // margem por causa do header fixo
+	  let current = sections[0].id;
+
+	  // 1) comportamento normal: pega a última seção cujo topo já passou do offset
+	  sections.forEach(sec=>{
+		const top = sec.getBoundingClientRect().top;
+		if(top - offset <= 0){
+		  current = sec.id;
+		}
+	  });
+
+	  // 2) FIX: se estiver no final da página, ativa a última seção (geralmente "contato")
+	  const nearBottom = (window.innerHeight + window.scrollY) >= (document.documentElement.scrollHeight - 6);
+	  if(nearBottom){
+		current = sections[sections.length - 1].id;
+	  }
+
+	  setActive(current);
+	}
+
+
+	  window.addEventListener("scroll", onScrollSpy, { passive:true });
+	  onScrollSpy();
+
+	})();
+	
+/* ==========================
+   Ao vivo automático (YouTube)
+   ========================== */
+(function(){
+  const YT_CHANNEL_ID = "UCNmU-juUErNMbHAJOQ508Ow"; // exemplo: "UCxxxx..."
+  const YT_API_KEY = "AIzaSyC09Q0-MKHypLDhc7jcy-0-aJYf08Ck_5Y";       // crie no Google Cloud
+  const POLL_MS = 60000; // 1 min
+
+  const liveMount = document.getElementById("liveMount");
+  const liveMeta = document.getElementById("liveMeta");
+
+  if(!liveMount) return;
+
+  function buildEmbed(id){
+    const qs = new URLSearchParams({
+      autoplay: "0",
+      rel: "0",
+      modestbranding: "1",
+      playsinline: "1"
+    });
+    return `https://www.youtube-nocookie.com/embed/${id}?${qs.toString()}`;
+  }
+
+  function mountIframe(videoId){
+    liveMount.innerHTML = "";
+    const iframe = document.createElement("iframe");
+    iframe.src = buildEmbed(videoId);
+    iframe.title = "Transmissão ao vivo";
+    iframe.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
+    iframe.allowFullscreen = true;
+    iframe.referrerPolicy = "strict-origin-when-cross-origin";
+    iframe.style.width = "100%";
+    iframe.style.height = "100%";
+    iframe.style.border = "0";
+    liveMount.appendChild(iframe);
+  }
+
+  function mountOffline(){
+    liveMount.innerHTML = `
+      <div style="padding:18px; text-align:center;">
+        🔴 Ainda não estamos ao vivo.<br/>
+        <span style="opacity:.85; font-size:13px;">Quando iniciar, o player aparece aqui automaticamente.</span>
+      </div>
+    `;
+  }
+
+  async function checkLive(){
+    try{
+      // busca live ATIVA do canal
+      const url = "https://www.googleapis.com/youtube/v3/search?" + new URLSearchParams({
+        part: "snippet",
+        channelId: YT_CHANNEL_ID,
+        eventType: "live",
+        type: "video",
+        maxResults: "1",
+        key: YT_API_KEY
+      });
+
+      const res = await fetch(url);
+      if(!res.ok) throw new Error("HTTP " + res.status);
+      const data = await res.json();
+
+      const item = (data.items && data.items[0]) ? data.items[0] : null;
+      if(item && item.id && item.id.videoId){
+        const vid = item.id.videoId;
+        mountIframe(vid);
+        if(liveMeta) liveMeta.textContent = "🔴 Ao vivo agora — " + (item.snippet?.title || "");
+        return;
+      }
+
+      // se não tiver live
+      mountOffline();
+      if(liveMeta) liveMeta.textContent = "Offline";
+    }catch(e){
+      // se falhar, mostra offline pra não quebrar o layout
+      mountOffline();
+      if(liveMeta) liveMeta.textContent = "Não foi possível checar a live agora.";
+    }
+  }
+
+  checkLive();
+  setInterval(checkLive, POLL_MS);
 })();
+
+/* ==========================
+   Últimos vídeos do YouTube
+   ========================== */
+
+(function(){
+
+const YT_CHANNEL_ID = "UCNmU-juUErNMbHAJOQ508Ow"; // exemplo: "UCxxxx..."
+const YT_API_KEY = "AIzaSyC09Q0-MKHypLDhc7jcy-0-aJYf08Ck_5Y";       // crie no Google Cloud
+const MAX = 6;
+
+const wrap = document.getElementById("ytVideos");
+if(!wrap) return;
+
+async function loadVideos(){
+
+  try{
+
+    const url = "https://www.googleapis.com/youtube/v3/search?" + new URLSearchParams({
+      part: "snippet",
+      channelId: YT_CHANNEL_ID,
+      maxResults: MAX,
+      order: "date",
+      type: "video",
+      key: YT_API_KEY
+    });
+
+    const res = await fetch(url);
+    const data = await res.json();
+
+    wrap.innerHTML = "";
+
+    data.items.forEach(v=>{
+
+      const id = v.id.videoId;
+      const title = v.snippet.title;
+      const thumb = v.snippet.thumbnails.high.url;
+
+      wrap.innerHTML += `
+        <article class="card">
+          <div class="videoThumb">
+            <img src="${thumb}">
+            <a class="playBtn" href="https://youtu.be/${id}" target="_blank">
+              <div class="pill">▶ Assistir</div>
+            </a>
+          </div>
+          <div class="videoMeta">${title}</div>
+        </article>
+      `;
+
+    });
+
+  }catch(e){
+    wrap.innerHTML = "<div class='summary'>Não foi possível carregar vídeos.</div>";
+  }
+}
+
+loadVideos();
+
+})();
+
+
 
   </script>
 </body>
