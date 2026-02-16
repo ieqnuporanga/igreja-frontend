@@ -2176,33 +2176,93 @@ END:VCALENDAR`;
       if(liveMeta) liveMeta.textContent = "🔴 Ao vivo (quando houver transmissão ativa no canal)";
     })();
 
+    // ===========================================================
+    //  PREGAÇÕES (Uploads) — COM PULO AUTOMÁTICO DE LIVES/OFFLINE
+    //  (substitui o iframe simples por YouTube Iframe API)
+    // ===========================================================
     (function(){
       const YT_CHANNEL_ID = "UCNmU-juUErNMbHAJOQ508Ow";
       const UPLOADS_PLAYLIST = "UU" + YT_CHANNEL_ID.substring(2);
-
       const mount = document.getElementById("uploadsMount");
       if(!mount) return;
 
-      const qs = new URLSearchParams({
-        listType: "playlist",
-        list: UPLOADS_PLAYLIST,
-        rel: "0",
-        modestbranding: "1",
-        playsinline: "1"
+      function loadYTApi(){
+        return new Promise((resolve)=>{
+          if(window.YT && window.YT.Player) return resolve();
+
+          // evita duplicar script
+          if(document.querySelector('script[src="https://www.youtube.com/iframe_api"]')){
+            // se já tiver, só aguarda callback
+          }else{
+            const tag = document.createElement("script");
+            tag.src = "https://www.youtube.com/iframe_api";
+            document.head.appendChild(tag);
+          }
+
+          // encadeia caso já exista um callback antigo
+          const prev = window.onYouTubeIframeAPIReady;
+          window.onYouTubeIframeAPIReady = function(){
+            try{ if(typeof prev === "function") prev(); }catch(e){}
+            resolve();
+          };
+        });
+      }
+
+      loadYTApi().then(()=>{
+        // cria um "div" para o player
+        const holder = document.createElement("div");
+        holder.id = "ytUploadsPlayer";
+        holder.style.width = "100%";
+        holder.style.height = "100%";
+        mount.innerHTML = "";
+        mount.appendChild(holder);
+
+        let triedSkip = 0;
+
+        function trySkipLive(player){
+          if(triedSkip >= 8) return; // evita loop infinito
+          triedSkip++;
+
+          try{
+            const data = player.getVideoData ? player.getVideoData() : null;
+            if(data && data.isLive){
+              player.nextVideo();
+              return;
+            }
+          }catch(e){}
+        }
+
+        const playerVars = {
+          listType: "playlist",
+          list: UPLOADS_PLAYLIST,
+          rel: 0,
+          modestbranding: 1,
+          playsinline: 1,
+          enablejsapi: 1,
+          origin: window.location.origin
+        };
+
+        // eslint-disable-next-line no-undef
+        new YT.Player("ytUploadsPlayer", {
+          width: "100%",
+          height: "100%",
+          playerVars,
+          events: {
+            onReady: (ev)=>{
+              setTimeout(()=> trySkipLive(ev.target), 900);
+            },
+            onError: (ev)=>{
+              try{ ev.target.nextVideo(); }catch(e){}
+            },
+            onStateChange: (ev)=>{
+              // -1 = unstarted, 5 = cued (às vezes acontece com live/offline)
+              if(ev.data === -1 || ev.data === 5){
+                setTimeout(()=> trySkipLive(ev.target), 900);
+              }
+            }
+          }
+        });
       });
-
-      const iframe = document.createElement("iframe");
-      iframe.src = "https://www.youtube-nocookie.com/embed/videoseries?" + qs.toString();
-      iframe.title = "Últimos vídeos";
-      iframe.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
-      iframe.allowFullscreen = true;
-      iframe.referrerPolicy = "strict-origin-when-cross-origin";
-      iframe.style.width = "100%";
-      iframe.style.height = "100%";
-      iframe.style.border = "0";
-
-      mount.innerHTML = "";
-      mount.appendChild(iframe);
     })();
   </script>
 </body>
