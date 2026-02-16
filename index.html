@@ -1276,13 +1276,13 @@
     <div class="sectionInner content container">
       <div class="kickerBar"></div>
       <h2 class="title">Ao vivo</h2>
-      <p class="subtitle">Quando a transmissão começar, ela aparece aqui automaticamente.</p>
+      <p class="subtitle">Quando a transmissão estiver ativa no canal, ela toca aqui.</p>
 
       <div class="videoCard" style="margin-top:16px">
         <div class="videoThumb" id="liveMount" style="aspect-ratio:16/9; background:#000; display:grid; place-items:center; color:rgba(255,255,255,.82); font-weight:900;">
-          Carregando status da live…
+          Carregando player…
         </div>
-        <div class="videoMeta" id="liveMeta">—</div>
+        <div class="videoMeta" id="liveMeta">Canal IEQ Nuporanga</div>
       </div>
     </div>
   </section>
@@ -1291,16 +1291,13 @@
     <div class="sectionInner content container">
       <div class="kickerBar"></div>
       <h2 class="title">Pregações & Vídeos</h2>
-      <p class="subtitle">Assista diretamente aqui no site.</p>
+      <p class="subtitle">Últimos vídeos do canal.</p>
 
-      <div class="grid">
-        <article class="card wide" style="grid-column: span 12;">
-          <div class="bar"></div>
-          <div class="videoThumb" id="latestPlayer" style="aspect-ratio:16/9"></div>
-          <div class="videoMeta" id="latestMeta">Carregando último vídeo…</div>
-        </article>
-
-        <div id="latestList" class="grid" style="grid-column: span 12; margin-top:10px;"></div>
+      <div class="videoCard" style="margin-top:16px">
+        <div class="videoThumb" id="uploadsMount" style="aspect-ratio:16/9; background:#000; display:grid; place-items:center; color:rgba(255,255,255,.82); font-weight:900;">
+          Carregando vídeos…
+        </div>
+        <div class="videoMeta">Use a lista do player para ver os últimos vídeos e escolher o que assistir.</div>
       </div>
     </div>
   </section>
@@ -1389,7 +1386,15 @@
   </div>
 
   <script>
-    const SHEET_URL = "https://opensheet.elk.sh/1xP2VqoCeHain9XaX2AoZfJBZzM7ONDGPg1jVUOyhCgg/Programação%20Fevereiro";
+    const SHEET_ID = "1xP2VqoCeHain9XaX2AoZfJBZzM7ONDGPg1jVUOyhCgg";
+    const SHEET_TABS_TRY = [
+      "Programação Fevereiro",
+      "Programacao Fevereiro",
+      "Programação%20Fevereiro",
+      "Programacao%20Fevereiro",
+      "Programa%C3%A7%C3%A3o%20Fevereiro",
+      "Programacao%20Fevereiro%20"
+    ];
     const UPCOMING_LIMIT = 6;
 
     function escapeHTML(str){
@@ -1436,10 +1441,29 @@
       return `${dias[d.getDay()]} • ${dd}/${mm}`;
     }
 
+    async function fetchJsonTry(urls){
+      let lastErr = null;
+      for(const url of urls){
+        try{
+          const res = await fetch(url, { cache: "no-store" });
+          if(!res.ok){
+            lastErr = new Error("HTTP " + res.status);
+            continue;
+          }
+          const data = await res.json();
+          if(Array.isArray(data)) return data;
+          if(data && typeof data === "object") return data;
+        }catch(e){
+          lastErr = e;
+        }
+      }
+      throw lastErr || new Error("Falha ao carregar.");
+    }
+
     async function loadUpcomingSchedule(){
-      const res = await fetch(SHEET_URL, { cache: "no-store" });
-      if(!res.ok) throw new Error("HTTP " + res.status);
-      const rows = await res.json();
+      const urls = SHEET_TABS_TRY.map(tab => `https://opensheet.elk.sh/${SHEET_ID}/${tab}`);
+
+      const rows = await fetchJsonTry(urls);
 
       const today = startOfToday().getTime();
 
@@ -1824,7 +1848,7 @@
           });
         }
       }catch(err){
-        console.error(err);
+        if(noticeWrap) noticeWrap.style.display = "none";
       }
     }
     showNoticeIfNeeded();
@@ -2064,235 +2088,61 @@ END:VCALENDAR`;
 
     (function(){
       const YT_CHANNEL_ID = "UCNmU-juUErNMbHAJOQ508Ow";
-      const YT_API_KEY = "AIzaSyC09Q0-MKHypLDhc7jcy-0-aJYf08Ck_5Y";
-
       const liveMount = document.getElementById("liveMount");
       const liveMeta = document.getElementById("liveMeta");
       if(!liveMount) return;
 
-      function buildEmbed(id){
-        const qs = new URLSearchParams({
-          autoplay: "0",
-          rel: "0",
-          modestbranding: "1",
-          playsinline: "1"
-        });
-        return `https://www.youtube-nocookie.com/embed/${id}?${qs.toString()}`;
-      }
+      const qs = new URLSearchParams({
+        channel: YT_CHANNEL_ID,
+        autoplay: "0",
+        rel: "0",
+        modestbranding: "1",
+        playsinline: "1"
+      });
 
-      function mountIframe(videoId){
-        liveMount.innerHTML = "";
-        const iframe = document.createElement("iframe");
-        iframe.src = buildEmbed(videoId);
-        iframe.title = "Transmissão ao vivo";
-        iframe.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
-        iframe.allowFullscreen = true;
-        iframe.referrerPolicy = "strict-origin-when-cross-origin";
-        iframe.style.width = "100%";
-        iframe.style.height = "100%";
-        iframe.style.border = "0";
-        liveMount.appendChild(iframe);
-      }
+      const iframe = document.createElement("iframe");
+      iframe.src = "https://www.youtube-nocookie.com/embed/live_stream?" + qs.toString();
+      iframe.title = "Transmissão ao vivo";
+      iframe.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
+      iframe.allowFullscreen = true;
+      iframe.referrerPolicy = "strict-origin-when-cross-origin";
+      iframe.style.width = "100%";
+      iframe.style.height = "100%";
+      iframe.style.border = "0";
 
-      function mountOffline(){
-        liveMount.innerHTML = `
-          <div style="padding:18px; text-align:center;">
-            🔴 Ainda não estamos ao vivo.<br/>
-            <span style="opacity:.85; font-size:13px;">Quando iniciar, o player aparece aqui automaticamente.</span>
-          </div>
-        `;
-      }
+      liveMount.innerHTML = "";
+      liveMount.appendChild(iframe);
 
-      async function checkLive(){
-        try{
-          const url = "https://www.googleapis.com/youtube/v3/search?" + new URLSearchParams({
-            part: "snippet",
-            channelId: YT_CHANNEL_ID,
-            eventType: "live",
-            type: "video",
-            maxResults: "1",
-            key: YT_API_KEY
-          });
-
-          const res = await fetch(url);
-          if(!res.ok) throw new Error("HTTP " + res.status);
-          const data = await res.json();
-
-          const item = (data.items && data.items[0]) ? data.items[0] : null;
-          if(item && item.id && item.id.videoId){
-            const vid = item.id.videoId;
-            mountIframe(vid);
-            if(liveMeta) liveMeta.textContent = "🔴 Ao vivo agora — " + (item.snippet?.title || "");
-            return;
-          }
-
-          mountOffline();
-          if(liveMeta) liveMeta.textContent = "Offline";
-        }catch(e){
-          mountOffline();
-          if(liveMeta) liveMeta.textContent = "Não foi possível checar a live agora.";
-        }
-      }
-
-      function inWindow(now, dow, hour, min, beforeMin, afterMin){
-        const base = new Date(now.getFullYear(), now.getMonth(), now.getDate(), hour, min, 0, 0);
-        const diffDays = (dow - base.getDay() + 7) % 7;
-        base.setDate(base.getDate() + diffDays);
-
-        const start = new Date(base.getTime() - beforeMin * 60000);
-        const end   = new Date(base.getTime() + afterMin  * 60000);
-
-        return now >= start && now <= end;
-      }
-
-      function getAdaptivePollMs(){
-        const now = new Date();
-        const before = 60;
-        const after  = 180;
-
-        const isLiveWindow =
-          inWindow(now, 4, 18, 0, before, after) ||
-          inWindow(now, 0,  9, 0, before, after) ||
-          inWindow(now, 0, 18, 0, before, after);
-
-        return isLiveWindow ? (60 * 1000) : (30 * 60 * 1000);
-      }
-
-      let liveTimer = null;
-
-      function scheduleNextCheck(){
-        const ms = getAdaptivePollMs();
-        clearTimeout(liveTimer);
-        liveTimer = setTimeout(async ()=>{
-          await checkLive();
-          scheduleNextCheck();
-        }, ms);
-      }
-
-      checkLive();
-      scheduleNextCheck();
+      if(liveMeta) liveMeta.textContent = "🔴 Ao vivo (quando houver transmissão ativa no canal)";
     })();
 
     (function(){
       const YT_CHANNEL_ID = "UCNmU-juUErNMbHAJOQ508Ow";
-      const TAKE = 5;
+      const UPLOADS_PLAYLIST = "UU" + YT_CHANNEL_ID.substring(2);
 
-      const player = document.getElementById("latestPlayer");
-      const meta = document.getElementById("latestMeta");
-      const list = document.getElementById("latestList");
-      if(!player || !meta || !list) return;
+      const mount = document.getElementById("uploadsMount");
+      if(!mount) return;
 
-      function buildEmbedUrl2(id){
-        const qs = new URLSearchParams({
-          autoplay: "0",
-          rel: "0",
-          modestbranding: "1",
-          playsinline: "1"
-        });
-        return `https://www.youtube-nocookie.com/embed/${id}?${qs.toString()}`;
-      }
+      const qs = new URLSearchParams({
+        listType: "playlist",
+        list: UPLOADS_PLAYLIST,
+        rel: "0",
+        modestbranding: "1",
+        playsinline: "1"
+      });
 
-      function mountPlayer(id, title){
-        player.innerHTML = "";
-        const iframe = document.createElement("iframe");
-        iframe.src = buildEmbedUrl2(id);
-        iframe.title = title || "YouTube video";
-        iframe.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
-        iframe.allowFullscreen = true;
-        iframe.referrerPolicy = "strict-origin-when-cross-origin";
-        iframe.style.width = "100%";
-        iframe.style.height = "100%";
-        iframe.style.border = "0";
-        player.appendChild(iframe);
-        meta.textContent = title || "Vídeo";
-      }
+      const iframe = document.createElement("iframe");
+      iframe.src = "https://www.youtube-nocookie.com/embed/videoseries?" + qs.toString();
+      iframe.title = "Últimos vídeos";
+      iframe.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
+      iframe.allowFullscreen = true;
+      iframe.referrerPolicy = "strict-origin-when-cross-origin";
+      iframe.style.width = "100%";
+      iframe.style.height = "100%";
+      iframe.style.border = "0";
 
-      function esc(s){
-        return String(s||"")
-          .replaceAll("&","&amp;")
-          .replaceAll("<","&lt;")
-          .replaceAll(">","&gt;")
-          .replaceAll('"',"&quot;")
-          .replaceAll("'","&#39;");
-      }
-
-      function parseFromXml(xmlText){
-        const doc = new DOMParser().parseFromString(xmlText, "text/xml");
-        const entries = Array.from(doc.querySelectorAll("entry"));
-        return entries.map(e=>{
-          const link = e.querySelector("link")?.getAttribute("href") || "";
-          const title = e.querySelector("title")?.textContent || "Vídeo";
-          const idMatch = link.match(/v=([A-Za-z0-9_-]{11})/);
-          const id = idMatch ? idMatch[1] : null;
-          if(!id) return null;
-          const thumb = `https://i.ytimg.com/vi/${id}/hqdefault.jpg`;
-          return { id, title, thumb };
-        }).filter(Boolean);
-      }
-
-      async function fetchXmlWithFallback(url){
-        try{
-          const r = await fetch(url, { cache:"no-store" });
-          if(r.ok) return await r.text();
-        }catch(e){}
-
-        const proxied = "https://r.jina.ai/http://" + url.replace(/^https?:\/\//, "");
-        const r2 = await fetch(proxied, { cache:"no-store" });
-        if(!r2.ok) throw new Error("Falha ao carregar feed");
-        const txt = await r2.text();
-        const idx = txt.indexOf("<feed");
-        return idx >= 0 ? txt.slice(idx) : txt;
-      }
-
-      async function loadLatest(){
-        try{
-          meta.textContent = "Carregando último vídeo…";
-          list.innerHTML = "";
-
-          const feedUrl = `https://www.youtube.com/feeds/videos.xml?channel_id=${encodeURIComponent(YT_CHANNEL_ID)}`;
-          const xml = await fetchXmlWithFallback(feedUrl);
-          const vids = parseFromXml(xml).slice(0, TAKE);
-
-          if(!vids.length){
-            meta.textContent = "Nenhum vídeo encontrado.";
-            return;
-          }
-
-          mountPlayer(vids[0].id, vids[0].title);
-
-          const rest = vids.slice(1);
-          list.innerHTML = rest.map(v=>`
-            <article class="card" style="grid-column: span 3; cursor:pointer;" data-vid="${esc(v.id)}" data-title="${esc(v.title)}">
-              <div class="bar"></div>
-              <div class="videoThumb">
-                <img src="${esc(v.thumb)}" alt="${esc(v.title)}" loading="lazy" decoding="async">
-                <div class="playBtn" aria-label="Abrir vídeo">
-                  <div class="pill">▶ Abrir</div>
-                </div>
-              </div>
-              <div class="videoMeta">${esc(v.title)}</div>
-            </article>
-          `).join("");
-
-          list.addEventListener("click", (e)=>{
-            const card = e.target.closest("[data-vid]");
-            if(!card) return;
-            mountPlayer(card.getAttribute("data-vid"), card.getAttribute("data-title"));
-            window.scrollTo({ top: player.getBoundingClientRect().top + window.scrollY - 120, behavior:"smooth" });
-          });
-
-        }catch(err){
-          console.error(err);
-          meta.textContent = "Não foi possível carregar os vídeos agora.";
-          list.innerHTML = `
-            <div class="summary" style="grid-column:span 12">
-              Erro ao carregar os últimos vídeos.
-            </div>
-          `;
-        }
-      }
-
-      loadLatest();
+      mount.innerHTML = "";
+      mount.appendChild(iframe);
     })();
   </script>
 </body>
