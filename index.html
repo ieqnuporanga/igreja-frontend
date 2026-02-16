@@ -2181,12 +2181,14 @@ END:VCALENDAR`;
       const qs = new URLSearchParams({
         listType: "playlist",
         list: UPLOADS_PLAYLIST,
+        index: "1",     
         rel: "0",
         modestbranding: "1",
         playsinline: "1"
       });
       return "https://www.youtube.com/embed/videoseries?" + qs.toString();
     }
+
 
     function mountIframeInto(el, src, title){
       const iframe = document.createElement("iframe");
@@ -2245,3 +2247,4 @@ END:VCALENDAR`;
   </script>
 </body>
 </html>
+
