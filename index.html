@@ -1,22 +1,5 @@
-<!doctype html>
-<html lang="pt-BR">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>IEQ Nuporanga | Templo A Resposta</title>
-  <meta name="description" content="Igreja do Evangelho Quadrangular em Nuporanga/SP. Horários, pastores, localização, eventos e informações." />
-  <meta name="theme-color" content="#060A12" />
-  <meta name="referrer" content="strict-origin-when-cross-origin" />
+ igreja do evangelho quadrangular nuporanga, culto nuporanga, templo a resposta">
 
-  <meta property="og:type" content="website" />
-  <meta property="og:title" content="IEQ Nuporanga | Templo A Resposta" />
-  <meta property="og:description" content="Igreja do Evangelho Quadrangular em Nuporanga/SP. Horários, pastores, localização, eventos e informações." />
-  <meta property="og:image" content="https://i.imgur.com/gdJy8hB.jpg" />
-  <meta property="og:locale" content="pt_BR" />
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="IEQ Nuporanga | Templo A Resposta" />
-  <meta name="twitter:description" content="Igreja do Evangelho Quadrangular em Nuporanga/SP. Horários, pastores, localização, eventos e informações." />
-  <meta name="twitter:image" content="https://i.imgur.com/gdJy8hB.jpg" />
 
   <script type="application/ld+json">
   {
@@ -71,7 +54,7 @@
       --r24: 24px;
 
       --padX: clamp(20px, 5vw, 34px);
-      --gutterMin: 22px;
+      --gutterMin: 18px;
     }
 
     *{box-sizing:border-box}
@@ -138,6 +121,29 @@
       border:0;
       cursor:pointer;
     }
+	
+	.footerLogo{
+	  display:block;
+	  margin: -12px auto 0;   /* sobe a logo */
+	  width:120px;
+	}
+
+
+
+	@media(max-width:560px){
+	  .footerLogo{
+		width:100px;
+	  }
+	}
+
+
+
+
+	@media(max-width:560px){
+	  .footerLogo{
+		width:130px;
+	  }
+	}
 
     .logoBox{
       width:56px;height:56px;border-radius:18px;
@@ -647,8 +653,15 @@
     .arrowBtn:hover{transform:translateY(-1px);background: rgba(255,255,255,.12);border-color: rgba(255,255,255,.22)}
 
     footer{background:#060A12;border-top:1px solid rgba(255,255,255,.12)}
-    .footInner{padding:34px 0}
-    .footGrid{display:grid;grid-template-columns: 1.2fr .8fr;gap: 18px}
+    .footInner{padding:26px 0}
+	.footGrid{
+	  display:flex;
+	  flex-direction:column;
+	  align-items:center;
+	  text-align:center;
+	  gap:10px;
+	}
+
     .fine{margin:10px 0 0;color: rgba(255,255,255,.78);font-size:13px}
 
     .noticeWrap{
@@ -851,7 +864,18 @@
     }
 
     @media (max-width: 560px){
-      :root{ --padX: 24px; --gutterMin: 24px; }
+	
+	  .heroLogo{
+		width: 150px;  
+		max-width: 78vw;
+		height: auto;
+	  }
+	
+      :root{ --padX: clamp(18px, 5vw, 22px); --gutterMin: 24px; }
+      .container{
+        padding-left: max(calc(var(--padX) + env(safe-area-inset-left)), var(--gutterMin));
+        padding-right: max(calc(var(--padX) + env(safe-area-inset-right)), var(--gutterMin));
+      }
       .sectionInner{padding:42px 0}
       .kickerBar{width:132px;margin-bottom:12px}
       .title{font-size:26px;letter-spacing:-.8px;line-height:1.12;margin-bottom:8px;padding-left:0}
@@ -871,23 +895,13 @@
       .bgImage .sectionInner{ padding-bottom:96px; }
       .waBtn{padding: 12px 12px; border-radius: 18px;}
       .cardImg{ height:110px; }
+      .bgImage .sectionInner{ padding-bottom: 96px; }
     }
 
     @media (max-width: 420px){ .waMini{display:none} }
 
     @media (prefers-reduced-motion: reduce){
       *{transition:none !important;animation:none !important}
-    }
-
-    :root{ --gutterMin: 18px; }
-
-    @media (max-width: 560px){
-      :root{ --padX: clamp(18px, 5vw, 22px); }
-      .container{
-        padding-left: max(calc(var(--padX) + env(safe-area-inset-left)), var(--gutterMin));
-        padding-right: max(calc(var(--padX) + env(safe-area-inset-right)), var(--gutterMin));
-      }
-      .bgImage .sectionInner{ padding-bottom: 96px; }
     }
 
     #liveMount{ overflow: hidden; }
@@ -909,18 +923,83 @@
         max-width: 46ch;
       }
     }
+
+    .locInfo{
+      min-height:420px;
+      overflow:hidden;
+    }
+
+    .locInfo iframe{
+      display:block;
+      width:100%;
+      height:100%;
+      min-height:320px;
+    }
 	
-	.locInfo{
-	  min-height:420px;
-	  overflow:hidden;
+	/* ===========================
+	   MOBILE: mais respiro lateral
+	   =========================== */
+
+	/* garante um gutter mínimo real no celular */
+	:root{
+	  --gutterMin: 18px;
 	}
 
-	.locInfo iframe{
-	  display:block;
-	  width:100%;
-	  height:100%;
-	  min-height:320px;
-	}
+	/* reforça o padding lateral no mobile e cria "safe padding" */
+	@media (max-width: 560px){
+	  :root{
+		/* padX mais consistente (não precisa ser maior, precisa ser estável) */
+		--padX: clamp(18px, 5vw, 22px);
+	  }
+
+	  .container{
+		padding-left: max(calc(var(--padX) + env(safe-area-inset-left)), var(--gutterMin));
+		padding-right: max(calc(var(--padX) + env(safe-area-inset-right)), var(--gutterMin));
+	  }
+
+	  /* header: evita tudo ficar colado e melhora o alinhamento */
+	  .head{
+		gap: 10px;
+	  }
+	  .brand{
+		padding-left: 0; /* tira o empurrão extra */
+		gap: 10px;
+	  }
+	  .brandText h1,
+	  .brandText p{
+		padding-left: 0; /* remove padding extra que "come" espaço */
+	  }
+
+	  /* texto do header não pode ocupar "vw" demais e esmagar o botão */
+	  .brandText h1{ max-width: 52vw; }
+	  .brandText p{ max-width: 52vw; }
+
+	  /* botão do menu um pouco menor no mobile */
+	  .iconBtn{
+		width: 40px;
+		height: 40px;
+		border-radius: 14px;
+	  }
+
+	  /* grid e cards: respiro interno e externo mais agradável */
+	  .grid{ gap: 14px; }
+	  .card, .summary, .person, .mapWrap, .eventHero{
+		border-radius: 22px;
+	  }
+
+	  /* imagens e iframes não grudarem no container visualmente */
+	  .inlineMedia,
+	  .videoCard,
+	  .galleryWrap{
+		border-radius: 20px;
+	  }
+
+	  /* seção hero: dá um ar a mais sem “colar” */
+	  .bgImage .sectionInner{
+		padding-bottom: 96px;
+	  }
+}
+
 
   </style>
 </head>
@@ -992,7 +1071,7 @@
   <section id="inicio" class="theme-blackFade bgImage" style="--bg-url:url('https://i.imgur.com/vgH0ako.jpeg')">
     <div class="sectionInner content container">
       <div class="heroLogoWrap">
-        <img class="heroLogo" src="https://i.imgur.com/gdJy8hB.jpg" alt="Logo da igreja" decoding="async" />
+        <img class="heroLogo" src="https://i.imgur.com/gE1rnJK.png" alt="Logo da igreja" decoding="async" />
       </div>
 
       <div class="kickerBar"></div>
@@ -1087,20 +1166,18 @@
         <article class="card"><div class="bar"></div><div class="pad"><h3>Terça</h3><p><b>19h</b> — Culto de Intercessão</p></div></article>
         <article class="card"><div class="bar"></div><div class="pad"><h3>Quarta</h3><p><b>19h</b> — Culto de Jovens</p></div></article>
         <article class="card"><div class="bar"></div><div class="pad"><h3>Quinta-feira</h3><p><b>19h</b> — Culto da Família</p></div></article>
-		<article class="card">
-		  <div class="bar"></div>
-		  <div class="pad">
-			<h3>📅 Agenda Mensal</h3>
+        <article class="card">
+          <div class="bar"></div>
+          <div class="pad">
+            <h3>📅 Agenda Mensal</h3>
 
-			<div class="row" style="margin-top:12px">
-			  <button class="btn ghost" type="button" id="openMonthAgendaBtn">
-				Ver agenda completa
-			  </button>
-			</div>
-		  </div>
-     </article>
-
-
+            <div class="row" style="margin-top:12px">
+              <button class="btn ghost" type="button" id="openMonthAgendaBtn">
+                Ver agenda completa
+              </button>
+            </div>
+          </div>
+        </article>
       </div>
     </div>
   </section>
@@ -1148,7 +1225,7 @@
           </p>
 
           <div class="inlineMedia">
-            <img src="https://i.imgur.com/50YK4Pp.jpeg" alt="Jesus Salva - Jesus Batiza no Espirito Santo - Jesus Cura - Jesus Voltará" loading="lazy" decoding="async" style="object-position:center 72%;" />
+            <img src="https://i.imgur.com/DhZkzyX.jpeg" alt="Jesus Salva - Jesus Batiza no Espirito Santo - Jesus Cura - Jesus Voltará" loading="lazy" decoding="async" style="object-position:center 72%;" />
             <div class="cap">Jesus Salva • Jesus Batiza no Espírito Santo • Jesus Cura • Jesus Voltará</div>
           </div>
 
@@ -1210,49 +1287,47 @@
           <div class="pad16">
             <h3 style="margin:0 0 6px;font-weight:950">Endereço</h3>
             <p style="margin:0;color:rgba(255,255,255,.86)">R. Joao Sabaini Neto, 135 - Jardim Brasilia | Nuporanga - SP</p>
-			<div class="row" style="margin-top:12px;gap:10px;flex-wrap:wrap">
-			  <a class="btn ghost" target="_blank" rel="noopener"
-				href="https://www.google.com/maps/dir/?api=1&destination=R.%20Joao%20Sabaini%20Neto,%20135%20-%20Jardim%20Brasilia%20Nuporanga%20SP">
-				🧭 Google Maps
-			  </a>
+            <div class="row" style="margin-top:12px;gap:10px;flex-wrap:wrap">
+              <a class="btn ghost" target="_blank" rel="noopener"
+                href="https://www.google.com/maps/dir/?api=1&destination=R.%20Joao%20Sabaini%20Neto,%20135%20-%20Jardim%20Brasilia%20Nuporanga%20SP">
+                🧭 Google Maps
+              </a>
 
-			  <a class="btn ghost" target="_blank" rel="noopener"
-				href="https://waze.com/ul?q=R.%20Joao%20Sabaini%20Neto%20135%20Nuporanga%20SP&navigate=yes">
-				🚗 Abrir no Waze
-			  </a>
-			</div>
+              <a class="btn ghost" target="_blank" rel="noopener"
+                href="https://waze.com/ul?q=R.%20Joao%20Sabaini%20Neto%20135%20Nuporanga%20SP&navigate=yes">
+                🚗 Abrir no Waze
+              </a>
+            </div>
           </div>
         </div>
 
-		 <div class="card locInfo">
-		  <div class=""></div>
+        <div class="card locInfo">
+          <iframe
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+            style="
+              width:100%;
+              height:100%;
+              min-height:320px;
+              border:0;
+              border-radius:12px;
+            "
+            src="https://www.google.com/maps/embed?pb=!4v1771290602700!6m8!1m7!1sNhokCK7XQbpWFTSzGwJ2TQ!2m2!1d-20.72175593552893!2d-47.75145884869336!3f70.5525355573247!4f-9.814060961799086!5f0.7820865974627469"
+            allowfullscreen>
+          </iframe>
 
-		  <iframe
-			loading="lazy"
-			referrerpolicy="no-referrer-when-downgrade"
-			style="
-			  width:100%;
-			  height:100%;
-			  min-height:320px;
-			  border:0;
-			  border-radius:12px;
-			"
-			 src="https://www.google.com/maps/embed?pb=!4v1771290602700!6m8!1m7!1sNhokCK7XQbpWFTSzGwJ2TQ!2m2!1d-20.72175593552893!2d-47.75145884869336!3f70.5525355573247!4f-9.814060961799086!5f0.7820865974627469"
-			  allowfullscreen>
-		  </iframe>
+          <div class="pad">
+            <h3 style="margin:0 0 6px">Veja nossa igreja por fora</h3>
+            <p class="muted">Arraste para girar o Street View.</p>
 
-		  <div class="pad">
-			<h3 style="margin:0 0 6px">Veja nossa igreja por fora</h3>
-			<p class="muted">Arraste para girar o Street View.</p>
-
-			<div class="row" style="margin-top:10px">
-			  <a class="btn ghost" target="_blank" rel="noopener"
-				href="https://www.google.com/maps?q=R.%20Joao%20Sabaini%20Neto,%20135%20Nuporanga%20SP">
-				Abrir no Google Maps
-			  </a>
-			</div>
-		  </div>
-		</div>
+            <div class="row" style="margin-top:10px">
+              <a class="btn ghost" target="_blank" rel="noopener"
+                href="https://www.google.com/maps?q=R.%20Joao%20Sabaini%20Neto,%20135%20Nuporanga%20SP">
+                Abrir no Google Maps
+              </a>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </section>
@@ -1401,26 +1476,25 @@
       <div class="videoCard" style="margin-top:16px">
         <div class="videoThumb" id="liveMount" style="aspect-ratio:16/9; background:#000;">
           <div class="livePlaceholder">
-			<div style="font-size:16px;font-weight:950">🔴 Ao vivo</div>
+            <div style="font-size:16px;font-weight:950">🔴 Ao vivo</div>
 
-			<div class="liveHint">
-			  Nossas transmissões normalmente acontecem:
+            <div class="liveHint">
+              Nossas transmissões normalmente acontecem:
 
-			  <br><br>
+              <br><br>
 
-			  👉 <b>Quinta-feira - 19h</b><br>
-			  👉 <b>Domingo - 18h</b>
+              👉 <b>Quinta-feira - 19h</b><br>
+              👉 <b>Domingo - 18h</b>
 
-			  <br><br>
+              <br><br>
 
-			  Fora desses horários, pode aparecer como indisponível.
+              Fora desses horários, pode aparecer como indisponível.
 
-			</div>
+            </div>
 
             <div class="row" style="justify-content:center; margin-top:6px">
               <button class="btn" type="button" id="liveTryBtn">▶ Tentar carregar</button>
               <a class="btn ghost" href="https://www.youtube.com/@ieqnuporangasp/live" target="_blank" rel="noopener">Abrir no YouTube</a>
-              <a class="btn ghost" href="https://www.youtube.com/@ieqnuporangasp" target="_blank" rel="noopener">Canal</a>
             </div>
           </div>
         </div>
@@ -1479,22 +1553,34 @@
     </div>
   </section>
 
-  <footer>
-    <div class="container footInner">
-      <div class="footGrid">
-        <div>
-          <div style="font-weight:950;font-size:16px">IEQ Nuporanga | Templo A Resposta</div>
-          <div class="fine">© <span id="year"></span> — Igreja do Evangelho Quadrangular</div>
-        </div>
-        <div class="fine" style="text-align:center">
-          Domingo 18h • Segunda 19h • Terça 19h • Quarta 19h • Quinta 19h
-          <div style="margin-top:10px">
-            <a class="btn ghost" href="https://midia.otimizandooaltar.com" target="_blank" rel="noopener">Área Equipe</a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </footer>
+	<footer>
+
+	  <div class="container footInner">
+		<div class="footGrid">
+		  <div>
+			<div style="font-weight:950;font-size:16px">IEQ Nuporanga | Templo A Resposta</div>
+			<div class="fine">© <span id="year"></span> — Igreja do Evangelho Quadrangular</div>
+		  </div>
+		  
+
+		  <div class="fine" style="text-align:center">
+			Domingo 18h • Segunda 19h • Terça 19h • Quarta 19h • Quinta 19h
+			<div style="margin-top:10px">
+			  <a class="btn ghost" href="https://midia.otimizandooaltar.com" target="_blank" rel="noopener">Área Equipe</a>
+			</div>
+		  </div>
+
+		  <img
+			src="https://i.imgur.com/bbQ8IK8.png"
+			alt="Logo IEQ Nuporanga"
+			class="footerLogo"
+			loading="lazy"
+			decoding="async"
+		  />
+		</div>
+	  </div>
+	</footer>
+
 
   <div class="toTop" id="toTop">
     <button class="arrowBtn" id="topBtn" aria-label="Voltar ao topo">
@@ -1505,7 +1591,9 @@
   </div>
 
   <div class="waFloat" aria-label="Contato WhatsApp">
-    <a class="waBtn" id="waFloatBtn" href="#" rel="noopener" aria-label="Falar no WhatsApp">
+    <a class="waBtn" id="waFloatBtn"
+       href="https://wa.me/5516991044148?text=Ol%C3%A1%21%20Gostaria%20de%20mais%20informa%C3%A7%C3%B5es%20sobre%20o%20pr%C3%B3ximo%20culto."
+       target="_blank" rel="noopener" aria-label="Falar no WhatsApp">
       <svg class="waIcon" viewBox="0 0 32 32" fill="none" aria-hidden="true">
         <path d="M16 2.5C8.6 2.5 2.6 8.4 2.6 15.7c0 2.5.7 4.9 2 7L3 29.5l7-1.8c2 .9 4.2 1.4 6.5 1.4 7.4 0 13.4-5.9 13.4-13.3C29.9 8.4 23.4 2.5 16 2.5Z" stroke="rgba(255,255,255,.92)" stroke-width="1.6"/>
         <path d="M12.8 10.3c-.3-.7-.7-.7-1.1-.7h-.9c-.3 0-.8.1-1.2.6-.4.5-1.6 1.6-1.6 3.8s1.6 4.3 1.8 4.6c.2.3 3.1 5 7.7 6.8 3.8 1.5 4.6 1.2 5.4 1.1.8-.1 2.6-1 3-2 .4-1 .4-1.9.3-2.1-.1-.2-.4-.3-.9-.5-.5-.2-2.6-1.3-3-1.4-.4-.1-.7-.2-1 .2-.3.4-1.2 1.4-1.4 1.7-.3.3-.5.4-1 .2-.5-.2-2-.7-3.8-2.3-1.4-1.2-2.3-2.7-2.6-3.1-.3-.5 0-.8.2-1 .2-.2.5-.5.7-.7.2-.2.3-.4.5-.7.2-.3.1-.5 0-.7-.1-.2-.9-2.3-1.2-3Z" fill="rgba(255,255,255,.92)"/>
@@ -1548,14 +1636,14 @@
         <p class="muted" id="eventsModalSubtitle" style="margin:0 0 10px">
           Carregando a agenda do mês…
         </p>
-        </div>
+        <div class="eventsList" id="eventsModalList"></div>
       </div>
     </div>
   </div>
 
   <script>
     const SHEET_ID = "1B8jnN0rSlNGtnyhR_kvGBvcNzyNPvDVnsltB4nhph30";
-	const SHEET_TABS_TRY = ["janeiro","fevereiro","marco","abril","maio","junho","julho","agosto","setembro","outubro","novembro","dezembro"];
+    const SHEET_TABS_TRY = ["janeiro","fevereiro","marco","abril","maio","junho","julho","agosto","setembro","outubro","novembro","dezembro"];
     const UPCOMING_LIMIT = 6;
 
     function escapeHTML(str){
@@ -1798,7 +1886,14 @@
     const closeBtn = document.getElementById("closeBtn");
     const backdrop = document.getElementById("backdrop");
 
-    function lockScroll(on){ document.body.style.overflow = on ? "hidden" : ""; }
+    // lockScroll seguro (contador)
+    let scrollLocks = 0;
+    function lockScroll(on){
+      scrollLocks += on ? 1 : -1;
+      scrollLocks = Math.max(0, scrollLocks);
+      document.body.style.overflow = scrollLocks > 0 ? "hidden" : "";
+    }
+
     function openMenu(){ document.body.classList.add("menuOpen"); lockScroll(true); }
     function closeMenu(){ document.body.classList.remove("menuOpen"); lockScroll(false); }
 
@@ -1853,7 +1948,8 @@
       closeMenu();
       scrollToSection(id);
     }
-    document.addEventListener("click", handleNavClick, true);
+    // sem capturing
+    document.addEventListener("click", handleNavClick);
 
     const toTop = document.getElementById("toTop");
     const topBtn = document.getElementById("topBtn");
@@ -1969,12 +2065,12 @@
     setGallery("cultos");
 
     const CULTOS_FIXOS = [
-	  { dow: 0, hour: 18, min: 0, label: "Culto de Celebração" },
-	  { dow: 1, hour: 19, min: 0, label: "Culto de Mulheres" },
-	  { dow: 2, hour: 19, min: 0, label: "Culto de Intercessão" },
-	  { dow: 3, hour: 19, min: 0, label: "Culto de Jovens" },
-	  { dow: 4, hour: 19, min: 0, label: "Culto da Família" },
-	];
+      { dow: 0, hour: 18, min: 0, label: "Culto de Celebração" },
+      { dow: 1, hour: 19, min: 0, label: "Culto de Mulheres" },
+      { dow: 2, hour: 19, min: 0, label: "Culto de Intercessão" },
+      { dow: 3, hour: 19, min: 0, label: "Culto de Jovens" },
+      { dow: 4, hour: 19, min: 0, label: "Culto da Família" },
+    ];
 
     const nextBadge = document.getElementById("nextCultoBadge");
     const nextIn = document.getElementById("nextCultoIn");
@@ -2077,13 +2173,26 @@
     }
 
     const waFloatBtn = document.getElementById("waFloatBtn");
-    function wireWhatsBtn(btn){
-      if(!btn) return;
-      btn.addEventListener("click", (e)=>{
+
+    // Whats com href real (anchor) e click handler só para botões
+    function wireWhatsBtn(el){
+      if(!el) return;
+
+      const href = buildWhatsLink(getNextCultoText());
+
+      if(el.tagName === "A"){
+        el.setAttribute("href", href);
+        el.setAttribute("target", "_blank");
+        el.setAttribute("rel", "noopener");
+        return;
+      }
+
+      el.addEventListener("click", (e)=>{
         e.preventDefault();
-        window.open(buildWhatsLink(getNextCultoText()), "_blank", "noopener");
+        window.open(href, "_blank", "noopener");
       });
     }
+
     wireWhatsBtn(waFloatBtn);
     wireWhatsBtn(document.getElementById("firstTimeWhatsBtn"));
     wireWhatsBtn(document.getElementById("ministeriosWhatsBtn"));
@@ -2150,15 +2259,14 @@
       eventsModalBack.setAttribute("aria-hidden","true");
       lockScroll(false);
     }
-	
-	const openMonthAgendaBtn = document.getElementById("openMonthAgendaBtn");
-	if(openMonthAgendaBtn){
-	  openMonthAgendaBtn.addEventListener("click", (e)=>{
-		e.preventDefault();
-		openEventsModal();
-	  });
-	}
 
+    const openMonthAgendaBtn = document.getElementById("openMonthAgendaBtn");
+    if(openMonthAgendaBtn){
+      openMonthAgendaBtn.addEventListener("click", (e)=>{
+        e.preventDefault();
+        openEventsModal();
+      });
+    }
 
     if(eventsModalClose) eventsModalClose.addEventListener("click", closeEventsModal);
     if(eventsModalBack){
@@ -2218,6 +2326,7 @@
         if(eventsModalBack && eventsModalBack.classList.contains("show")) closeEventsModal();
       }
     });
+
 function toICSDateLocal(d){
   const y = d.getFullYear();
   const m = String(d.getMonth()+1).padStart(2,"0");
@@ -2228,7 +2337,6 @@ function toICSDateLocal(d){
   return `${y}${m}${day}T${hh}${mm}${ss}`;
 }
 
-// Escapa texto conforme iCalendar (RFC 5545)
 function icsEscapeText(s){
   return String(s ?? "")
     .replace(/\\/g, "\\\\")
@@ -2237,57 +2345,53 @@ function icsEscapeText(s){
     .replace(/,/g, "\\,");
 }
 
-// “Fold” de linha: máximo 75 octetos por linha (prática comum)
-// Aqui fazemos um folding simples por tamanho de string (suficiente na maioria dos casos)
-	function icsFoldLine(line, maxLen = 75){
-	  const out = [];
-	  let s = String(line);
-	  while(s.length > maxLen){
-		out.push(s.slice(0, maxLen));
-		s = " " + s.slice(maxLen); // espaço no começo da continuação
-	  }
-	  out.push(s);
-	  return out.join("\r\n");
-	}
+function icsFoldLine(line, maxLen = 75){
+  const out = [];
+  let s = String(line);
+  while(s.length > maxLen){
+    out.push(s.slice(0, maxLen));
+    s = " " + s.slice(maxLen);
+  }
+  out.push(s);
+  return out.join("\r\n");
+}
 
-	function downloadICS({title, description, location, start, end}){
-	  const uid = "ieq-nuporanga-" + start.getTime() + "@site";
-	  const dtstamp = toICSDateLocal(new Date());
-	  const dtstart = toICSDateLocal(start);
-	  const dtend = toICSDateLocal(end);
+function downloadICS({title, description, location, start, end}){
+  const uid = "ieq-nuporanga-" + start.getTime() + "@site";
+  const dtstamp = toICSDateLocal(new Date());
+  const dtstart = toICSDateLocal(start);
+  const dtend = toICSDateLocal(end);
 
-	  const lines = [
-		"BEGIN:VCALENDAR",
-		"VERSION:2.0",
-		"PRODID:-//IEQ Nuporanga//Site//PT-BR",
-		"CALSCALE:GREGORIAN",
-		"METHOD:PUBLISH",
-		"BEGIN:VEVENT",
-		"UID:" + icsEscapeText(uid),
-		"DTSTAMP:" + dtstamp,
-		"DTSTART:" + dtstart,
-		"DTEND:" + dtend,
-		"SUMMARY:" + icsEscapeText(title),
-		"DESCRIPTION:" + icsEscapeText(description),
-		"LOCATION:" + icsEscapeText(location),
-		"END:VEVENT",
-		"END:VCALENDAR"
-	  ];
+  const lines = [
+    "BEGIN:VCALENDAR",
+    "VERSION:2.0",
+    "PRODID:-//IEQ Nuporanga//Site//PT-BR",
+    "CALSCALE:GREGORIAN",
+    "METHOD:PUBLISH",
+    "BEGIN:VEVENT",
+    "UID:" + icsEscapeText(uid),
+    "DTSTAMP:" + dtstamp,
+    "DTSTART:" + dtstart,
+    "DTEND:" + dtend,
+    "SUMMARY:" + icsEscapeText(title),
+    "DESCRIPTION:" + icsEscapeText(description),
+    "LOCATION:" + icsEscapeText(location),
+    "END:VEVENT",
+    "END:VCALENDAR"
+  ];
 
-	  // aplica folding e CRLF certinho
-	  const ics = lines.map(l => icsFoldLine(l)).join("\r\n") + "\r\n";
+  const ics = lines.map(l => icsFoldLine(l)).join("\r\n") + "\r\n";
 
-	  const blob = new Blob([ics], {type: "text/calendar;charset=utf-8"});
-	  const url = URL.createObjectURL(blob);
-	  const a = document.createElement("a");
-	  a.href = url;
-	  a.download = "proximo-culto-ieq-nuporanga.ics";
-	  document.body.appendChild(a);
-	  a.click();
-	  a.remove();
-	  setTimeout(()=>URL.revokeObjectURL(url), 800);
-	}
-
+  const blob = new Blob([ics], {type: "text/calendar;charset=utf-8"});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "proximo-culto-ieq-nuporanga.ics";
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  setTimeout(()=>URL.revokeObjectURL(url), 800);
+}
 
     function updateCalendarLinks(){
       const next = NEXT_CULTO_CACHE || getNextCulto();
@@ -2492,54 +2596,49 @@ function icsEscapeText(s){
       if(liveTryBtn) liveTryBtn.addEventListener("click", (e)=>{ e.preventDefault(); tryLoadLive(); });
     })();
 
-	(function(){
-	  const sec = document.getElementById("aoVivo");
-	  if(!sec) return;
+    (function(){
+      const sec = document.getElementById("aoVivo");
+      if(!sec) return;
 
-	  const LIVE_WINDOWS = [
-		// Quinta-feira (dow 4) — 18:00 até 22:00
-		{ dow: 4, startMin: 18*60, endMin: 22*60 },
-		// Domingo (dow 0) — 17:00 até 21:00
-		{ dow: 0, startMin: 17*60, endMin: 21*60 },
-	  ];
+      const LIVE_WINDOWS = [
+        { dow: 4, startMin: 18*60, endMin: 22*60 },
+        { dow: 0, startMin: 17*60, endMin: 21*60 },
+      ];
 
-	  function minutesOfDay(d){ return d.getHours()*60 + d.getMinutes(); }
+      function minutesOfDay(d){ return d.getHours()*60 + d.getMinutes(); }
 
-	  function isNowInLiveWindow(now = new Date()){
-		const dow = now.getDay();
-		const m = minutesOfDay(now);
-		return LIVE_WINDOWS.some(w => w.dow === dow && m >= w.startMin && m <= w.endMin);
-	  }
+      function isNowInLiveWindow(now = new Date()){
+        const dow = now.getDay();
+        const m = minutesOfDay(now);
+        return LIVE_WINDOWS.some(w => w.dow === dow && m >= w.startMin && m <= w.endMin);
+      }
 
-	  let tried = false;
+      let tried = false;
 
-	  function tryAutoLoadIfWindow(){
-		if(tried) return;
-		if(isNowInLiveWindow() && typeof window.ieqTryLoadLive === "function"){
-		  tried = true;
-		  try{ window.ieqTryLoadLive(); }catch(e){}
-		}
-	  }
+      function tryAutoLoadIfWindow(){
+        if(tried) return;
+        if(isNowInLiveWindow() && typeof window.ieqTryLoadLive === "function"){
+          tried = true;
+          try{ window.ieqTryLoadLive(); }catch(e){}
+        }
+      }
 
-	  // 1) tenta auto-carregar imediatamente se estiver no horário garantido
-	  tryAutoLoadIfWindow();
+      tryAutoLoadIfWindow();
+      setInterval(tryAutoLoadIfWindow, 60000);
 
-	  // 2) re-checa a cada 60s (caso a página já esteja aberta e dê o horário)
-	  setInterval(tryAutoLoadIfWindow, 60000);
-
-	  // 3) fallback: quando a seção entrar na tela, tenta 1x (igual você já tinha)
-	  const obs = new IntersectionObserver((entries)=>{
-		for(const ent of entries){
-		  if(ent.isIntersecting && ent.intersectionRatio >= 0.35){
-			if(!tried && typeof window.ieqTryLoadLive === "function"){
-			  tried = true;
-			  try{ window.ieqTryLoadLive(); }catch(e){}
+		const obs = new IntersectionObserver((entries)=>{
+		  for(const ent of entries){
+			if(ent.isIntersecting && ent.intersectionRatio >= 0.35){
+			  // Só carrega automaticamente se estiver na janela de live
+			  if(!tried && isNowInLiveWindow() && typeof window.ieqTryLoadLive === "function"){
+				tried = true;
+				try{ window.ieqTryLoadLive(); }catch(e){}
+			  }
 			}
 		  }
-		}
-	  }, { threshold: [0.35] });
+		}, { threshold: [0.35] });
 
-	  obs.observe(sec);
+		obs.observe(sec);
 	})();
 
 
@@ -2712,35 +2811,31 @@ function icsEscapeText(s){
         });
       });
     })();
-	
-	function toGCalDateUTC(d){
-	  // Google Calendar URL usa UTC no formato YYYYMMDDTHHMMSSZ
-	  const yyyy = d.getUTCFullYear();
-	  const mm = String(d.getUTCMonth()+1).padStart(2,"0");
-	  const dd = String(d.getUTCDate()).padStart(2,"0");
-	  const hh = String(d.getUTCHours()).padStart(2,"0");
-	  const mi = String(d.getUTCMinutes()).padStart(2,"0");
-	  const ss = String(d.getUTCSeconds()).padStart(2,"0");
-	  return `${yyyy}${mm}${dd}T${hh}${mi}${ss}Z`;
-	}
 
-	function buildGoogleCalendarUrl({ title, details, location, start, end }){
-	  const base = "https://calendar.google.com/calendar/render?action=TEMPLATE";
-	  const dates = `${toGCalDateUTC(start)}/${toGCalDateUTC(end)}`;
+    function toGCalDateUTC(d){
+      const yyyy = d.getUTCFullYear();
+      const mm = String(d.getUTCMonth()+1).padStart(2,"0");
+      const dd = String(d.getUTCDate()).padStart(2,"0");
+      const hh = String(d.getUTCHours()).padStart(2,"0");
+      const mi = String(d.getUTCMinutes()).padStart(2,"0");
+      const ss = String(d.getUTCSeconds()).padStart(2,"0");
+      return `${yyyy}${mm}${dd}T${hh}${mi}${ss}Z`;
+    }
 
-	  const qs = new URLSearchParams({
-		text: title || "",
-		details: details || "",
-		location: location || "",
-		dates
-	  });
+    function buildGoogleCalendarUrl({ title, details, location, start, end }){
+      const base = "https://calendar.google.com/calendar/render?action=TEMPLATE";
+      const dates = `${toGCalDateUTC(start)}/${toGCalDateUTC(end)}`;
 
-	  return base + "&" + qs.toString();
-	}
+      const qs = new URLSearchParams({
+        text: title || "",
+        details: details || "",
+        location: location || "",
+        dates
+      });
+
+      return base + "&" + qs.toString();
+    }
 
   </script>
 </body>
 </html>
-
-
-
