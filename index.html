@@ -909,6 +909,19 @@
         max-width: 46ch;
       }
     }
+	
+	.locInfo{
+	  min-height:420px;
+	  overflow:hidden;
+	}
+
+	.locInfo iframe{
+	  display:block;
+	  width:100%;
+	  height:100%;
+	  min-height:320px;
+	}
+
   </style>
 </head>
 
@@ -1071,8 +1084,23 @@
       <div class="grid">
         <article class="card"><div class="bar"></div><div class="pad"><h3>Domingo</h3><p><b>18h</b> — Culto de Celebração</p></div></article>
         <article class="card"><div class="bar"></div><div class="pad"><h3>Segunda</h3><p><b>19h</b> — Culto de Mulheres</p></div></article>
+        <article class="card"><div class="bar"></div><div class="pad"><h3>Terça</h3><p><b>19h</b> — Culto de Intercessão</p></div></article>
         <article class="card"><div class="bar"></div><div class="pad"><h3>Quarta</h3><p><b>19h</b> — Culto de Jovens</p></div></article>
         <article class="card"><div class="bar"></div><div class="pad"><h3>Quinta-feira</h3><p><b>19h</b> — Culto da Família</p></div></article>
+		<article class="card">
+		  <div class="bar"></div>
+		  <div class="pad">
+			<h3>📅 Agenda Mensal</h3>
+
+			<div class="row" style="margin-top:12px">
+			  <button class="btn ghost" type="button" id="openMonthAgendaBtn">
+				Ver agenda completa
+			  </button>
+			</div>
+		  </div>
+     </article>
+
+
       </div>
     </div>
   </section>
@@ -1182,45 +1210,49 @@
           <div class="pad16">
             <h3 style="margin:0 0 6px;font-weight:950">Endereço</h3>
             <p style="margin:0;color:rgba(255,255,255,.86)">R. Joao Sabaini Neto, 135 - Jardim Brasilia | Nuporanga - SP</p>
-            <div class="row" style="margin-top:12px">
-              <a class="btn ghost" target="_blank" rel="noopener"
-                href="https://www.google.com/maps/dir/?api=1&destination=R.%20Joao%20Sabaini%20Neto,%20135%20-%20Jardim%20Brasilia%20Nuporanga%20SP">
-                🧭 Como chegar
-              </a>
-            </div>
+			<div class="row" style="margin-top:12px;gap:10px;flex-wrap:wrap">
+			  <a class="btn ghost" target="_blank" rel="noopener"
+				href="https://www.google.com/maps/dir/?api=1&destination=R.%20Joao%20Sabaini%20Neto,%20135%20-%20Jardim%20Brasilia%20Nuporanga%20SP">
+				🧭 Google Maps
+			  </a>
+
+			  <a class="btn ghost" target="_blank" rel="noopener"
+				href="https://waze.com/ul?q=R.%20Joao%20Sabaini%20Neto%20135%20Nuporanga%20SP&navigate=yes">
+				🚗 Abrir no Waze
+			  </a>
+			</div>
           </div>
         </div>
 
-        <div class="card locInfo">
-          <div class="bar"></div>
-          <div class="pad">
-            <h3>Informações</h3>
-            <p class="muted">Principais Informações.</p>
+		 <div class="card locInfo">
+		  <div class=""></div>
 
-            <div style="margin-top:12px;border-top:1px solid rgba(255,255,255,.12);padding-top:12px">
-              <h3 style="margin:0 0 6px">Endereço</h3>
-              <p style="margin:0;color:rgba(255,255,255,.86)">R. Joao Sabaini Neto, 135 - Jardim Brasilia | Nuporanga - SP</p>
-            </div>
+		  <iframe
+			loading="lazy"
+			referrerpolicy="no-referrer-when-downgrade"
+			style="
+			  width:100%;
+			  height:100%;
+			  min-height:320px;
+			  border:0;
+			  border-radius:12px;
+			"
+			 src="https://www.google.com/maps/embed?pb=!4v1771290602700!6m8!1m7!1sNhokCK7XQbpWFTSzGwJ2TQ!2m2!1d-20.72175593552893!2d-47.75145884869336!3f70.5525355573247!4f-9.814060961799086!5f0.7820865974627469"
+			  allowfullscreen>
+		  </iframe>
 
-            <div style="margin-top:12px;border-top:1px solid rgba(255,255,255,.12);padding-top:12px">
-              <h3 style="margin:0 0 6px">Horário principal</h3>
-              <p style="margin:0;color:rgba(255,255,255,.86)"><b>Domingo</b> — 18h</p>
-            </div>
+		  <div class="pad">
+			<h3 style="margin:0 0 6px">Veja nossa igreja por fora</h3>
+			<p class="muted">Arraste para girar o Street View.</p>
 
-            <div style="margin-top:12px;border-top:1px solid rgba(255,255,255,.12);padding-top:12px">
-              <h3 style="margin:0 0 6px">Fotos</h3>
-              <p style="margin:0;color:rgba(255,255,255,.86)">Organizadas no Google Drive para facilitar o acesso.</p>
-              <div class="row">
-                <a class="btn ghost" href="https://drive.google.com/drive/folders/1LG5aJrqR8th5IkgLpDCRSFci9OvYjNt3?usp=drive_link" target="_blank" rel="noopener">Abrir Drive</a>
-              </div>
-            </div>
-
-            <div class="row" style="margin-top:14px">
-              <a class="btn ghost" href="https://www.instagram.com/ieqnuporangasp" target="_blank" rel="noopener">Instagram</a>
-              <a class="btn ghost" href="https://www.facebook.com/profile.php?id=61584372636777" target="_blank" rel="noopener">Facebook</a>
-            </div>
-          </div>
-        </div>
+			<div class="row" style="margin-top:10px">
+			  <a class="btn ghost" target="_blank" rel="noopener"
+				href="https://www.google.com/maps?q=R.%20Joao%20Sabaini%20Neto,%20135%20Nuporanga%20SP">
+				Abrir no Google Maps
+			  </a>
+			</div>
+		  </div>
+		</div>
       </div>
     </div>
   </section>
@@ -1250,8 +1282,8 @@
               <div class="galleryHead">
                 <strong>Galeria</strong>
                 <div class="galleryTabs">
-                  <button class="tabBtn active" type="button" data-gallery="cultos">Cultos</button>
-                  <button class="tabBtn" type="button" data-gallery="eventos">Eventos</button>
+                  <button class="tabBtn active" type="button" data-gallery="cultos">Corrida Pela Vida - 2026</button>
+                  <button class="tabBtn" type="button" data-gallery="eventos">TEC Crianças - 2026</button>
                 </div>
               </div>
 
@@ -1369,12 +1401,22 @@
       <div class="videoCard" style="margin-top:16px">
         <div class="videoThumb" id="liveMount" style="aspect-ratio:16/9; background:#000;">
           <div class="livePlaceholder">
-            <div style="font-size:16px;font-weight:950">🔴 Ao vivo</div>
-            <div class="liveHint">
-              Se não estiver ao vivo agora, pode aparecer como indisponível.
-              <br><br>
-              Quando souber que a live começou, toque em <b>Tentar carregar</b>.
-            </div>
+			<div style="font-size:16px;font-weight:950">🔴 Ao vivo</div>
+
+			<div class="liveHint">
+			  Nossas transmissões normalmente acontecem:
+
+			  <br><br>
+
+			  👉 <b>Quinta-feira - 19h</b><br>
+			  👉 <b>Domingo - 18h</b>
+
+			  <br><br>
+
+			  Fora desses horários, pode aparecer como indisponível.
+
+			</div>
+
             <div class="row" style="justify-content:center; margin-top:6px">
               <button class="btn" type="button" id="liveTryBtn">▶ Tentar carregar</button>
               <a class="btn ghost" href="https://www.youtube.com/@ieqnuporangasp/live" target="_blank" rel="noopener">Abrir no YouTube</a>
@@ -1445,7 +1487,7 @@
           <div class="fine">© <span id="year"></span> — Igreja do Evangelho Quadrangular</div>
         </div>
         <div class="fine" style="text-align:center">
-          Domingo 18h • Segunda 19h • Quarta 19h • Quinta 19h
+          Domingo 18h • Segunda 19h • Terça 19h • Quarta 19h • Quinta 19h
           <div style="margin-top:10px">
             <a class="btn ghost" href="https://midia.otimizandooaltar.com" target="_blank" rel="noopener">Área Equipe</a>
           </div>
@@ -1516,7 +1558,7 @@
 
   <script>
     const SHEET_ID = "1B8jnN0rSlNGtnyhR_kvGBvcNzyNPvDVnsltB4nhph30";
-    const SHEET_TABS_TRY = ["fevereiro","marco","abril","maio","junho","julho"];
+	const SHEET_TABS_TRY = ["janeiro","fevereiro","marco","abril","maio","junho","julho","agosto","setembro","outubro","novembro","dezembro"];
     const UPCOMING_LIMIT = 6;
 
     function escapeHTML(str){
@@ -1892,12 +1934,12 @@
       cultos: {
         id: "1G3-fLudBhqaOmxhQd8bjy31oYrPiqZWM",
         url: "https://drive.google.com/drive/folders/1G3-fLudBhqaOmxhQd8bjy31oYrPiqZWM?usp=drive_link",
-        title: "Cultos"
+        title: "Corrida Pela Vida - 2026"
       },
       eventos: {
         id: "1RcqD7vLWzPcRUVX5fq9pzuD9f1kzLY9v",
         url: "https://drive.google.com/drive/folders/1RcqD7vLWzPcRUVX5fq9pzuD9f1kzLY9v?usp=drive_link",
-        title: "Eventos"
+        title: "TEC Crianças - 2026"
       }
     };
 
@@ -1930,11 +1972,12 @@
     setGallery("cultos");
 
     const CULTOS_FIXOS = [
-      { dow: 0, hour: 18, min: 0, label: "Culto de Celebração" },
-      { dow: 1, hour: 19, min: 0, label: "Culto de Mulheres" },
-      { dow: 3, hour: 19, min: 0, label: "Culto de Jovens" },
-      { dow: 4, hour: 19, min: 0, label: "Culto da Família" },
-    ];
+	  { dow: 0, hour: 18, min: 0, label: "Culto de Celebração" },
+	  { dow: 1, hour: 19, min: 0, label: "Culto de Mulheres" },
+	  { dow: 2, hour: 19, min: 0, label: "Culto de Intercessão" },
+	  { dow: 3, hour: 19, min: 0, label: "Culto de Jovens" },
+	  { dow: 4, hour: 19, min: 0, label: "Culto da Família" },
+	];
 
     const nextBadge = document.getElementById("nextCultoBadge");
     const nextIn = document.getElementById("nextCultoIn");
@@ -2110,6 +2153,15 @@
       eventsModalBack.setAttribute("aria-hidden","true");
       lockScroll(false);
     }
+	
+	const openMonthAgendaBtn = document.getElementById("openMonthAgendaBtn");
+	if(openMonthAgendaBtn){
+	  openMonthAgendaBtn.addEventListener("click", (e)=>{
+		e.preventDefault();
+		openEventsModal();
+	  });
+	}
+
 
     if(eventsModalClose) eventsModalClose.addEventListener("click", closeEventsModal);
     if(eventsModalBack){
@@ -2169,61 +2221,76 @@
         if(eventsModalBack && eventsModalBack.classList.contains("show")) closeEventsModal();
       }
     });
+function toICSDateLocal(d){
+  const y = d.getFullYear();
+  const m = String(d.getMonth()+1).padStart(2,"0");
+  const day = String(d.getDate()).padStart(2,"0");
+  const hh = String(d.getHours()).padStart(2,"0");
+  const mm = String(d.getMinutes()).padStart(2,"0");
+  const ss = String(d.getSeconds()).padStart(2,"0");
+  return `${y}${m}${day}T${hh}${mm}${ss}`;
+}
 
-    function toICSDateLocal(d){
-      const y = d.getFullYear();
-      const m = String(d.getMonth()+1).padStart(2,"0");
-      const day = String(d.getDate()).padStart(2,"0");
-      const hh = String(d.getHours()).padStart(2,"0");
-      const mm = String(d.getMinutes()).padStart(2,"0");
-      return `${y}${m}${day}T${hh}${mm}00`;
-    }
+// Escapa texto conforme iCalendar (RFC 5545)
+function icsEscapeText(s){
+  return String(s ?? "")
+    .replace(/\\/g, "\\\\")
+    .replace(/\r\n|\r|\n/g, "\\n")
+    .replace(/;/g, "\\;")
+    .replace(/,/g, "\\,");
+}
 
-    function buildGoogleCalendarUrl({title, details, location, start, end}){
-      const dates = `${toICSDateLocal(start)}/${toICSDateLocal(end)}`;
-      const qs = new URLSearchParams({
-        action: "TEMPLATE",
-        text: title,
-        details: details,
-        location: location,
-        dates: dates
-      });
-      return "https://calendar.google.com/calendar/render?" + qs.toString();
-    }
+// “Fold” de linha: máximo 75 octetos por linha (prática comum)
+// Aqui fazemos um folding simples por tamanho de string (suficiente na maioria dos casos)
+	function icsFoldLine(line, maxLen = 75){
+	  const out = [];
+	  let s = String(line);
+	  while(s.length > maxLen){
+		out.push(s.slice(0, maxLen));
+		s = " " + s.slice(maxLen); // espaço no começo da continuação
+	  }
+	  out.push(s);
+	  return out.join("\r\n");
+	}
 
-    function downloadICS({title, description, location, start, end}){
-      const uid = "ieq-nuporanga-" + start.getTime() + "@site";
-      const dtstamp = toICSDateLocal(new Date());
-      const dtstart = toICSDateLocal(start);
-      const dtend = toICSDateLocal(end);
+	function downloadICS({title, description, location, start, end}){
+	  const uid = "ieq-nuporanga-" + start.getTime() + "@site";
+	  const dtstamp = toICSDateLocal(new Date());
+	  const dtstart = toICSDateLocal(start);
+	  const dtend = toICSDateLocal(end);
 
-      const ics =
-`BEGIN:VCALENDAR
-VERSION:2.0
-PRODID:-//IEQ Nuporanga//Site//PT-BR
-CALSCALE:GREGORIAN
-METHOD:PUBLISH
-BEGIN:VEVENT
-UID:${uid}
-DTSTAMP:${dtstamp}
-DTSTART:${dtstart}
-DTEND:${dtend}
-SUMMARY:${title}
-DESCRIPTION:${description}
-LOCATION:${location}
-END:VEVENT
-END:VCALENDAR`;
+	  const lines = [
+		"BEGIN:VCALENDAR",
+		"VERSION:2.0",
+		"PRODID:-//IEQ Nuporanga//Site//PT-BR",
+		"CALSCALE:GREGORIAN",
+		"METHOD:PUBLISH",
+		"BEGIN:VEVENT",
+		"UID:" + icsEscapeText(uid),
+		"DTSTAMP:" + dtstamp,
+		"DTSTART:" + dtstart,
+		"DTEND:" + dtend,
+		"SUMMARY:" + icsEscapeText(title),
+		"DESCRIPTION:" + icsEscapeText(description),
+		"LOCATION:" + icsEscapeText(location),
+		"END:VEVENT",
+		"END:VCALENDAR"
+	  ];
 
-      const blob = new Blob([ics], {type: "text/calendar;charset=utf-8"});
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = "proximo-culto-ieq-nuporanga.ics";
-      document.body.appendChild(a);
-      a.click();
-      a.remove();
-      setTimeout(()=>URL.revokeObjectURL(url), 800);
-    }
+	  // aplica folding e CRLF certinho
+	  const ics = lines.map(l => icsFoldLine(l)).join("\r\n") + "\r\n";
+
+	  const blob = new Blob([ics], {type: "text/calendar;charset=utf-8"});
+	  const url = URL.createObjectURL(blob);
+	  const a = document.createElement("a");
+	  a.href = url;
+	  a.download = "proximo-culto-ieq-nuporanga.ics";
+	  document.body.appendChild(a);
+	  a.click();
+	  a.remove();
+	  setTimeout(()=>URL.revokeObjectURL(url), 800);
+	}
+
 
     function updateCalendarLinks(){
       const next = NEXT_CULTO_CACHE || getNextCulto();
@@ -2428,24 +2495,56 @@ END:VCALENDAR`;
       if(liveTryBtn) liveTryBtn.addEventListener("click", (e)=>{ e.preventDefault(); tryLoadLive(); });
     })();
 
-    (function(){
-      const sec = document.getElementById("aoVivo");
-      if(!sec) return;
+	(function(){
+	  const sec = document.getElementById("aoVivo");
+	  if(!sec) return;
 
-      let tried = false;
-      const obs = new IntersectionObserver((entries)=>{
-        for(const ent of entries){
-          if(ent.isIntersecting && ent.intersectionRatio >= 0.35){
-            if(!tried && typeof window.ieqTryLoadLive === "function"){
-              tried = true;
-              try{ window.ieqTryLoadLive(); }catch(e){}
-            }
-          }
-        }
-      }, { threshold: [0.35] });
+	  const LIVE_WINDOWS = [
+		// Quinta-feira (dow 4) — 18:00 até 22:00
+		{ dow: 4, startMin: 18*60, endMin: 22*60 },
+		// Domingo (dow 0) — 17:00 até 21:00
+		{ dow: 0, startMin: 17*60, endMin: 21*60 },
+	  ];
 
-      obs.observe(sec);
-    })();
+	  function minutesOfDay(d){ return d.getHours()*60 + d.getMinutes(); }
+
+	  function isNowInLiveWindow(now = new Date()){
+		const dow = now.getDay();
+		const m = minutesOfDay(now);
+		return LIVE_WINDOWS.some(w => w.dow === dow && m >= w.startMin && m <= w.endMin);
+	  }
+
+	  let tried = false;
+
+	  function tryAutoLoadIfWindow(){
+		if(tried) return;
+		if(isNowInLiveWindow() && typeof window.ieqTryLoadLive === "function"){
+		  tried = true;
+		  try{ window.ieqTryLoadLive(); }catch(e){}
+		}
+	  }
+
+	  // 1) tenta auto-carregar imediatamente se estiver no horário garantido
+	  tryAutoLoadIfWindow();
+
+	  // 2) re-checa a cada 60s (caso a página já esteja aberta e dê o horário)
+	  setInterval(tryAutoLoadIfWindow, 60000);
+
+	  // 3) fallback: quando a seção entrar na tela, tenta 1x (igual você já tinha)
+	  const obs = new IntersectionObserver((entries)=>{
+		for(const ent of entries){
+		  if(ent.isIntersecting && ent.intersectionRatio >= 0.35){
+			if(!tried && typeof window.ieqTryLoadLive === "function"){
+			  tried = true;
+			  try{ window.ieqTryLoadLive(); }catch(e){}
+			}
+		  }
+		}
+	  }, { threshold: [0.35] });
+
+	  obs.observe(sec);
+	})();
+
 
     let YT_API_READY = false;
     let YT_API_LOADING = false;
@@ -2616,6 +2715,33 @@ END:VCALENDAR`;
         });
       });
     })();
+	
+	function toGCalDateUTC(d){
+	  // Google Calendar URL usa UTC no formato YYYYMMDDTHHMMSSZ
+	  const yyyy = d.getUTCFullYear();
+	  const mm = String(d.getUTCMonth()+1).padStart(2,"0");
+	  const dd = String(d.getUTCDate()).padStart(2,"0");
+	  const hh = String(d.getUTCHours()).padStart(2,"0");
+	  const mi = String(d.getUTCMinutes()).padStart(2,"0");
+	  const ss = String(d.getUTCSeconds()).padStart(2,"0");
+	  return `${yyyy}${mm}${dd}T${hh}${mi}${ss}Z`;
+	}
+
+	function buildGoogleCalendarUrl({ title, details, location, start, end }){
+	  const base = "https://calendar.google.com/calendar/render?action=TEMPLATE";
+	  const dates = `${toGCalDateUTC(start)}/${toGCalDateUTC(end)}`;
+
+	  const qs = new URLSearchParams({
+		text: title || "",
+		details: details || "",
+		location: location || "",
+		dates
+	  });
+
+	  return base + "&" + qs.toString();
+	}
+
   </script>
 </body>
 </html>
+
