@@ -1,4 +1,24 @@
- igreja do evangelho quadrangular nuporanga, culto nuporanga, templo a resposta">
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>IEQ Nuporanga | Templo A Resposta</title>
+  <meta name="description" content="IEQ Nuporanga — Igreja do Evangelho Quadrangular. Cultos: Domingo 18h, Segunda a Quinta 19h. Endereço, avisos, transmissões e conteúdos oficiais." />
+  <meta name="theme-color" content="#060A12" />
+  <meta name="referrer" content="strict-origin-when-cross-origin" />
+  <meta name="google-site-verification" content="1RcNaJu3Motg7-jsx7UrChERoNYGo_S5RrUgvFRZFOk" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="IEQ Nuporanga | Templo A Resposta" />
+  <meta property="og:description" content="Igreja do Evangelho Quadrangular em Nuporanga/SP. Horários, pastores, localização, eventos e informações." />
+  <meta property="og:image" content="https://i.imgur.com/gdJy8hB.jpg" />
+  <meta property="og:locale" content="pt_BR" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="IEQ Nuporanga | Templo A Resposta" />
+  <meta name="twitter:description" content="Igreja do Evangelho Quadrangular em Nuporanga/SP. Horários, pastores, localização, eventos e informações." />
+  <meta name="twitter:image" content="https://i.imgur.com/gdJy8hB.jpg" />
+  
+  <meta name="keywords" content="igreja nuporanga, ieq nuporanga, igreja do evangelho quadrangular nuporanga, culto nuporanga, templo a resposta">
 
 
   <script type="application/ld+json">
@@ -2804,38 +2824,3 @@ function downloadICS({title, description, location, start, end}){
             playsinline: 1
           },
           events: {
-            onReady: onPlayerReady,
-            onError: onPlayerError,
-            onStateChange: onPlayerStateChange
-          }
-        });
-      });
-    })();
-
-    function toGCalDateUTC(d){
-      const yyyy = d.getUTCFullYear();
-      const mm = String(d.getUTCMonth()+1).padStart(2,"0");
-      const dd = String(d.getUTCDate()).padStart(2,"0");
-      const hh = String(d.getUTCHours()).padStart(2,"0");
-      const mi = String(d.getUTCMinutes()).padStart(2,"0");
-      const ss = String(d.getUTCSeconds()).padStart(2,"0");
-      return `${yyyy}${mm}${dd}T${hh}${mi}${ss}Z`;
-    }
-
-    function buildGoogleCalendarUrl({ title, details, location, start, end }){
-      const base = "https://calendar.google.com/calendar/render?action=TEMPLATE";
-      const dates = `${toGCalDateUTC(start)}/${toGCalDateUTC(end)}`;
-
-      const qs = new URLSearchParams({
-        text: title || "",
-        details: details || "",
-        location: location || "",
-        dates
-      });
-
-      return base + "&" + qs.toString();
-    }
-
-  </script>
-</body>
-</html>
