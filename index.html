@@ -1041,6 +1041,31 @@
 	  }
 }
 
+			  /* Redes + Instagram lado a lado no PC e empilhado no celular */
+		.socialInstaRow{
+		  display:grid;
+		  grid-template-columns: 1fr 1fr;
+		  gap:14px;
+		  align-items:start;
+		}
+		
+		/* evita qualquer "estouro" de largura do embed */
+		.socialInstaRow > div,
+		.socialInstaRow blockquote{
+		  min-width:0;
+		  max-width:100%;
+		}
+		
+		@media (max-width: 560px){
+		  .socialInstaRow{
+		    grid-template-columns: 1fr; /* empilha */
+		  }
+		
+		  /* dá um respiro e garante que nada vaze pro lado */
+		  .socialInstaRow{
+		    overflow:hidden;
+		  }
+		}
 
   </style>
 </head>
@@ -1164,7 +1189,7 @@
 		<div class="card wide">
 		  <div class="bar"></div>
 		
-		  <div class="pad" style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+		  <div class="pad socialInstaRow">
 		
 		    <!-- REDES SOCIAIS -->
 		    <div>
@@ -1180,15 +1205,20 @@
 		    </div>
 		
 		    <!-- ÚLTIMO POST -->
-		    <div>
-		      <h3>📸 Último post</h3>
-		
-		      <blockquote
-		        class="instagram-media"
-		        data-instgrm-permalink="https://www.instagram.com/ieqnuporangasp/"
-		        data-instgrm-version="14"
-		        style="width:100%;margin:0 auto;">
-		      </blockquote>
+			<h3>📸 Último post</h3>
+			
+			<blockquote
+			  class="instagram-media"
+			  data-instgrm-permalink="https://www.instagram.com/ieqnuporangasp/"
+			  data-instgrm-version="14"
+			  style="width:100%;margin:0 auto;">
+			</blockquote>
+			
+			<a class="btn ghost" style="margin-top:10px"
+			   href="https://www.instagram.com/ieqnuporangasp/"
+			   target="_blank" rel="noopener">
+			Abrir no Instagram →
+			</a>
 		    </div>
 		
 		  </div>
@@ -1708,6 +1738,7 @@
 
 </body>
 </html>
+
 
 
 
