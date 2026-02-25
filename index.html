@@ -1774,36 +1774,7 @@
         <div class="eventsList" id="eventsModalList"></div>
       </div>
     </div>
-	<!-- Cookie Banner -->
-	<div id="cookieBanner" style="
-	  position:fixed;
-	  bottom:16px;
-	  left:16px;
-	  right:16px;
-	  max-width:900px;
-	  margin:auto;
-	  background:rgba(10,16,28,.98);
-	  border:1px solid rgba(255,255,255,.16);
-	  border-radius:18px;
-	  padding:14px 16px;
-	  box-shadow:0 20px 50px rgba(0,0,0,.5);
-	  z-index:9999;
-	  display:none;
-	">
-	
-	  <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap">
-	    <div style="flex:1;color:#fff;font-size:13.5px;line-height:1.5">
-	      🍪 Este site usa cookies do navegador para melhorar sua experiência e
-	      identificar se é sua primeira visita.
-	    </div>
-	
-	    <button id="cookieOk" class="btn">
-	      OK
-	    </button>
-	  </div>
-	
-	</div>
-</div>
+ </div>
 
 	<script src="app.js" defer></script>
 	
@@ -1823,37 +1794,62 @@
 	
 	document.addEventListener("DOMContentLoaded", () => {
 	
+	  // Banner cookies
 	  const banner = document.getElementById("cookieBanner");
 	  const btn = document.getElementById("cookieOk");
 	
-	  // Se ainda não aceitou
-	  if(!getCookie("site_cookie_ok")){
-	    banner.style.display = "block";
+	  if (banner && btn) {
+	    if (!getCookie("site_cookie_ok")) {
+	      banner.style.display = "block";
+	    }
+	
+	    btn.addEventListener("click", () => {
+	      setCookie("site_cookie_ok", "true", 365);
+	      banner.style.display = "none";
+	    });
 	  }
 	
-	  btn.addEventListener("click", () => {
-	    setCookie("site_cookie_ok","true",365); // 1 ano
-	    banner.style.display = "none";
-	  });
-	
-	document.addEventListener("DOMContentLoaded", () => {
-	
+	  // Card "Primeira vez por aqui?"
 	  const card = document.getElementById("firstTimeCard");
-	
-	  if(!getCookie("first_visit")){
-	    // PRIMEIRA VISITA → mostra o card
-	    if(card) card.style.display = "block";
-	    setCookie("first_visit","true",365);
-	  }else{
-	    // JÁ VISITOU → esconde
-	    if(card) card.style.display = "none";
+	  if (card) {
+	    if (!getCookie("first_visit")) {
+	      card.style.display = "block";
+	      setCookie("first_visit", "true", 365);
+	    } else {
+	      card.style.display = "none";
+	    }
 	  }
 	
 	});
 	</script>
 
+	<!-- Cookie Banner -->
+	<div id="cookieBanner" style="
+	  position:fixed;
+	  bottom:16px;
+	  left:16px;
+	  right:16px;
+	  max-width:900px;
+	  margin:auto;
+	  background:rgba(10,16,28,.98);
+	  border:1px solid rgba(255,255,255,.16);
+	  border-radius:18px;
+	  padding:14px 16px;
+	  box-shadow:0 20px 50px rgba(0,0,0,.5);
+	  z-index:9999;
+	  display:none;
+	">
+	  <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap">
+	    <div style="flex:1;color:#fff;font-size:13.5px;line-height:1.5">
+	      🍪 Este site usa cookies do navegador para melhorar sua experiência e identificar se é sua primeira visita.
+	    </div>
+	    <button id="cookieOk" class="btn">OK</button>
+	  </div>
+	</div>
+
 </body>
 </html>
+
 
 
 
