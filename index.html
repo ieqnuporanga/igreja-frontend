@@ -1193,6 +1193,40 @@
 	  }
 	}
 
+	#cookieBanner.cookieBanner{
+	  position: fixed !important;
+	  left: 16px !important;
+	  right: 16px !important;
+	  bottom: 16px !important;
+	  max-width: 900px !important;
+	  margin: 0 auto !important;
+	  z-index: 9999 !important;
+	
+	  border: 1px solid rgba(255,255,255,.16) !important;
+	  background: rgba(10,16,28,.98) !important;
+	  border-radius: 22px !important;
+	  box-shadow: 0 20px 55px rgba(0,0,0,.45) !important;
+	  padding: 12px 14px !important;
+	
+	  opacity: 0 !important;
+	  transform: translateY(10px) !important;
+	  pointer-events: none !important;
+	  visibility: hidden !important;
+	  transition: opacity .18s ease, transform .18s ease, visibility 0s linear .18s !important;
+	}
+	
+	#cookieBanner.cookieBanner.is-on{
+	  opacity: 1 !important;
+	  transform: translateY(0) !important;
+	  pointer-events: auto !important;
+	  visibility: visible !important;
+	  transition: opacity .18s ease, transform .18s ease, visibility 0s !important;
+	}
+	
+	@media (max-width: 560px){
+	  #cookieBanner.cookieBanner{ bottom: 82px !important; }
+	}
+
   </style>
 </head>
 
@@ -1959,6 +1993,7 @@
 
 </body>
 </html>
+
 
 
 
