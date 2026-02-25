@@ -1983,28 +1983,6 @@
 	  }
 	
 	});
-	</script>
-
-	<script>
-	// MOSTRAR EVENTOS MESMO APÓS FALHA
-	document.addEventListener("DOMContentLoaded", function () {
-	  const noticeWrap = document.getElementById("noticeWrap");
-	  const noticeBody = document.getElementById("noticeBody");
-	
-	  // Espera 2 segundos para dar tempo do script principal tentar carregar
-	  setTimeout(function () {
-	    if (!noticeWrap) return;
-	
-	    // Se continuar escondido, força exibir com mensagem padrão
-	    if (getComputedStyle(noticeWrap).display === "none") {
-	      if (noticeBody && noticeBody.innerHTML.trim() === "") {
-	        noticeBody.innerHTML = "📌 Avisos temporariamente indisponíveis.";
-	      }
-	      noticeWrap.style.display = "block";
-	    }
-	  }, 2000);
-	});
-	</script>
 
 	<!-- Cookie Banner (fora de tudo, no final do body) -->
 	<div id="cookieBanner" class="cookieBanner" aria-live="polite" aria-label="Aviso de cookies">
@@ -2019,4 +1997,5 @@
 
 </body>
 </html>
+
 
