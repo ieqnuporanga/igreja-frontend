@@ -1836,10 +1836,17 @@
 	    banner.style.display = "none";
 	  });
 	
-	  // EXEMPLO: detectar primeira visita
+	document.addEventListener("DOMContentLoaded", () => {
+	
+	  const card = document.getElementById("firstTimeCard");
+	
 	  if(!getCookie("first_visit")){
-	    console.log("Primeira visita!");
+	    // PRIMEIRA VISITA → mostra o card
+	    if(card) card.style.display = "block";
 	    setCookie("first_visit","true",365);
+	  }else{
+	    // JÁ VISITOU → esconde
+	    if(card) card.style.display = "none";
 	  }
 	
 	});
@@ -1847,6 +1854,7 @@
 
 </body>
 </html>
+
 
 
 
