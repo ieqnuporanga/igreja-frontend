@@ -1858,12 +1858,12 @@
 	<script>
 	function setCookie(name, value, days){
 	  const d = new Date();
-	  d.setTime(d.getTime() + (days*24*60*60*1000));
+	  d.setTime(d.getTime() + (days * 24 * 60 * 60 * 1000));
 	  document.cookie = name + "=" + value + ";expires=" + d.toUTCString() + ";path=/";
 	}
 	
 	function getCookie(name){
-	  const v = document.cookie.match('(^|;) ?' + name + '=([^;]*)(;|$)');
+	  const v = document.cookie.match("(^|;) ?"+name+"=([^;]*)(;|$)");
 	  return v ? v[2] : null;
 	}
 	
@@ -1871,71 +1871,66 @@
 	  if(!el) return;
 	  el.classList.add("is-on");
 	  el.classList.remove("is-off");
-	  el.setAttribute("aria-hidden", "false");
 	}
 	
 	function hideEl(el){
 	  if(!el) return;
 	  el.classList.remove("is-on");
 	  el.classList.add("is-off");
-	  el.setAttribute("aria-hidden", "true");
 	}
 	
 	document.addEventListener("DOMContentLoaded", () => {
 	
-	  // ========= Cookie Banner =========
+	  // ========= COOKIE BANNER =========
 	  const banner = document.getElementById("cookieBanner");
 	  const cookieBtn = document.getElementById("cookieOk");
 	
 	  if (banner && cookieBtn) {
 	    if (!getCookie("site_cookie_ok")) {
-	      // mostra com animação
 	      showEl(banner);
 	    } else {
-	      // garante escondido
 	      hideEl(banner);
 	    }
 	
-	    cookieBtn.addEventListener("click", () => {
+	    cookieBtn.onclick = () => {
 	      setCookie("site_cookie_ok", "true", 365);
 	      hideEl(banner);
-	    });
+	    };
 	  }
 	
-	  // ========= Card "Primeira vez por aqui?" =========
+	  // ========= CARD NOVATO =========
 	  const card = document.getElementById("firstTimeCard");
 	  const close = document.getElementById("firstTimeClose");
 	
-	  if (card) {
-	    // estado inicial “pronto pra animar”
+	  if(card){
+	
 	    card.classList.add("is-off");
 	
-	    if (!getCookie("first_visit")) {
-	      // primeira visita: mostra card
-	      // (seta cookie já aqui pra garantir que não volta)
-	      setCookie("first_visit", "true", 365);
-	
-	      // pequena “respirada” pra animação ficar gostosa
-	      requestAnimationFrame(() => {
-	        card.classList.remove("is-off");
-	        card.setAttribute("aria-hidden", "false");
-	      });
-	    } else {
-	      // já visitou: mantém escondido
+	    // só esconde se cookie ainda estiver válido
+	    if(getCookie("first_visit")){
 	      card.style.display = "none";
-	      card.setAttribute("aria-hidden", "true");
-	    }
-	
-	    // X do card: fecha e não mostra mais (já está com cookie)
-	    if (close) {
-	      close.addEventListener("click", () => {
-	        card.classList.add("is-off");
-	        // depois da animação, tira do fluxo
-	        setTimeout(() => {
-	          card.style.display = "none";
-	        }, 220);
+	    }else{
+	      requestAnimationFrame(()=>{
+	        card.classList.remove("is-off");
 	      });
 	    }
+	
+	    // AO CLICAR NO X:
+	    // salva cookie por APENAS 7 DIAS
+	    if(close){
+	      close.onclick = () => {
+	
+	        // 👇 7 dias
+	        setCookie("first_visit","true",7);
+	
+	        card.classList.add("is-off");
+	        setTimeout(()=>{
+	          card.style.display="none";
+	        },200);
+	
+	      };
+	    }
+	
 	  }
 	
 	});
@@ -1954,6 +1949,7 @@
 
 </body>
 </html>
+
 
 
 
