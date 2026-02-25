@@ -1108,6 +1108,81 @@
 		  }
 		}
 
+	/* ===========================
+	   Cookie banner + First time (integrado)
+	   =========================== */
+	
+	.cookieBanner{
+	  position:fixed;
+	  left:16px;
+	  right:16px;
+	  bottom:16px;
+	  max-width:900px;
+	  margin:auto;
+	  z-index:9999;
+	
+	  border:1px solid rgba(255,255,255,.16);
+	  background: rgba(10,16,28,.98);
+	  border-radius: 22px;
+	  box-shadow: 0 20px 55px rgba(0,0,0,.45);
+	
+	  padding: 12px 14px;
+	
+	  /* animação */
+	  opacity:0;
+	  transform: translateY(10px);
+	  pointer-events:none;
+	  visibility:hidden;
+	  transition: opacity .18s ease, transform .18s ease, visibility 0s linear .18s;
+	}
+	
+	.cookieBanner.is-on{
+	  opacity:1;
+	  transform: translateY(0);
+	  pointer-events:auto;
+	  visibility:visible;
+	  transition: opacity .18s ease, transform .18s ease, visibility 0s;
+	}
+	
+	.cookieBannerRow{
+	  display:flex;
+	  gap:12px;
+	  align-items:center;
+	  flex-wrap:wrap;
+	}
+	
+	.cookieBannerText{
+	  flex:1;
+	  color: rgba(255,255,255,.86);
+	  font-size:13.5px;
+	  line-height:1.5;
+	  font-weight:900;
+	}
+	
+	.cookieBannerText b{
+	  color: rgba(255,255,255,.92);
+	}
+	
+	/* Evita brigar com o WhatsApp no mobile */
+	@media (max-width: 560px){
+	  .cookieBanner{ bottom: 82px; }
+	}
+	
+	/* Card primeira vez: animação suave */
+	#firstTimeCard{
+	  transition: opacity .18s ease, transform .18s ease;
+	}
+	#firstTimeCard.is-off{
+	  opacity:0;
+	  transform: translateY(10px);
+	  pointer-events:none;
+	}
+	
+	/* Respeita acessibilidade */
+	@media (prefers-reduced-motion: reduce){
+	  .cookieBanner, #firstTimeCard{ transition:none !important; transform:none !important; }
+	}
+
   </style>
 </head>
 
@@ -1781,7 +1856,7 @@
 	<script async src="https://www.instagram.com/embed.js"></script>
 
 	<script>
-	function setCookie(name,value,days){
+	function setCookie(name, value, days){
 	  const d = new Date();
 	  d.setTime(d.getTime() + (days*24*60*60*1000));
 	  document.cookie = name + "=" + value + ";expires=" + d.toUTCString() + ";path=/";
@@ -1792,31 +1867,74 @@
 	  return v ? v[2] : null;
 	}
 	
+	function showEl(el){
+	  if(!el) return;
+	  el.classList.add("is-on");
+	  el.classList.remove("is-off");
+	  el.setAttribute("aria-hidden", "false");
+	}
+	
+	function hideEl(el){
+	  if(!el) return;
+	  el.classList.remove("is-on");
+	  el.classList.add("is-off");
+	  el.setAttribute("aria-hidden", "true");
+	}
+	
 	document.addEventListener("DOMContentLoaded", () => {
 	
-	  // Banner cookies
+	  // ========= Cookie Banner =========
 	  const banner = document.getElementById("cookieBanner");
-	  const btn = document.getElementById("cookieOk");
+	  const cookieBtn = document.getElementById("cookieOk");
 	
-	  if (banner && btn) {
+	  if (banner && cookieBtn) {
 	    if (!getCookie("site_cookie_ok")) {
-	      banner.style.display = "block";
+	      // mostra com animação
+	      showEl(banner);
+	    } else {
+	      // garante escondido
+	      hideEl(banner);
 	    }
 	
-	    btn.addEventListener("click", () => {
+	    cookieBtn.addEventListener("click", () => {
 	      setCookie("site_cookie_ok", "true", 365);
-	      banner.style.display = "none";
+	      hideEl(banner);
 	    });
 	  }
 	
-	  // Card "Primeira vez por aqui?"
+	  // ========= Card "Primeira vez por aqui?" =========
 	  const card = document.getElementById("firstTimeCard");
+	  const close = document.getElementById("firstTimeClose");
+	
 	  if (card) {
+	    // estado inicial “pronto pra animar”
+	    card.classList.add("is-off");
+	
 	    if (!getCookie("first_visit")) {
-	      card.style.display = "block";
+	      // primeira visita: mostra card
+	      // (seta cookie já aqui pra garantir que não volta)
 	      setCookie("first_visit", "true", 365);
+	
+	      // pequena “respirada” pra animação ficar gostosa
+	      requestAnimationFrame(() => {
+	        card.classList.remove("is-off");
+	        card.setAttribute("aria-hidden", "false");
+	      });
 	    } else {
+	      // já visitou: mantém escondido
 	      card.style.display = "none";
+	      card.setAttribute("aria-hidden", "true");
+	    }
+	
+	    // X do card: fecha e não mostra mais (já está com cookie)
+	    if (close) {
+	      close.addEventListener("click", () => {
+	        card.classList.add("is-off");
+	        // depois da animação, tira do fluxo
+	        setTimeout(() => {
+	          card.style.display = "none";
+	        }, 220);
+	      });
 	    }
 	  }
 	
@@ -1824,31 +1942,19 @@
 	</script>
 
 	<!-- Cookie Banner -->
-	<div id="cookieBanner" style="
-	  position:fixed;
-	  bottom:16px;
-	  left:16px;
-	  right:16px;
-	  max-width:900px;
-	  margin:auto;
-	  background:rgba(10,16,28,.98);
-	  border:1px solid rgba(255,255,255,.16);
-	  border-radius:18px;
-	  padding:14px 16px;
-	  box-shadow:0 20px 50px rgba(0,0,0,.5);
-	  z-index:9999;
-	  display:none;
-	">
-	  <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap">
-	    <div style="flex:1;color:#fff;font-size:13.5px;line-height:1.5">
-	      🍪 Este site usa cookies do navegador para melhorar sua experiência e identificar se é sua primeira visita.
-	    </div>
-	    <button id="cookieOk" class="btn">OK</button>
-	  </div>
-	</div>
+<div id="cookieBanner" class="cookieBanner">
+  <div class="cookieBannerRow">
+    <div class="cookieBannerText">
+      🍪 Este site usa cookies do navegador para melhorar sua experiência. Ao continuar navegando, entendemos que você concorda com o uso de nossos cookies.
+    </div>
+    <button id="cookieOk" class="btn" type="button">OK</button>
+  </div>
+</div>
+	
 
 </body>
 </html>
+
 
 
 
