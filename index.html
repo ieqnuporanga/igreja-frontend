@@ -1229,10 +1229,6 @@
 	  #cookieBanner.cookieBanner{ bottom: 82px !important; }
 	}
 
-	.noticeWrap.is-collapsed .noticeBody{
-	  display:none;
-	}
-
   </style>
 </head>
 
@@ -1966,10 +1962,12 @@
 	      });
 	    }
 	
-	    // AO CLICAR NO X: salva cookie por 7 dias
+	    // AO CLICAR NO X:
+	    // salva cookie por APENAS 7 DIAS
 	    if(close){
 	      close.onclick = () => {
 	
+	        // 👇 7 dias
 	        setCookie("first_visit","true",7);
 	
 	        card.classList.add("is-off");
@@ -1980,46 +1978,6 @@
 	      };
 	    }
 	
-	  }
-	
-	  // ========= AVISOS / EVENTOS (SEMPRE APARECEM) =========
-	  const noticeWrap = document.getElementById("noticeWrap");
-	  const noticeClose = document.getElementById("noticeClose");
-	
-	  if(noticeWrap){
-	    noticeWrap.style.display = "block"; // força sempre visível
-	  }
-	
-	  // X dos avisos apenas recolhe
-	  if(noticeWrap && noticeClose){
-	    noticeClose.onclick = () => {
-	      noticeWrap.classList.toggle("is-collapsed");
-	    };
-	  }
-	
-	  // ========= MODAL LISTA COMPLETA =========
-	  const openEventsModalBtn = document.getElementById("openEventsModalBtn");
-	  const eventsModalBack = document.getElementById("eventsModalBack");
-	  const eventsModalClose = document.getElementById("eventsModalClose");
-	
-	  if(openEventsModalBtn && eventsModalBack){
-	    openEventsModalBtn.onclick = () => {
-	      eventsModalBack.classList.add("show");
-	    };
-	  }
-	
-	  if(eventsModalClose && eventsModalBack){
-	    eventsModalClose.onclick = () => {
-	      eventsModalBack.classList.remove("show");
-	    };
-	  }
-	
-	  if(eventsModalBack){
-	    eventsModalBack.onclick = (e) => {
-	      if(e.target === eventsModalBack){
-	        eventsModalBack.classList.remove("show");
-	      }
-	    };
 	  }
 	
 	});
@@ -2038,8 +1996,6 @@
 
 </body>
 </html>
-
-
 
 
 
