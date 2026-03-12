@@ -1110,6 +1110,25 @@
 		  }
 		}
 
+		/* Corrige largura do embed do Instagram */
+		.instaEmbed .instagram-media{
+		  width:100% !important;
+		  max-width:100% !important;
+		  min-width:0 !important;
+		  margin:0 auto !important;
+		}
+		
+		/* garante que no celular ele não estoure o container */
+		@media (max-width:600px){
+		  .instaEmbed{
+		    padding:6px;
+		  }
+		
+		  .instaEmbed .instagram-media{
+		    min-width:100% !important;
+		  }
+		}
+
 	/* ===========================
 	   Cookie banner + First time (integrado)
 	   =========================== */
@@ -2003,6 +2022,7 @@
 
 </body>
 </html>
+
 
 
 
